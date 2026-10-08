@@ -110,7 +110,7 @@ def run():
             starts += page.query_selector_all('button >> text="Attempt"')
             starts += page.query_selector_all('button >> text="Start Activity"')
             clicked = False
-            for s in starts:
+            for s in reversed(starts):
                 if s.is_visible():
                     print(f"  [>] Clicking navigation button: {s.inner_text().strip()}")
                     s.click()
