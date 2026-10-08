@@ -105,14 +105,15 @@ def run():
                 continue
                 
             # 4. Are we looking at a Start/Continue button?
-            starts = page.query_selector_all('button >> text="Start Learning"')
-            starts += page.query_selector_all('button >> text="Continue Learning"')
-            starts += page.query_selector_all('button >> text="Attempt"')
-            starts += page.query_selector_all('button >> text="Start Activity"')
+            starts = page.query_selector_all('button:not([data-clicked="true"]) >> text="Start Learning"')
+            starts += page.query_selector_all('button:not([data-clicked="true"]) >> text="Continue Learning"')
+            starts += page.query_selector_all('button:not([data-clicked="true"]) >> text="Attempt"')
+            starts += page.query_selector_all('button:not([data-clicked="true"]) >> text="Start Activity"')
             clicked = False
-            for s in reversed(starts):
+            for s in starts:
                 if s.is_visible():
                     print(f"  [>] Clicking navigation button: {s.inner_text().strip()}")
+                    s.evaluate("node => node.setAttribute('data-clicked', 'true')")
                     s.click()
                     clicked = True
                     action_taken = True
