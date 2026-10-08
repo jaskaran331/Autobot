@@ -1,0 +1,15 @@
+# Credentials & Sessions
+session.json
+*.session
+*.log
+.env
+desktop_done.txt
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Playwright
+test-results/

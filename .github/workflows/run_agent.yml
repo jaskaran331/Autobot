@@ -1,0 +1,51 @@
+name: Run Business Class Agent
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Runs automatically every 6 hours
+  workflow_dispatch:        # Allows manual one-click trigger from GitHub UI
+    inputs:
+      headless:
+        description: 'Run headless'
+        required: true
+        default: 'true'
+        type: boolean
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install --with-deps chromium
+
+      - name: Execute Autonomous Agent
+        env:
+          BC_EMAIL: ${{ secrets.BC_EMAIL }}
+          BC_PASSWORD: ${{ secrets.BC_PASSWORD }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          HEADLESS: "1"
+        run: |
+          python auto_runner.py
+
+      - name: Upload Completion Screenshots & Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: execution-artifacts
+          path: |
+            generated/
+            state.json
+          retention-days: 14
