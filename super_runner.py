@@ -174,7 +174,7 @@ def main():
                 ta.fill(dynamic_response)
                 
                 fi = page.query_selector('input[type="file"]')
-                if fi and fi.is_visible():
+                if fi:
                     try:
                         fi.set_input_files(str(PHOTO_PATH))
                     except: pass
