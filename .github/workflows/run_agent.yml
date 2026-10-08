@@ -38,7 +38,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           HEADLESS: "1"
         run: |
-          python auto_runner.py
+          python super_runner.py
 
       - name: Upload Completion Screenshots & Artifacts
         if: always()

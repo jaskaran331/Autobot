@@ -25,7 +25,35 @@ def load_quiz_answers():
                                 answers.append(str(ans_text))
     return set(answers)
 
-def run():
+def login_if_needed(page, ctx):
+    import os, time
+    email = os.environ.get("BC_EMAIL", "")
+    password = os.environ.get("BC_PASSWORD", "")
+    
+    page.goto("https://businessclass.punjab.gov.in/student/track", wait_until="networkidle")
+    time.sleep(2)
+    if "/login" not in page.url and "/auth" not in page.url:
+        print("[*] Session is active.")
+        return True
+    
+    print(f"[*] Logging in as {email}...")
+    page.goto("https://businessclass.punjab.gov.in/login", wait_until="networkidle")
+    time.sleep(2)
+    
+    try:
+        page.fill('input[name="email"]', email)
+        page.fill('input[name="password"]', password)
+        page.click('button[type="submit"]')
+        page.wait_for_load_state("networkidle")
+        time.sleep(3)
+    except Exception as e:
+        pass
+        
+    ctx.storage_state(path=str(SESSION_FILE))
+    print("[*] Login successful.")
+    return True
+
+def main():
     print("[*] Loading quiz answers...")
     valid_answers = load_quiz_answers()
     
@@ -35,8 +63,10 @@ def run():
 
     with sync_playwright() as pw:
         browser = pw.chromium.launch(headless=True)
-        context = browser.new_context(storage_state=str(SESSION_FILE))
+        context = browser.new_context(storage_state=str(SESSION_FILE)) if SESSION_FILE.exists() else browser.new_context()
         page = context.new_page()
+        
+        login_if_needed(page, context)
         
         print("[*] Navigating to Track...")
         page.goto("https://businessclass.punjab.gov.in/student/track", wait_until="networkidle")
