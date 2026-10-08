@@ -78,8 +78,6 @@ def main():
             time.sleep(2.5)
             page.wait_for_load_state("networkidle")
             
-            # If we navigated away and came back, or if it's just polling, we clear coords if we aren't on track?
-            # Actually, just keep a running set. If we click a NEW button, it will have a new (x,y).
             if "/track" not in page.url and "/activity" not in page.url:
                 page.goto("https://businessclass.punjab.gov.in/student/track", wait_until="networkidle")
                 clicked_coords.clear()
@@ -87,29 +85,28 @@ def main():
             action_taken = False
             
             # 1. Are we in a Quiz?
-            radios = page.query_selector_all("div[role='radio'], input[type='radio']")
-            if radios:
+            sub_quiz = page.query_selector('button >> text="Submit Quiz"')
+            if sub_quiz and sub_quiz.is_visible():
                 print("  [>] Quiz detected, answering...")
                 answered = 0
-                btns = page.query_selector_all("button, label, div[role='radio']")
-                for b in btns:
+                for ans in valid_answers:
                     try:
-                        txt = b.inner_text().strip()
-                        if txt in valid_answers and b.is_visible():
-                            b.click()
-                            answered += 1
-                            time.sleep(0.2)
+                        # try exact text match
+                        ans_elems = page.query_selector_all(f'text="{ans}"')
+                        for ans_elem in ans_elems:
+                            if ans_elem.is_visible():
+                                ans_elem.click()
+                                answered += 1
+                                time.sleep(0.2)
                     except Exception:
                         pass
                 
-                sub = page.query_selector('button >> text="Submit Quiz"') or page.query_selector('button >> text="Submit"')
-                if sub and sub.is_visible():
-                    sub.click()
-                    print(f"  [OK] Quiz submitted ({answered} answers)")
-                    action_taken = True
-                    clicked_coords.clear() # page will change
-                    time.sleep(3)
-                    continue
+                sub_quiz.click()
+                print(f"  [OK] Quiz submitted ({answered} answers)")
+                action_taken = True
+                clicked_coords.clear()
+                time.sleep(3)
+                continue
 
             # 2. Are we in a Textarea activity?
             ta = page.query_selector("textarea")
@@ -129,7 +126,7 @@ def main():
                     sub.click()
                     print("  [OK] Text activity submitted.")
                     action_taken = True
-                    clicked_coords.clear() # page will change
+                    clicked_coords.clear()
                     time.sleep(3)
                     continue
 
@@ -140,7 +137,7 @@ def main():
                 mark.click()
                 print("  [OK] Marked as complete.")
                 action_taken = True
-                clicked_coords.clear() # page will change
+                clicked_coords.clear()
                 time.sleep(3)
                 continue
                 
@@ -163,7 +160,6 @@ def main():
                             clicked = True
                             action_taken = True
                             time.sleep(3)
-                            # If url changed, we reset coords!
                             if "/activity" in page.url or "/quiz" in page.url:
                                 clicked_coords.clear()
                             break
