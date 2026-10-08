@@ -107,7 +107,7 @@ def main():
             f.write(b"") # Empty file, just needs to exist
 
     with sync_playwright() as pw:
-        browser = pw.chromium.launch(headless=True)
+        browser = pw.chromium.launch(headless=False)
         context = browser.new_context(storage_state=str(SESSION_FILE)) if SESSION_FILE.exists() else browser.new_context()
         page = context.new_page()
         
