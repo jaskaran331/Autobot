@@ -1,40 +1,11 @@
-FROM python:3.11-slim
-
-# Install system dependencies required for Playwright and Chromium
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget \
-    gnupg \
-    curl \
-    libglib2.0-0 \
-    libnss3 \
-    libnspr4 \
-    libatk1.0-0 \
-    libcups2 \
-    libdrm2 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxfixes3 \
-    libxrandr2 \
-    libgbm1 \
-    libasound2 \
-    fonts-liberation \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+FROM mcr.microsoft.com/playwright/python:v1.40.0-jammy
 
 WORKDIR /app
 
-# Copy requirements and install
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt && \
-    playwright install chromium
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application files
 COPY . .
 
-# Default environment variables
-ENV HEADLESS=1
-ENV PYTHONUNBUFFERED=1
-
-# Run the autonomous agent
-CMD ["python", "agent.py", "--auto"]
+# Run the agent in an infinite loop
+CMD while true; do python super_runner.py; echo "[*] Sleeping for 60 seconds..."; sleep 60; done
