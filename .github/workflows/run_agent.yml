@@ -3,7 +3,10 @@ name: Run Business Class Agent
 on:
   schedule:
     - cron: '0 */6 * * *'  # Runs automatically every 6 hours
-  workflow_dispatch:        # Allows manual one-click trigger from GitHub UI
+  workflow_dispatch:
+  push:
+    branches:
+      - main        # Allows manual one-click trigger from GitHub UI
     inputs:
       headless:
         description: 'Run headless'
