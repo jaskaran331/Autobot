@@ -1,5 +1,6 @@
 import time
 import json
+import os
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 
@@ -26,7 +27,6 @@ def load_quiz_answers():
     return set(answers)
 
 def login_if_needed(page, ctx):
-    import os, time
     email = os.environ.get("BC_EMAIL", "")
     password = os.environ.get("BC_PASSWORD", "")
     
@@ -47,7 +47,7 @@ def login_if_needed(page, ctx):
         page.wait_for_load_state("networkidle")
         time.sleep(3)
     except Exception as e:
-        pass
+        print("Login err:", e)
         
     ctx.storage_state(path=str(SESSION_FILE))
     print("[*] Login successful.")
@@ -72,10 +72,17 @@ def main():
         page.goto("https://businessclass.punjab.gov.in/student/track", wait_until="networkidle")
         
         consecutive_idle = 0
+        clicked_coords = set()
         
         while consecutive_idle < 3:
             time.sleep(2.5)
             page.wait_for_load_state("networkidle")
+            
+            # If we navigated away and came back, or if it's just polling, we clear coords if we aren't on track?
+            # Actually, just keep a running set. If we click a NEW button, it will have a new (x,y).
+            if "/track" not in page.url and "/activity" not in page.url:
+                page.goto("https://businessclass.punjab.gov.in/student/track", wait_until="networkidle")
+                clicked_coords.clear()
             
             action_taken = False
             
@@ -100,6 +107,7 @@ def main():
                     sub.click()
                     print(f"  [OK] Quiz submitted ({answered} answers)")
                     action_taken = True
+                    clicked_coords.clear() # page will change
                     time.sleep(3)
                     continue
 
@@ -121,6 +129,7 @@ def main():
                     sub.click()
                     print("  [OK] Text activity submitted.")
                     action_taken = True
+                    clicked_coords.clear() # page will change
                     time.sleep(3)
                     continue
 
@@ -131,24 +140,33 @@ def main():
                 mark.click()
                 print("  [OK] Marked as complete.")
                 action_taken = True
+                clicked_coords.clear() # page will change
                 time.sleep(3)
                 continue
                 
             # 4. Are we looking at a Start/Continue button?
-            starts = page.query_selector_all('button:not([data-clicked="true"]) >> text="Start Learning"')
-            starts += page.query_selector_all('button:not([data-clicked="true"]) >> text="Continue Learning"')
-            starts += page.query_selector_all('button:not([data-clicked="true"]) >> text="Attempt"')
-            starts += page.query_selector_all('button:not([data-clicked="true"]) >> text="Start Activity"')
+            starts = page.query_selector_all('button >> text="Start Learning"')
+            starts += page.query_selector_all('button >> text="Continue Learning"')
+            starts += page.query_selector_all('button >> text="Attempt"')
+            starts += page.query_selector_all('button >> text="Start Activity"')
             clicked = False
+            
             for s in starts:
                 if s.is_visible():
-                    print(f"  [>] Clicking navigation button: {s.inner_text().strip()}")
-                    s.evaluate("node => node.setAttribute('data-clicked', 'true')")
-                    s.click()
-                    clicked = True
-                    action_taken = True
-                    time.sleep(3)
-                    break
+                    box = s.bounding_box()
+                    if box:
+                        coord = (int(box['x']), int(box['y']))
+                        if coord not in clicked_coords:
+                            print(f"  [>] Clicking navigation button: {s.inner_text().strip()} at {coord}")
+                            clicked_coords.add(coord)
+                            s.click()
+                            clicked = True
+                            action_taken = True
+                            time.sleep(3)
+                            # If url changed, we reset coords!
+                            if "/activity" in page.url or "/quiz" in page.url:
+                                clicked_coords.clear()
+                            break
             if clicked:
                 continue
                 
@@ -163,4 +181,4 @@ def main():
         page.screenshot(path="super_runner_done.png")
         
 if __name__ == "__main__":
-    run()
+    main()
