@@ -184,6 +184,14 @@ def main():
             
             for s in starts:
                 if s.is_visible():
+                    try:
+                        # Skip Semester 1 completely
+                        parent = page.evaluate("(el) => { let p = el.closest('.bg-white'); return p ? p.innerText : ''; }", s)
+                        if "Semester 1" in parent:
+                            continue
+                    except Exception as e:
+                        pass
+                    
                     box = s.bounding_box()
                     if box:
                         coord = (int(box['x']), int(box['y']))
