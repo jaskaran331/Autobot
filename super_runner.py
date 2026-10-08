@@ -11,7 +11,21 @@ PHOTO_PATH = BASE_DIR / "photo.jpg"
 
 def load_quiz_answers():
     data = json.load(open(CURRICULUM_FILE, encoding="utf-8"))
-    answers = []
+    ans = []
+    
+    def extract_answers(d):
+        if isinstance(d, dict):
+            if d.get("isCorrect") == True and "option_heading" in d:
+                ans.append(str(d["option_heading"]))
+            for k, v in d.items():
+                extract_answers(v)
+        elif isinstance(d, list):
+            for item in d:
+                extract_answers(item)
+                
+    extract_answers(data)
+    
+    # Also support the old format
     for term in data.get("terms", []):
         for course in term.get("courses", []):
             for mod in course.get("modules", []):
@@ -20,11 +34,12 @@ def load_quiz_answers():
                         if isinstance(res["quiz"], list):
                             for pair in res["quiz"]:
                                 if len(pair) == 2:
-                                    answers.append(str(pair[1]))
+                                    ans.append(str(pair[1]))
                         elif isinstance(res["quiz"], dict):
                             for q_text, ans_text in res["quiz"].items():
-                                answers.append(str(ans_text))
-    return set(answers)
+                                ans.append(str(ans_text))
+                                
+    return set(ans)
 
 def login_if_needed(page, ctx):
     email = os.environ.get("BC_EMAIL", "")
@@ -91,7 +106,6 @@ def main():
                 answered = 0
                 for ans in valid_answers:
                     try:
-                        # try exact text match
                         ans_elems = page.query_selector_all(f'text="{ans}"')
                         for ans_elem in ans_elems:
                             if ans_elem.is_visible():
