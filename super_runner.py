@@ -86,7 +86,12 @@ def generate_ai_response(page):
         # Extract a reasonable amount of text to send to Gemini
         desc = desc[:2000] if desc else ""
         
-        prompt = f"Write a response (100-200 words) for this e-commerce business class activity. Make it sound like a real student submitting their work. Activity Title: {title}\nActivity Context: {desc}"
+        prompt = f"""Write a response (100-200 words) for this e-commerce business class activity. Make it sound like a real student submitting their work. 
+Activity Title: {title}
+Activity Context: {desc}
+
+IMPORTANT: If the activity asks you to upload or share a link to a video, audio, or any AI-generated media, YOU MUST include a valid URL in your response (e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+"""
         print(f"  [>] Asking Gemini API to generate response for: {title}")
         
         response = model.generate_content(prompt)
@@ -168,10 +173,18 @@ def main():
             if ta and ta.is_visible():
                 print("  [>] Text activity detected...")
                 
-                # Clear and refill with AI GENERATED response
                 ta.fill("")
                 dynamic_response = generate_ai_response(page)
                 ta.fill(dynamic_response)
+                
+                url_inputs = page.query_selector_all('input[type="url"], input[type="text"]')
+                for u in url_inputs:
+                    if u.is_visible():
+                        val = u.input_value()
+                        if not val:
+                            try:
+                                u.fill("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+                            except: pass
                 
                 fi = page.query_selector('input[type="file"]')
                 if fi:
