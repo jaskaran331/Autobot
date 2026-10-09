@@ -14,7 +14,7 @@ PHOTO_PATH = BASE_DIR / "photo.jpg"
 GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
 if GEMINI_KEY:
     genai.configure(api_key=GEMINI_KEY)
-    model = genai.GenerativeModel('gemini-3.8-flash')
+    model = genai.GenerativeModel('gemini-2.5-flash')
 else:
     model = None
 
