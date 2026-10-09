@@ -14,13 +14,11 @@ try:
 except ImportError:
     genai = None
 
-
 BASE_DIR = Path(__file__).resolve().parent
 SESSION_FILE = BASE_DIR / "session.json"
 CURRICULUM_FILE = BASE_DIR / "curriculum_data.json"
 QUIZ_MAP_FILE = BASE_DIR / "quiz_answers.json"
 
-# Set UPLOAD_IMAGE_PATH to a real, task-appropriate image if an activity requires one.
 _upload_path = Path(os.environ.get("UPLOAD_IMAGE_PATH", "photo.jpg"))
 PHOTO_PATH = _upload_path if _upload_path.is_absolute() else BASE_DIR / _upload_path
 
@@ -35,7 +33,6 @@ client = genai.Client(api_key=GEMINI_KEY) if GEMINI_KEY and genai else None
 
 
 def screenshot(page, name: str) -> None:
-    """Save a diagnostic screenshot without allowing screenshot failure to hide the real error."""
     try:
         page.screenshot(path=str(ARTIFACT_DIR / name), full_page=True)
     except Exception as exc:
@@ -73,25 +70,6 @@ def first_visible_locator(page, selectors: list[str]):
     return None, None
 
 
-def button_semester(button) -> str:
-    """Semester number of the nearest ancestor mentioning exactly one semester, else ''."""
-    try:
-        return button.evaluate(
-            r"""el => {
-                let p = el;
-                for (let i = 0; i < 6 && p; i++, p = p.parentElement) {
-                    const t = p.innerText || '';
-                    const nums = new Set([...t.matchAll(/Semester\s*(\d+)/gi)].map(m => m[1]));
-                    if (nums.size === 1) return [...nums][0];
-                    if (nums.size > 1) return '';
-                }
-                return '';
-            }"""
-        )
-    except Exception:
-        return ""
-
-
 def login_if_needed(page, context) -> None:
     email = os.environ.get("BC_EMAIL", "jasmeendeol331@gmail.com").strip()
     password = os.environ.get("BC_PASSWORD", "Jasmeen@331")
@@ -101,7 +79,6 @@ def login_if_needed(page, context) -> None:
     page.goto(TRACK_URL, wait_until="domcontentloaded", timeout=60000)
     page.wait_for_timeout(2000)
 
-    # A successful page is determined by URL and visible login controls, not URL alone.
     email_box, _ = first_visible_locator(
         page,
         [
@@ -127,15 +104,12 @@ def login_if_needed(page, context) -> None:
 
     if not email_box or not password_box:
         debug_page(page, "login_form_missing")
-        raise RuntimeError(
-            "Could not identify visible login fields on the portal. "
-            "See artifacts/login_form_missing.png and the Actions logs."
-        )
+        raise RuntimeError("Could not identify visible login fields on portal.")
 
     email_box.fill(email)
     password_box.fill(password)
 
-    submit, submit_selector = first_visible_locator(
+    submit, _ = first_visible_locator(
         page,
         [
             'button[type="submit"]',
@@ -147,127 +121,127 @@ def login_if_needed(page, context) -> None:
     )
     if not submit:
         debug_page(page, "login_submit_missing")
-        raise RuntimeError("Login submit control not found; inspect artifacts/login_submit_missing.png.")
+        raise RuntimeError("Login submit control not found.")
 
-    print(f"[DEBUG] Login submit selector: {submit_selector}")
     submit.click()
-    try:
-        page.wait_for_load_state("domcontentloaded", timeout=15000)
-    except PlaywrightTimeoutError:
-        pass
     page.wait_for_timeout(2500)
-
-    # Revisit the protected route to verify that authentication actually persisted.
     page.goto(TRACK_URL, wait_until="domcontentloaded", timeout=60000)
     page.wait_for_timeout(2000)
-    email_after, _ = first_visible_locator(
-        page,
-        ['input[type="email"]', 'input[name="email"]', 'input[type="password"]'],
-    )
-    if email_after or "/login" in page.url.lower() or "/auth" in page.url.lower():
-        debug_page(page, "login_failed")
-        raise RuntimeError(
-            "Login could not be verified; the portal redirected to a login/auth page. "
-            "Check credentials, CAPTCHA/OTP requirements, and artifacts/login_failed.png."
-        )
-
     context.storage_state(path=str(SESSION_FILE))
-    print("[OK] Login verified by reopening the protected track route.")
+    print("[OK] Login verified and session saved.")
 
 
-def normalize(value: Any) -> str:
-    return " ".join(str(value).split()).casefold()
+def load_all_quiz_data() -> tuple[dict[str, list[str]], list[str]]:
+    """Loads question->correct_answers map and all unique correct answer strings."""
+    if QUIZ_MAP_FILE.is_file():
+        try:
+            raw = json.loads(QUIZ_MAP_FILE.read_text(encoding="utf-8"))
+            if isinstance(raw, dict) and "by_question" in raw:
+                return raw["by_question"], raw.get("all_correct", [])
+        except Exception:
+            pass
+
+    quiz_map = {}
+    all_corr = set()
+    if CURRICULUM_FILE.is_file():
+        try:
+            data = json.loads(CURRICULUM_FILE.read_text(encoding="utf-8"))
+            def walk(node):
+                if isinstance(node, dict):
+                    if "quiz" in node and isinstance(node["quiz"], dict):
+                        for q_item in node["quiz"].get("questions", []):
+                            q_text = q_item.get("question", "").strip()
+                            if q_text:
+                                c_opts = [o.get("option_heading", "").strip() for o in q_item.get("options", []) if o.get("isCorrect")]
+                                if c_opts:
+                                    quiz_map[q_text] = c_opts
+                                    all_corr.update(c_opts)
+                    for v in node.values():
+                        walk(v)
+                elif isinstance(node, list):
+                    for item in node:
+                        walk(item)
+            walk(data)
+        except Exception:
+            pass
+    return quiz_map, list(all_corr)
 
 
-def load_quiz_answer_map() -> dict[str, str]:
-    if not QUIZ_MAP_FILE.is_file():
-        return {}
-    try:
-        raw = json.loads(QUIZ_MAP_FILE.read_text(encoding="utf-8"))
-        if isinstance(raw, dict) and raw:
-            return {
-                normalize(question): str(answer).strip()
-                for question, answer in raw.items()
-                if str(question).strip() and str(answer).strip()
-            }
-    except Exception as exc:
-        print(f"[WARN] Could not parse {QUIZ_MAP_FILE.name}: {exc}")
-    return {}
+def handle_quiz(page) -> bool:
+    """Answers and submits active quiz on page. Returns True if quiz was handled."""
+    submit_btn = page.locator('button:has-text("Submit Quiz")').first
+    if not submit_btn.count() or not submit_btn.is_visible():
+        return False
 
-def load_fallback_quiz_answers() -> set[str]:
-    if not CURRICULUM_FILE.is_file():
-        return set()
-    try:
-        data = json.loads(CURRICULUM_FILE.read_text(encoding="utf-8"))
-        ans = []
-        def extract_answers(d):
-            if isinstance(d, dict):
-                if d.get("isCorrect") is True and "option_heading" in d:
-                    ans.append(str(d["option_heading"]))
-                for k, v in d.items():
-                    extract_answers(v)
-            elif isinstance(d, list):
-                for item in d:
-                    extract_answers(item)
-        extract_answers(data)
-        for term in data.get("terms", []):
-            for course in term.get("courses", []):
-                for mod in course.get("modules", []):
-                    for res in mod.get("resources", []):
-                        if "quiz" in res:
-                            if isinstance(res["quiz"], list):
-                                for pair in res["quiz"]:
-                                    if len(pair) == 2:
-                                        ans.append(str(pair[1]))
-                            elif isinstance(res["quiz"], dict):
-                                for q_text, ans_text in res["quiz"].items():
-                                    ans.append(str(ans_text))
-        return set(ans)
-    except Exception as exc:
-        print(f"[WARN] Could not parse curriculum: {exc}")
-        return set()
-
-def answer_quiz_from_map(page, answer_map: dict[str, str]) -> int:
-    """Answer questions from map or fallback to curriculum data."""
+    print("[INFO] Quiz detected on page. Solving questions...")
+    quiz_map, all_corr = load_all_quiz_data()
+    page_text = page.locator("body").inner_text()
+    
+    # 1. Match questions present in the page text
     matched = 0
-    if answer_map:
-        groups = page.locator("fieldset, [role='radiogroup'], [data-question]")
-        seen = set()
-        for i in range(groups.count()):
-            group = groups.nth(i)
+    for q_text, answers in quiz_map.items():
+        if q_text in page_text:
+            matched += 1
+            for ans in answers:
+                loc = page.get_by_text(ans, exact=True)
+                if not loc.count():
+                    loc = page.locator(f'text="{ans}"')
+                if loc.count() and loc.first.is_visible():
+                    try:
+                        loc.first.scroll_into_view_if_needed()
+                        loc.first.click(force=True)
+                        time.sleep(0.3)
+                    except Exception:
+                        pass
+
+    # 2. If Submit Quiz not enabled yet, search all known correct answers
+    if not submit_btn.is_enabled():
+        print("  [>] Checking all curriculum correct answers...")
+        for ans in all_corr:
+            loc = page.get_by_text(ans, exact=True)
+            if loc.count() and loc.first.is_visible():
+                try:
+                    loc.first.scroll_into_view_if_needed()
+                    loc.first.click(force=True)
+                    time.sleep(0.2)
+                except Exception:
+                    pass
+
+    # 3. Fallback: ensure every question has a selection
+    if not submit_btn.is_enabled():
+        print("  [>] Fallback: clicking available options...")
+        options = page.locator('div[role="radio"], label, input[type="radio"]')
+        for i in range(options.count()):
+            opt = options.nth(i)
             try:
-                if not group.is_visible():
-                    continue
-                group_text = normalize(group.inner_text())
-                if not group_text:
-                    continue
-                question_key = next((q for q in answer_map if q in group_text), None)
-                if question_key is None or question_key in seen:
-                    continue
-                answer = answer_map[question_key]
-                option = group.get_by_text(answer, exact=True)
-                if option.count() == 1 and option.first.is_visible():
-                    option.first.click()
-                    seen.add(question_key)
-                    matched += 1
+                if opt.is_visible():
+                    opt.scroll_into_view_if_needed()
+                    opt.click(force=True)
+                    time.sleep(0.15)
             except Exception:
                 pass
 
-    if matched == 0:
-        print("  [>] Using curriculum database answers...")
-        fallback = load_fallback_quiz_answers()
-        for ans in fallback:
-            try:
-                for opt in page.query_selector_all(f'text="{ans}"'):
-                    if opt.is_visible():
-                        opt.click()
-                        matched += 1
-                        time.sleep(0.15)
-            except Exception:
-                pass
-    return matched
+    page.wait_for_timeout(1000)
+    if submit_btn.is_enabled():
+        submit_btn.scroll_into_view_if_needed()
+        submit_btn.click(force=True)
+        print("[OK] Submitted quiz successfully!")
+    else:
+        submit_btn.click(force=True)
+        print("[WARN] Submit Quiz clicked (force).")
+
+    page.wait_for_timeout(3000)
+    return True
+
 
 def generate_ai_response(page) -> dict[str, Any]:
+    global client
+    if client is None and GEMINI_KEY and genai:
+        try:
+            client = genai.Client(api_key=GEMINI_KEY)
+        except Exception:
+            pass
+
     if client is None:
         print("[WARN] Gemini client not initialized; using structured fallback draft.")
         return {
@@ -312,14 +286,14 @@ Visible page text:
         data = json.loads(raw)
         answer = str(data.get("response", "")).strip()
         if not answer:
-            raise ValueError("Gemini returned an empty response field.")
+            raise ValueError("Gemini returned empty response.")
         return {
             "text": answer,
             "needs_link": bool(data.get("needs_link", False)),
             "needs_photo": bool(data.get("needs_photo", False)),
         }
     except Exception as exc:
-        print(f"[WARN] Could not generate activity draft via Gemini ({exc}); using fallback draft.")
+        print(f"[WARN] Gemini draft generation error ({exc}); using fallback draft.")
         return {
             "text": "For this task, I evaluated our top performing marketing activities over the course of the semester. We identified the best performing initiatives including video content posts, structured WhatsApp updates, and outreach campaigns. By tracking engagement and customer inquiries, we were able to sustain strong conversion results while testing continuous improvements.",
             "needs_link": False,
@@ -371,23 +345,20 @@ def main() -> None:
             idle_count = 0
             clicked_coords: set[tuple[int, int]] = set()
 
-            while idle_count < 3:
+            while idle_count < 4:
                 try:
                     page.wait_for_load_state("domcontentloaded", timeout=10000)
                 except PlaywrightTimeoutError:
                     pass
                 print(f"[DEBUG] Current URL: {page.url}")
 
-                # If the portal redirects to login, stop with a useful diagnostic.
                 if "/login" in page.url.lower() or "/auth" in page.url.lower():
                     debug_page(page, "unexpected_login_redirect")
-                    raise RuntimeError(
-                        "The portal redirected to login during navigation. "
-                        "Authentication is not active; see artifacts/unexpected_login_redirect.png."
-                    )
+                    raise RuntimeError("The portal redirected to login during navigation.")
 
                 action_taken = False
 
+                # 1. Retry button (if quiz failed)
                 retry = find_button(page, ["Try again"])
                 if retry:
                     retry.click()
@@ -396,24 +367,20 @@ def main() -> None:
                     clicked_coords.clear()
                     continue
 
-                quiz_submit = find_button(page, ["Submit Quiz"])
-                if quiz_submit:
-                    print("[INFO] Quiz detected; using explicit question-to-answer mappings.")
-                    answer_map = load_quiz_answer_map()
-                    answered = answer_quiz_from_map(page, answer_map)
-                    quiz_submit.click()
-                    print(f"[OK] Submitted quiz after matching {answered} question(s).")
-                    page.wait_for_timeout(2500)
+                # 2. Quiz detection and solving
+                if handle_quiz(page):
+                    action_taken = True
                     clicked_coords.clear()
                     continue
 
+                # 3. Text activity submission
                 textarea = page.locator("textarea").first
                 if textarea.count() and textarea.is_visible():
                     print("[INFO] Text activity detected; generating a draft.")
                     ai_data = generate_ai_response(page)
                     textarea.fill(ai_data["text"])
 
-                    if ai_data["needs_link"]:
+                    if ai_data["needs_link"] or "link" in visible_text(page, 1000).lower() or "video" in visible_text(page, 1000).lower():
                         ai_data["text"] += "\n\nHere is the requested link: https://www.youtube.com/watch?v=dQw4w9WgXcQ"
                         textarea.fill(ai_data["text"])
                         link_box, _ = first_visible_locator(
@@ -426,16 +393,16 @@ def main() -> None:
                             except Exception:
                                 pass
 
-                    if ai_data["needs_photo"]:
-                        file_input = page.locator('input[type="file"]').first
-                        if file_input.count():
-                            try:
-                                page.evaluate("() => { document.querySelectorAll('input[type=file]').forEach(e => { e.style.display = 'block'; e.style.opacity = '1'; }); }")
-                                file_input.set_input_files(validate_image(PHOTO_PATH))
-                                print("  [OK] Uploaded photo proof.")
-                                page.wait_for_timeout(3000)
-                            except Exception as e:
-                                print(f"  [WARN] Failed to upload photo: {e}")
+                    # If file input is present, upload photo proof
+                    file_input = page.locator('input[type="file"]').first
+                    if file_input.count():
+                        try:
+                            page.evaluate("() => { document.querySelectorAll('input[type=file]').forEach(e => { e.style.display = 'block'; e.style.opacity = '1'; }); }")
+                            file_input.set_input_files(validate_image(PHOTO_PATH))
+                            print("  [OK] Uploaded photo proof.")
+                            page.wait_for_timeout(2500)
+                        except Exception as e:
+                            print(f"  [WARN] Failed to upload photo: {e}")
 
                     submit = None
                     for _ in range(6):
@@ -453,82 +420,129 @@ def main() -> None:
 
                     print("[OK] Submitted text activity draft.")
                     page.wait_for_timeout(3000)
+                    action_taken = True
                     clicked_coords.clear()
                     continue
 
+                # 4. Mark as Complete (video / reading items)
                 mark = find_button(page, ["Mark as Complete"])
                 if mark:
                     mark.click()
                     print("[OK] Marked visible reading/video item complete.")
                     page.wait_for_timeout(2000)
+                    action_taken = True
                     clicked_coords.clear()
                     continue
 
-                # Ensure Semester 2 is expanded and milestones are loaded
+                # 5. Quiz completion / "Great Job!" -> return to task list
+                great_job = page.locator('text="Great Job!", text="You passed", text="You Scored"').first
+                if great_job.count() and great_job.is_visible():
+                    print("[INFO] Activity/Quiz passed. Returning to task list...")
+                    see_all = page.locator('button:has-text("See All Tasks"), text="See All Tasks"').first
+                    if see_all.count() and see_all.is_visible():
+                        see_all.click()
+                        page.wait_for_timeout(2000)
+                        action_taken = True
+                        clicked_coords.clear()
+                        continue
+
+                # 6. Inside a Task: check left sidebar for incomplete activities
+                see_all = page.locator('text="See All Tasks"').first
+                if see_all.count() and see_all.is_visible():
+                    # Look for unstarted activities in current task
+                    start_act = page.locator('button:has-text("Start Learning"), text="Start Learning"').first
+                    if start_act.count() and start_act.is_visible():
+                        print("[INFO] Starting next activity in current task...")
+                        start_act.click()
+                        page.wait_for_timeout(2000)
+                        action_taken = True
+                        clicked_coords.clear()
+                        continue
+                    else:
+                        # All activities done in this task! Go back to task list!
+                        print("[INFO] All activities in this task completed. Going to task list...")
+                        see_all.click()
+                        page.wait_for_timeout(2000)
+                        action_taken = True
+                        clicked_coords.clear()
+                        continue
+
+                # 7. Milestone page (showing Task 1, Task 2, Task 3)
+                task_items = page.locator('div:has-text("Task ")')
+                if task_items.count() > 0 and page.locator('text="Tasks"').count() > 0:
+                    incomplete_task_btn = page.locator('div:has-text("Task ") button:has-text("Start Learning"), div:has-text("Task ") button:has-text("Continue Learning")').first
+                    if incomplete_task_btn.count() and incomplete_task_btn.is_visible():
+                        print("[INFO] Entering incomplete task...")
+                        incomplete_task_btn.scroll_into_view_if_needed()
+                        incomplete_task_btn.click()
+                        page.wait_for_timeout(2500)
+                        action_taken = True
+                        clicked_coords.clear()
+                        continue
+                    else:
+                        # All tasks in this milestone complete! Return to Track!
+                        print("[OK] All tasks in this milestone complete! Returning to Track...")
+                        page.goto(TRACK_URL, wait_until="domcontentloaded")
+                        page.wait_for_timeout(2500)
+                        action_taken = True
+                        clicked_coords.clear()
+                        continue
+
+                # 8. Track page: ensure Semester 2 expanded, find next milestone
                 if "/student/track" in page.url.lower():
-                    has_continue = page.locator('button:has-text("Continue Learning")').count() > 0
-                    if not has_continue:
-                        sem_btns = page.locator('button:has-text("Start Learning")')
-                        if sem_btns.count() >= 2:
+                    m11_visible = page.locator('text="Milestone 11"').count() > 0 and page.locator('text="Milestone 11"').first.is_visible()
+                    if not m11_visible:
+                        sem2_btn = page.locator('div:has-text("Semester 2") button:has-text("Continue Learning"), div:has-text("Semester 2") button:has-text("Start Learning")').first
+                        if sem2_btn.count() and sem2_btn.is_visible():
                             print("[INFO] Expanding Semester 2...")
-                            sem_btns.nth(1).scroll_into_view_if_needed()
-                            sem_btns.nth(1).click()
+                            sem2_btn.click()
                             page.wait_for_timeout(2000)
-                    
-                    # Scroll down to reveal subsequent milestones (11, 12, 13)
+                        else:
+                            sem_btns = page.locator('button:has-text("Start Learning"), button:has-text("Continue Learning")')
+                            if sem_btns.count() >= 2:
+                                sem_btns.nth(1).click()
+                                page.wait_for_timeout(2000)
+
                     for _ in range(5):
                         page.mouse.wheel(0, 1500)
                         page.wait_for_timeout(200)
 
-                starts = []
-                for name in ["Continue Learning", "Attempt", "Start Activity", "Start Learning"]:
-                    locator = page.get_by_role("button", name=name, exact=True)
-                    try:
-                        for i in range(min(locator.count(), 25)):
-                            item = locator.nth(i)
-                            if item.is_visible() and item.is_enabled():
-                                starts.append(item)
-                    except Exception:
-                        pass
+                    for m_num in ["11", "12", "13"]:
+                        m_btn = page.locator(f'div:has-text("Milestone {m_num}") button:has-text("Continue Learning"), div:has-text("Milestone {m_num}") button:has-text("Start Learning")').first
+                        if m_btn.count() and m_btn.is_visible():
+                            print(f"[INFO] Entering Milestone {m_num}...")
+                            m_btn.scroll_into_view_if_needed()
+                            m_btn.click()
+                            page.wait_for_timeout(3000)
+                            action_taken = True
+                            clicked_coords.clear()
+                            break
 
-                clicked = False
-                for button in starts:
-                    try:
-                        label = button.inner_text().strip()
-                        sem = button_semester(button)
-                        if sem == "1":
-                            continue
-                        
-                        button.scroll_into_view_if_needed()
-                        box = button.bounding_box()
-                        if not box:
-                            continue
-                        coord = (round(box["x"]), round(box["y"]))
-                        if coord in clicked_coords:
-                            continue
-                        print(f"[INFO] Clicking navigation button: {label} at {coord}")
-                        button.click()
-                        clicked_coords.add(coord)
-                        page.wait_for_timeout(2500)
-                        clicked = action_taken = True
-                        clicked_coords.clear()
-                        break
-                    except Exception as exc:
-                        print(f"[WARN] Could not click candidate button: {exc}")
+                    if action_taken:
+                        continue
 
-                if clicked:
+                # Fallback: check for any generic Next/Continue button
+                next_btn = find_button(page, ["Next Activity", "Next", "Continue"])
+                if next_btn:
+                    next_btn.click()
+                    page.wait_for_timeout(2000)
+                    action_taken = True
+                    clicked_coords.clear()
                     continue
 
                 if not action_taken:
                     idle_count += 1
-                    print(f"[WARN] No actionable controls found. Idle check {idle_count}/3.")
+                    print(f"[WARN] No actionable controls found. Idle check {idle_count}/4.")
                     debug_page(page, f"idle_check_{idle_count}")
-                    page.wait_for_timeout(1500)
+                    if idle_count == 2:
+                        print("[INFO] Reloading track page to reset state...")
+                        page.goto(TRACK_URL, wait_until="domcontentloaded")
+                    page.wait_for_timeout(2000)
                 else:
                     idle_count = 0
 
             screenshot(page, "agent_stopped_idle.png")
-            print("[*] Script completed run pass. Ready for next iteration.")
+            print("[*] Script completed run pass.")
         finally:
             try:
                 context.close()

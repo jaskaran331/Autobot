@@ -1,0 +1,2383 @@
+{
+  "by_question": {
+    "What is e-commerce?": [
+      "Buying and selling products using the internet"
+    ],
+    "Which of these is a benefit of selling online?": [
+      "You can reach buyers across cities and states"
+    ],
+    "What is a common method sellers use to deliver online orders?": [
+      "They send parcels through delivery partners"
+    ],
+    "What\u2019s one thing you must do before selling online?": [
+      "Decide what products you want to sell"
+    ],
+    "What should sellers keep in mind to succeed in e-commerce?": [
+      "Use good pictures and clear descriptions",
+      "Understand where your customers are online"
+    ],
+    "What is a \u201cproduct listing\u201d in e-commerce?": [
+      "A page showing product details, price, and photos"
+    ],
+    "What does \u201cCash on Delivery (COD)\u201d mean for an online seller?": [
+      "The customer pays when the order is delivered"
+    ],
+    "What is a return policy?": [
+      "Rules about when and how buyers can return items"
+    ],
+    "What is meant by \u201cinventory\u201d in online selling?": [
+      "The total items available to sell"
+    ],
+    "Which of these are important details in a digital product catalog?": [
+      "Product name and clear images",
+      "Price and delivery time"
+    ],
+    "What kind of products are easiest to sell without inventory?": [
+      "Digital downloads like e-books or tools"
+    ],
+    "What does a shopping cart help the buyer do?": [
+      "Save products to buy later or checkout"
+    ],
+    "What is a key role of a delivery partner in e-commerce?": [
+      "Transporting the product to the customer"
+    ],
+    "What does the \u201ccheckout\u201d process include?": [
+      "Confirming order details and payment"
+    ],
+    "What is dropshipping in e-commerce?": [
+      "When the seller takes orders but the supplier ships the product"
+    ],
+    "What is a good way to get product ideas offline?": [
+      "Ask local shopkeepers what people often buy"
+    ],
+    "Which of these is a smart way to spot product needs in your area?": [
+      "Notice what people complain about not finding"
+    ],
+    "What kind of daily-use product is often a good idea to sell?": [
+      "Items that people need to buy again and again"
+    ],
+    "If you're unsure what to sell, who should you ask?": [
+      "People in your area who shop often"
+    ],
+    "What should you observe in your surroundings to get product ideas?": [
+      "What people use regularly in homes or shops"
+    ],
+    "What is one of the first things to check before deciding what to sell online?": [
+      "If people are already searching for it online"
+    ],
+    "What kind of product is usually easier to manage for new sellers?": [
+      "Lightweight, small items with clear demand"
+    ],
+    "How can a seller know what products are trending online?": [
+      "Look at trending products on marketplaces"
+    ],
+    "Why is it helpful to choose products you're familiar with?": [
+      "You can answer customer queries confidently"
+    ],
+    "What can happen if many customers return your product?": [
+      "You lose money on shipping and packaging"
+    ],
+    "How do you identify the right customer for your product?": [
+      "Look for people who face the problem your product solves"
+    ],
+    "What should you ask to identify your customer?": [
+      "Who will benefit most from this product?"
+    ],
+    "Why should you know your customer before you start selling?": [
+      "So you can create ads and messages that connect"
+    ],
+    "What is one sign that someone is the right customer for your product?": [
+      "They are already buying something similar"
+    ],
+    "Which of these products is best matched with college students?": [
+      "Trendy phone covers and budget gadgets"
+    ],
+    "What should you check before finalising a supplier?": [
+      "Product quality and delivery time"
+    ],
+    "Which site is commonly used to find suppliers in India?": [
+      "IndiaMART"
+    ],
+    "What is a good offline method to check supplier quality?": [
+      "Visit their store or warehouse"
+    ],
+    "What is one smart way to compare multiple suppliers?": [
+      "Check prices, samples, and terms"
+    ],
+    "What offline strategies can help you find a supplier?": [
+      "Visit local wholesale markets",
+      "Attend trade fairs or exhibitions"
+    ],
+    "What is a good first message to send to a supplier?": [
+      "\u201cHello, I\u2019m interested in your products. Can you share details and prices?\u201d"
+    ],
+    "What details should you ask for before placing an order?": [
+      "Price, delivery time, and return policy"
+    ],
+    "What is a polite way to negotiate price with a supplier?": [
+      "\u201cI like the product. Is there a better price for bulk order?\u201d"
+    ],
+    "Why is it important to ask about delivery timelines?": [
+      "So you can plan stock and inform customers"
+    ],
+    "What are good signs of a professional supplier?": [
+      "Responds politely and on time",
+      "Shares clear pricing and terms"
+    ],
+    "What should you ask before finalising a supplier?": [
+      "Product price, delivery terms, return policy"
+    ],
+    "Which strategies can help you get the best deal from suppliers?": [
+      "Build a good relationship and communicate clearly",
+      "Compare multiple supplier offers before finalizing"
+    ],
+    "Why is it important to compare prices with multiple suppliers?": [
+      "To find best value and negotiate with confidence"
+    ],
+    "What is a sign that a supplier is open to negotiation?": [
+      "They offer better price for bulk orders"
+    ],
+    "What should you avoid while negotiating?": [
+      "Being rude or giving unrealistic demands"
+    ],
+    "What is the first step to create your Dukaan store?": [
+      "Sign up and create your Dukaan account"
+    ],
+    "Which detail do you need to enter when creating your Dukaan store?": [
+      "Business name and country"
+    ],
+    "When adding a warehouse in Dukaan, what should you do if you don\u2019t have a GST number?": [
+      "Skip the GST number and continue."
+    ],
+    "After adding a warehouse in Dukaan, what is the next important step": [
+      "Add your first product"
+    ],
+    "Which section in Dukaan do you go to for adding warehouse details?": [
+      "Settings - Warehouse"
+    ],
+    "What is the first step in adding your first product to your Dukaan store?": [
+      "Create a product listing with name, description, and price"
+    ],
+    "Why should you assign a category to your product?": [
+      "To make it easier for customers to find related products"
+    ],
+    "What details are essential when adding a product?": [
+      "Name, description, price, images, and category"
+    ],
+    "How can product categories improve customer experience?": [
+      "By grouping similar products together for easy browsing"
+    ],
+    "Which actions are important when adding products and categories?": [
+      "Use high-quality images to showcase products",
+      "Assign products to relevant categories",
+      "Create clear product listings with all necessary details"
+    ],
+    "What is the first step in customizing your Dukaan store?": [
+      "Choose a theme that matches your brand"
+    ],
+    "Which element is essential when customizing your store?": [
+      "Store logo and brand colors"
+    ],
+    "Why is it important to have a consistent theme for your Dukaan store?": [
+      "It creates a professional and cohesive appearance"
+    ],
+    "How can customization improve customer experience?": [
+      "Clear navigation, branded visuals, and easy-to-read fonts"
+    ],
+    "Which actions are important when customizing your Dukaan store?": [
+      "Choose a theme and layout that matches your brand",
+      "Add a store logo and select brand colors",
+      "Ensure mobile responsiveness and clear navigation"
+    ],
+    "What is the first step in setting up payment options for your store?": [
+      "Choose a payment provider that suits your store"
+    ],
+    "Why is it important to offer multiple payment options to customers?": [
+      "To provide convenience and increase sales"
+    ],
+    "How should you ensure that your payment methods are secure?": [
+      "Use trusted payment gateways and encryption"
+    ],
+    "What should you do after setting up payment options?": [
+      "Test all payment methods with a small transaction"
+    ],
+    "Which actions are necessary to properly set up payment options?": [
+      "Inform customers about available payment options",
+      "Choose and configure multiple payment methods",
+      "Test all payment methods before going live"
+    ],
+    "Why is it important to test your payment methods before launching your store?": [
+      "To ensure smooth transactions and customer satisfaction"
+    ],
+    "What is the first step in testing your payment methods?": [
+      "Complete a test purchase to simulate a real transaction"
+    ],
+    "How can you ensure that your customers' payment details are secure?": [
+      "Use encryption protocols and secure payment gateways"
+    ],
+    "What should you do after successfully testing your payment methods?": [
+      "Ensure that you have a system for tracking and managing payments"
+    ],
+    "Which actions help ensure that payment methods are correctly set up?": [
+      "Confirm that your payment gateway has no downtime",
+      "Test different payment methods (credit cards, PayPal, etc.)"
+    ],
+    "What is the primary purpose of creating a launch poster for your online store?": [
+      "To attract attention and generate excitement for the store launch"
+    ],
+    "What should be the most prominent feature of your launch poster?": [
+      "The launch date, time, and a call-to-action"
+    ],
+    "How can you make your launch poster stand out to potential customers?": [
+      "Use bold colors and simple, readable fonts"
+    ],
+    "Why is a call-to-action (CTA) important on a launch poster?": [
+      "It motivates customers to take the next step, like visiting your site or attending the launch event"
+    ],
+    "Which elements should be included when creating a launch poster for your store?": [
+      "Clear event details (date, time, location)",
+      "A compelling call-to-action"
+    ],
+    "What is the first step in launching your E-commerce store?": [
+      "Choose an E-commerce platform that fits your needs"
+    ],
+    "Which of these elements is crucial for launching your E-commerce store?": [
+      "A user-friendly website design"
+    ],
+    "Why is it important to test your website before launching your store?": [
+      "To ensure everything works smoothly, from product pages to checkout"
+    ],
+    "What should you do immediately after launching your E-commerce store?": [
+      "Promote your store through various marketing channels"
+    ],
+    "Which of the following actions are necessary for a successful online store launch?": [
+      "Create an initial marketing campaign",
+      "Test your website functionality and payment systems"
+    ],
+    "What is the first step in sharing your store page with friends and family?": [
+      "Identify people in your circle to promote your store."
+    ],
+    "Why is creating a WhatsApp message important for promoting your store?": [
+      "It allows you to communicate about your store effectively to your network"
+    ],
+    "How can you make your message to friends and family effective?": [
+      "Clear information with a link makes it easy for people to visit."
+    ],
+    "What should you do after sending messages to friends and family?": [
+      "Encourage them to share the store with others and follow up"
+    ],
+    "Which actions help maximize visits to your online store from friends and family?": [
+      "Create a WhatsApp message to share your store",
+      "Share your store on social media",
+      "Watch videos on promoting your store online"
+    ],
+    "What is the first thing you should do to make your social media posts effective?": [
+      "Plan what content to post and when."
+    ],
+    "How can posting on multiple platforms increase your audience reach?": [
+      "It increases reach and visibility among different audiences"
+    ],
+    "Why is it helpful to ask a few friends to interact with your social media post?": [
+      "It encourages interaction and improves reach through engagement"
+    ],
+    "What should you do after posting about your store on social media?": [
+      "Monitor engagement and respond to comments or shares"
+    ],
+    "Which actions are important for effectively sharing your store on social media?": [
+      "Use attractive images and videos of your products.",
+      "Post regularly with a clear strategy.",
+      "Engage with your audience through comments and messages."
+    ],
+    "What is the first step in sharing your store in groups and communities?": [
+      "Identify relevant local or interest-based groups"
+    ],
+    "Why should you create a list of groups before posting about your store?": [
+      "To organize and target your outreach effectively"
+    ],
+    "How should your first group post be created?": [
+      "Write a clear, concise message with your store link and call-to-action"
+    ],
+    "What should you do after posting in groups?": [
+      "Monitor responses and engagement from group members"
+    ],
+    "Which actions help maximize visits to your store via groups and communities?": [
+      "Identify relevant local or interest-based groups",
+      "Make a list of 3 groups for outreach",
+      "Post your store in at least 2 relevant groups"
+    ],
+    "What is the first step in making a list of interested people?": [
+      "Identify potential customers who may be interested in your product"
+    ],
+    "Why should you create an offer for interested people?": [
+      "To incentivize them to try your product and encourage purchase"
+    ],
+    "How should you create your offer?": [
+      "Make it simple, clear, and attractive to the audience"
+    ],
+    "What should you do after creating the list and offer?": [
+      "Reach out to the people with the offer"
+    ],
+    "Which actions help successfully convert your first sale?": [
+      "Make a list of interested people",
+      "Create a clear and simple offer",
+      "Reach out directly to the people on your list"
+    ],
+    "What is the first step in processing your first order?": [
+      "Confirm product details and delivery address"
+    ],
+    "Why is confirming product details and delivery address important?": [
+      "To ensure the customer receives the correct product at the right location"
+    ],
+    "How should you schedule your product delivery?": [
+      "Choose a date and time convenient for the customer"
+    ],
+    "When should you place the order with your supplier?": [
+      "After confirming product details and delivery address"
+    ],
+    "Which actions are important to successfully process your first order?": [
+      "Confirm product details and delivery address",
+      "Schedule delivery according to customer preference",
+      "Place the order with your supplier after confirmation"
+    ],
+    "What is the first step after your first order is delivered?": [
+      "Confirm if the customer received the product"
+    ],
+    "Why is asking for feedback important after the first delivery?": [
+      "To understand customer experience and improve future service"
+    ],
+    "How should you collect feedback effectively?": [
+      "Politely ask the customer and provide a simple way to respond"
+    ],
+    "What is the purpose of reflecting on your first sale?": [
+      "To identify what went well and what can be improved"
+    ],
+    "Which actions help turn your first sale into future success?": [
+      "Ask for feedback and listen carefully",
+      "Reflect on the process and plan improvements",
+      "Confirm the customer received the product"
+    ],
+    "What is the main use of a WhatsApp Business account?": [
+      "To talk with customers and share business updates"
+    ],
+    "What is one feature of WhatsApp Business that regular WhatsApp doesn\u2019t have?": [
+      "Business profile with details like address and working hours"
+    ],
+    "How can you make it easier for customers to contact your business on WhatsApp?": [
+      "Share your WhatsApp Business number on your social media"
+    ],
+    "What type of automatic message can you set in WhatsApp Business?": [
+      "Greeting and away messages"
+    ],
+    "Which of the following actions can help you use WhatsApp Business to grow your sales?": [
+      "Send quick replies to common customer questions",
+      "Create product catalogues with prices and details"
+    ],
+    "What is the main benefit of setting up a professional Instagram account?": [
+      "It gives access to insights and tools to promote your business"
+    ],
+    "Which type of Instagram account is best for selling products or services?": [
+      "Business or Creator account"
+    ],
+    "Why is it useful to connect your Instagram account to your Facebook page?": [
+      "It helps you manage both and run ads easily"
+    ],
+    "Which of the following actions can help you use your professional Instagram account to grow sales?": [
+      "Use Instagram Insights to track what works best",
+      "Add product tags to your posts and stories"
+    ],
+    "Why should you take detailed feedback from your customers?": [
+      "To understand what they like, dislike, and expect from your product or service."
+    ],
+    "What is the best way to collect customer feedback?": [
+      "Ask clear and specific questions about their experience"
+    ],
+    "When is the right time to ask for feedback?": [
+      "Soon after customers use your product or service"
+    ],
+    "What should you do when you get negative feedback?": [
+      "Thank the customer and try to fix the problem"
+    ],
+    "Which actions help you collect and use customer feedback effectively?": [
+      "Use simple feedback forms or short surveys",
+      "Ask about both good and bad experiences"
+    ],
+    "Why is it important to learn from customer feedback?": [
+      "It helps you improve your product or service to better meet customer needs."
+    ],
+    "What should you do after receiving useful feedback?": [
+      "Apply the suggestions that make sense for your business"
+    ],
+    "How can feedback help your business grow?": [
+      "It shows what customers like and how you can serve them better"
+    ],
+    "How can you track the improvements you make from feedback?": [
+      "Write down what changes you made and review customer reactions"
+    ],
+    "Which actions help you learn and improve from feedback effectively?": [
+      "Make small, regular improvements based on feedback",
+      "Discuss feedback with your mentor or friends"
+    ],
+    "Why is it important to follow up with your previous customers?": [
+      "To build long-term relationships and encourage repeat business."
+    ],
+    "What should you say when following up with a customer?": [
+      "Thank them for their purchase and ask if they are satisfied"
+    ],
+    "What can you learn from following up with customers?": [
+      "What they liked and what could be improved"
+    ],
+    "When is a good time to follow up with previous customers?": [
+      "A few days or weeks after they used your product or service"
+    ],
+    "Which actions help you follow up with customers effectively?": [
+      "Offer discounts or updates on new products",
+      "Send a polite thank-you or check-in message"
+    ],
+    "What does asking for a referral mean?": [
+      "Requesting a happy customer to recommend your product to others."
+    ],
+    "Why are referrals important for your business?": [
+      "People trust recommendations from friends and family"
+    ],
+    "When should you ask a customer for a referral?": [
+      "After they\u2019ve had a good experience with your product"
+    ],
+    "What is a polite way to ask for a referral?": [
+      "\u201cI\u2019m glad you liked our service! Could you tell your friends about us?\u201d"
+    ],
+    "Which actions help you get more referrals from customers?": [
+      "Thank customers who refer others to you",
+      "Offer small rewards or discounts for referrals"
+    ],
+    "Why should you review your business journey regularly?": [
+      "To understand your progress, learn from mistakes, and plan future improvements."
+    ],
+    "What should you look for when reviewing your journey?": [
+      "What worked well and what didn\u2019t"
+    ],
+    "How can reviewing your journey help your business grow?": [
+      "It helps you make smarter plans for the next stage"
+    ],
+    "When is a good time to review your business journey?": [
+      "After finishing a milestone or every few months"
+    ],
+    "Which actions help you review your business journey effectively?": [
+      "Write down your main achievements and lessons",
+      "Set new goals based on what you learned"
+    ],
+    "Why is it important to set future goals for your business?": [
+      "To give your business direction and help you measure your progress over time."
+    ],
+    "What makes a good business goal?": [
+      "It is clear, realistic, and measurable"
+    ],
+    "What should you do before setting your next goal?": [
+      "Review your past performance and learn from it"
+    ],
+    "How do goals help you grow your business?": [
+      "They help you plan your actions and measure success"
+    ],
+    "Which actions help you set and achieve your future goals effectively?": [
+      "Write your goals down and set a timeline",
+      "Break big goals into small steps"
+    ],
+    "What does marketing actually mean for a small business?": [
+      "Understanding customer needs and promoting the right product"
+    ],
+    "Which situation best explains marketing in real life?": [
+      "A shopkeeper explains why his product is useful before selling"
+    ],
+    "Why should a business do marketing regularly?": [
+      "To make customers aware and interested in the product"
+    ],
+    "What is the main purpose of a marketing campaign?": [
+      "To inform people about offers, products, or services"
+    ],
+    "Which of the following activities are part of marketing? (Select TWO)": [
+      "Creating messages or offers for customers",
+      "Understanding what customers want"
+    ],
+    "Which option best explains what digital marketing is?": [
+      "Promoting products or services using internet and digital platforms"
+    ],
+    "A student runs a small clothing page on Instagram. Which activity is digital marketing?": [
+      "Uploading reels showing new clothing designs"
+    ],
+    "Which option is a proper digital marketing channel used to bring online customers?": [
+      "Search engines like Google"
+    ],
+    "Why do many small businesses prefer digital marketing?": [
+      "It helps reach many customers with less budget"
+    ],
+    "Which TWO actions are examples of digital marketing?": [
+      "Running ads on Facebook or Instagram",
+      "Creating a WhatsApp catalog for products"
+    ],
+    "Why should you first observe how similar businesses are doing marketing?": [
+      "To understand what type of marketing works in your market"
+    ],
+    "Which of the following is a simple marketing idea for a small e-commerce business?": [
+      "Posting product videos on Instagram or WhatsApp"
+    ],
+    "Which marketing idea can help increase repeat orders?": [
+      "Offering a small discount on the next order"
+    ],
+    "What should be your main goal while shortlisting one marketing idea for your e-commerce business?": [
+      "To select the idea that can bring sales with your current resources"
+    ],
+    "Which TWO points should you consider while selecting the best marketing idea?": [
+      "Whether the idea reaches your target customer",
+      "How much money you can afford to spend"
+    ],
+    "What is the main purpose of creating a WhatsApp community for your business?": [
+      "To build a group where customers can get updates and value"
+    ],
+    "Which of the following is the best first step before creating a WhatsApp community?": [
+      "Deciding why you are creating the community"
+    ],
+    "Who should you add to your WhatsApp community in the beginning?": [
+      "People who have shown interest in your product or service"
+    ],
+    "What type of content should you mostly share in a WhatsApp community?": [
+      "Useful tips and information related to your product"
+    ],
+    "Which TWO actions help in building trust in a WhatsApp community?": [
+      "Sharing helpful tips related to your product",
+      "Replying politely to questions from members"
+    ],
+    "What is the main purpose of inviting people to your WhatsApp community?": [
+      "To build a group where people can get updates and value"
+    ],
+    "Which of the following is the best way to invite someone to your WhatsApp community?": [
+      "Sending a clear message explaining the benefit of joining"
+    ],
+    "Who should you invite first to your WhatsApp community?": [
+      "People who already know or trust you"
+    ],
+    "What should you include in an invite message for your WhatsApp community?": [
+      "What the group is about and how it helps"
+    ],
+    "Which TWO actions help get more people join your WhatsApp community?": [
+      "Inviting people with a personal message",
+      "Explaining clearly what the group is about"
+    ],
+    "What is the main purpose of engaging users in a WhatsApp community for an e-commerce business?": [
+      "To build trust and long-term relationship with customers"
+    ],
+    "Which type of message helps build trust the most in a WhatsApp community?": [
+      "Helpful tips related to the product"
+    ],
+    "How does replying to customer questions in the community help an e-commerce business?": [
+      "It builds trust and shows the business is reliable"
+    ],
+    "What is a simple way to keep WhatsApp community users active?": [
+      "Share regular updates and useful information"
+    ],
+    "Which TWO actions help build trust in a WhatsApp community for an e-commerce business?": [
+      "Answer customer queries honestly",
+      "Share behind-the-scenes or real product updates"
+    ],
+    "What is the best way to do soft-selling in a WhatsApp community?": [
+      "Share helpful tips related to your product regularly"
+    ],
+    "Why are community-only offers useful for getting sales?": [
+      "They make members feel special and valued"
+    ],
+    "What should you do when someone shows interest in your product in the community?": [
+      "Personally reply and explain the product clearly"
+    ],
+    "Which message is best to convert interested people into customers?": [
+      "\u201cLimited stock left, order today to get free delivery\u201d"
+    ],
+    "Which actions help you get 3 sales from a WhatsApp community?": [
+      "Offer a community-only discount",
+      "Share value-based messages before selling"
+    ],
+    "What is content marketing mainly used for?": [
+      "To attract, educate, and convert customers"
+    ],
+    "Which type of content is best for brand awareness?": [
+      "Educational or helpful posts"
+    ],
+    "Which content is more useful for revenue generation?": [
+      "Offer-based or problem-solution content"
+    ],
+    "Why should you know what type of content your users like?": [
+      "To create content that gets engagement and sales"
+    ],
+    "Which two activities are part of content marketing?": [
+      "Sharing educational posts",
+      "Solving customer problems through content"
+    ],
+    "What is the main purpose of creating content ideas for your e-commerce business?": [
+      "To attract customers and make them interested"
+    ],
+    "Which type of content helps customers understand your product better?": [
+      "Product usage tips and demos"
+    ],
+    "How can AI tools help in generating content ideas?": [
+      "By giving topic ideas and captions quickly"
+    ],
+    "Which content idea is most useful for attracting first-time buyers?": [
+      "Customer problem and solution post"
+    ],
+    "Which of the following are good content ideas to attract customers?": [
+      "Customer testimonials",
+      "Before-after product results"
+    ],
+    "Why should a new ecommerce seller use AI to create their first brand video?": [
+      "It helps create videos quickly without technical skills"
+    ],
+    "What should you clearly tell an AI tool before generating your brand video?": [
+      "Product details and what you want to show customers"
+    ],
+    "How does an AI-generated brand video help an ecommerce business?": [
+      "It explains the product clearly to customers"
+    ],
+    "What kind of content should your first AI brand video focus on?": [
+      "Product use, benefits, and trust"
+    ],
+    "Which of the following tasks can AI correctly help you with while creating a brand video?": [
+      "Writing a simple video script",
+      "Creating captions or voiceovers"
+    ],
+    "What is the main role of AI when you write a blog for your professional service?": [
+      "To help you think of ideas and write faster"
+    ],
+    "What is the best way to use AI when writing a blog about your service?": [
+      "Use AI for ideas and edit the blog in your own words"
+    ],
+    "What should you clearly tell AI before asking it to write a blog for your service?": [
+      "Your service, target audience, and topic"
+    ],
+    "Why should you always edit an AI-written blog before posting it?": [
+      "To add your experience, examples, and local language"
+    ],
+    "Which of the following are correct uses of AI while writing a blog for your service?": [
+      "Creating a basic blog structure or outline",
+      "Simplifying language for easy understanding"
+    ],
+    "What does social media marketing mainly mean?": [
+      "Using social media apps to promote a business, product, or service"
+    ],
+    "A local shop wants more customers. Which activity is social media marketing?": [
+      "Posting daily offers and product photos on Instagram or Facebook"
+    ],
+    "Why is social media marketing important for businesses today?": [
+      "It helps reach many people at low cost"
+    ],
+    "Which of the following can be used for social media marketing?": [
+      "Instagram page for a business"
+    ],
+    "Which actions are part of social media marketing for a small business?": [
+      "Posting product photos, videos, or reels",
+      "Replying to customer comments and messages"
+    ],
+    "What does competitor research mean in an E-commerce business?": [
+      "Studying similar online businesses to learn how they sell and market"
+    ],
+    "For an online shoe store, who should be considered a competitor?": [
+      "An online store selling shoes to similar customers"
+    ],
+    "Why is competitor research important before planning social media content?": [
+      "To understand what type of posts customers like"
+    ],
+    "What is useful to check on a competitor\u2019s social media page?": [
+      "Likes, comments, and type of content they post"
+    ],
+    "Which actions are correct ways to research competitors for an E-commerce business?": [
+      "Observing which products competitors promote more",
+      "Checking competitors\u2019 prices, offers, and discounts"
+    ],
+    "What do content pillars actually represent in social media marketing?": [
+      "Main content themes that guide what you post regularly"
+    ],
+    "Why should content pillars be finalized before creating a content calendar?": [
+      "They help decide what type of content to post and how often"
+    ],
+    "Which of the following is a strong example of a content pillar?": [
+      "Sharing educational or informative content for your audience"
+    ],
+    "What happens if a business or creator does NOT finalize content pillars?": [
+      "Content becomes inconsistent and confusing for the audience"
+    ],
+    "Which of the following can logically be used as content pillars?": [
+      "Behind-the-scenes of work, process, or daily routine",
+      "Educational or how-to content for the audience"
+    ],
+    "What is the main purpose of creating a weekly social media plan?": [
+      "Planning in advance what content will be posted on each day"
+    ],
+    "Why is a weekly social media plan especially helpful for beginners?": [
+      "It reduces daily confusion and saves time"
+    ],
+    "Which information is most important to include in a weekly social media plan?": [
+      "Topics, type of post, and posting days"
+    ],
+    "What is a realistic posting frequency for someone just starting out?": [
+      "3\u20135 planned posts across the week"
+    ],
+    "Which actions support creating and following a good weekly social media plan?": [
+      "Deciding content topics for each day beforehand",
+      "Preparing captions or key talking points in advance"
+    ],
+    "How do customer testimonials help a business on social media?": [
+      "They show real customer experiences and help people trust the brand"
+    ],
+    "Why is social proof useful when trying to convert leads into customers?": [
+      "It helps people feel confident that others have already trusted the product"
+    ],
+    "Which situation best shows social proof inside an online community?": [
+      "Members sharing their positive experience after using a product"
+    ],
+    "How does social proof influence someone who is seeing a brand for the first time?": [
+      "It reduces doubt by showing that others have already used the product"
+    ],
+    "Which actions are effective ways to use social proof to build trust?": [
+      "Sharing real customer testimonials on social media platforms",
+      "Posting screenshots of honest customer feedback messages"
+    ],
+    "Why are open-ended questions useful when talking to customers?": [
+      "They help people explain their situation in detail"
+    ],
+    "Which question best helps someone talk about their real challenge?": [
+      "How is this issue affecting your daily work?"
+    ],
+    "Which question encourages a person to clearly describe their problem?": [
+      "Can you tell me what you are struggling with right now?"
+    ],
+    "What is the main purpose of asking open-ended questions early in a conversation?": [
+      "To understand the person\u2019s needs and concerns"
+    ],
+    "Which questions are most effective for helping a person openly share their problem?": [
+      "What changes are you hoping to see in your situation?",
+      "Can you describe what has been bothering you lately?"
+    ],
+    "What is the main goal of a 3\u20135 days content sprint for lead generation?": [
+      "To attract interested people and start conversations"
+    ],
+    "Which type of content best helps convert viewers into leads?": [
+      "Content that highlights common problems people face"
+    ],
+    "What should you encourage people to do at the end of each post?": [
+      "Share their experience in comments or messages"
+    ],
+    "How does posting daily during a content sprint support lead generation?": [
+      "It builds trust and keeps people engaged"
+    ],
+    "Which actions help turn engaged viewers into leads?": [
+      "Offering simple help related to their problem",
+      "Asking clear questions that invite responses"
+    ],
+    "What is the correct order of a simple sales conversation?": [
+      "Listen to problem \u2192 Offer solution \u2192 Ask for sale"
+    ],
+    "Why is soft selling useful in communities and social media?": [
+      "It helps build trust before pitching the product"
+    ],
+    "What is the best way to start a sales conversation in DMs?": [
+      "Asking how the product can help their situation"
+    ],
+    "When should you follow up with a lead after first contact?": [
+      "After giving 24 to 48 hours for response"
+    ],
+    "Which actions help convert a lead into a sale?": [
+      "Listening carefully to the person\u2019s problem",
+      "Explaining how your product solves their problem"
+    ],
+    "What does viral marketing mainly focus on?": [
+      "Encouraging people to share content naturally"
+    ],
+    "Why do people usually share viral content?": [
+      "It connects with their emotions or experiences"
+    ],
+    "Which type of content has a higher chance of going viral?": [
+      "Content that is simple and easy to understand"
+    ],
+    "How does consistency help in viral marketing?": [
+      "It increases chances of content being noticed"
+    ],
+    "Which actions support viral marketing for a brand?": [
+      "Creating content people relate to emotionally",
+      "Making content easy to share and understand"
+    ],
+    "What is the first step while designing a viral campaign for your business?": [
+      "Selecting one clear goal for the campaign"
+    ],
+    "Why is it useful to learn different viral marketing strategies?": [
+      "It helps choose the right strategy for your audience"
+    ],
+    "How do viral marketing ideas help while planning a campaign?": [
+      "They give inspiration to create your own campaign"
+    ],
+    "Why should you take feedback before finalizing a viral campaign?": [
+      "It helps understand how people react to the idea"
+    ],
+    "Which actions support finalizing a strong viral campaign?": [
+      "Testing the idea with a small group of people",
+      "Improving the idea based on honest feedback"
+    ],
+    "Why is using campaign checklist important before launching?": [
+      "It ensures all launch steps are prepared"
+    ],
+    "What is the main purpose of creating a campaign launch video or poster?": [
+      "To quickly grab attention and interest"
+    ],
+    "What should a good campaign launch message focus on?": [
+      "Clear idea that people can relate to"
+    ],
+    "Why should you launch your campaign on your main social media platform first?": [
+      "It helps reach your existing audience quickly"
+    ],
+    "Which actions help increase reach when launching a campaign?": [
+      "Sharing the campaign in WhatsApp communities",
+      "Asking people to share with others"
+    ],
+    "Why is measuring campaign performance important after promotion?": [
+      "It helps understand what worked and what didn\u2019t"
+    ],
+    "Which action helps increase campaign reach beyond your own audience?": [
+      "Sharing the campaign in relevant groups and communities"
+    ],
+    "What is a useful metric to track campaign performance?": [
+      "Number of shares and comments received"
+    ],
+    "When should you analyze your campaign results in detail?": [
+      "After the campaign has been actively promoted"
+    ],
+    "Which actions help you record final campaign performance clearly?": [
+      "Comparing results with the original campaign goal",
+      "Writing down reach, engagement, and response numbers"
+    ],
+    "What does offline or BTL marketing mean for an e-commerce business?": [
+      "Using local, direct methods to reach customers"
+    ],
+    "Why is offline or BTL marketing useful for e-commerce businesses?": [
+      "It helps build trust through personal interaction"
+    ],
+    "Which activity is an example of BTL marketing for e-commerce?": [
+      "Setting up a stall at a local event"
+    ],
+    "How does offline marketing support online sales for e-commerce brands?": [
+      "It helps people discover and trust the brand"
+    ],
+    "Which actions help drive revenue using offline or BTL marketing?": [
+      "Explaining online offers to local customers",
+      "Sharing website or QR code during offline events"
+    ],
+    "What should be the first step when picking an offline marketing idea?": [
+      "Understanding who your target customers are"
+    ],
+    "Why is it important to match the offline idea with your business type?": [
+      "It increases relevance for the right customers"
+    ],
+    "Which factor helps decide whether an offline idea will work locally?": [
+      "Presence of target customers in that area"
+    ],
+    "How does budget planning help when selecting an offline marketing idea?": [
+      "It helps choose ideas that are practical to execute"
+    ],
+    "Which actions help finalize a suitable offline marketing idea?": [
+      "Comparing a few ideas based on reach and effort",
+      "Checking if the idea fits local customer behavior"
+    ],
+    "What is the most important objective while executing offline marketing in a local market?": [
+      "Generating sales and qualified leads"
+    ],
+    "During offline marketing execution, which action improves the chances of converting interested people into paying customers?": [
+      "Explaining product benefits based on customer needs"
+    ],
+    "While choosing a location for offline marketing in a local market, what should guide your decision?": [
+      "Area where the target audience frequently visits"
+    ],
+    "Which metric best indicates the success of an offline marketing activity in driving revenue?": [
+      "Number of conversions and total sales value"
+    ],
+    "Which actions during offline marketing execution help improve conversion rate in a local market?": [
+      "Identifying interested visitors and prioritizing detailed interaction with them",
+      "Collecting contact details of potential buyers for follow-up"
+    ],
+    "What does affiliate marketing mainly involve?": [
+      "Paying people for each sale they help generate"
+    ],
+    "Why do businesses use collaboration marketing?": [
+      "To reach new audiences through trusted partners"
+    ],
+    "Who can become a good affiliate for your business?": [
+      "People whose audience matches your product users"
+    ],
+    "What is an important step before starting an affiliate collaboration?": [
+      "Clearly explaining the product and commission"
+    ],
+    "Which practices support long-term success in affiliate and collaboration marketing?": [
+      "Maintaining clear and regular communication with partners",
+      "Sharing clear guidelines and expectations upfront"
+    ],
+    "What is the first step when designing an affiliation program?": [
+      "Understanding how affiliates will promote your product"
+    ],
+    "Why is deciding a clear commission structure important?": [
+      "It motivates partners to promote consistently"
+    ],
+    "Which commission structure is easiest for new affiliate programs?": [
+      "Fixed amount for every successful sale"
+    ],
+    "What should you decide while setting up your commission structure?": [
+      "How much partners earn for each successful sale"
+    ],
+    "Which actions help make your affiliation model easy for partners to follow?": [
+      "Sharing a simple and clear partnership pitch",
+      "Keeping commission rules simple and transparent"
+    ],
+    "What is the most important factor when finalizing a collaboration partner?": [
+      "Their audience matches your target customers"
+    ],
+    "Why should you review a partner\u2019s past work before collaborating?": [
+      "It helps understand their content quality and style"
+    ],
+    "What should you clearly discuss before finalizing a collaboration?": [
+      "Roles, expectations, and promotion plan"
+    ],
+    "How does finalizing the right collaboration partner help your business?": [
+      "It helps both brands grow through shared trust"
+    ],
+    "Which actions help you confidently select one partner for collaboration?": [
+      "Having a clear discussion on roles and goals",
+      "Reviewing audience relevance and engagement"
+    ],
+    "What is the first step while executing a collaboration with a partner?": [
+      "Sharing the full partnership plan clearly"
+    ],
+    "Why should you outline clear USPs for the partner to mention?": [
+      "It helps the partner explain value clearly"
+    ],
+    "What should your partnership plan mainly include during collaboration execution?": [
+      "Clear roles, timeline, and audience action"
+    ],
+    "Why should you respond to new leads within 24 hours?": [
+      "It keeps interest high and builds trust"
+    ],
+    "Which actions help execute a collaboration smoothly?": [
+      "Sharing key talking points with the partner",
+      "Writing a simple and clear partnership plan"
+    ],
+    "Why is it important to measure the results of a collaboration?": [
+      "To understand how the collaboration performed"
+    ],
+    "Which metric best shows if a collaboration is generating interest?": [
+      "Engagement like comments and messages received"
+    ],
+    "What should you track to understand sales impact from a collaboration?": [
+      "Leads or sales coming from the partner"
+    ],
+    "Why is reviewing results with the partner helpful?": [
+      "It helps both sides learn and improve"
+    ],
+    "Which actions help you properly measure and close a collaboration?": [
+      "Comparing results with the initial goals set",
+      "Recording final metrics like leads and sales"
+    ],
+    "Which platform allows you to manage Instagram ads, messages, and insights in one place?": [
+      "Meta Business Suite"
+    ],
+    "Before setting up Meta Business Suite for your Instagram business, what is the first requirement?": [
+      "An Instagram business account connected to Facebook"
+    ],
+    "While setting up Meta Business Suite, what is the main purpose of connecting your Instagram account to a Facebook Page?": [
+      "To allow cross-posting and ad management from one dashboard"
+    ],
+    "When setting up Meta Business Suite, why is adding your business category important?": [
+      "It helps Meta understand the type of business you run"
+    ],
+    "Which actions help you successfully complete the setup of Meta Business Suite for running Instagram ads?": [
+      "Connecting your Instagram account to a Facebook Page",
+      "Adding a payment method for ad campaigns"
+    ],
+    "When designing your first paid Instagram ad, what should guide the overall structure of the ad?": [
+      "The campaign objective"
+    ],
+    "Which type of visual helps users quickly understand the product in a paid Instagram ad?": [
+      "A lifestyle image showing the product in use"
+    ],
+    "What is the main purpose of writing a caption in a paid Instagram ad?": [
+      "To explain the product value and encourage action"
+    ],
+    "Which design element helps guide the viewer toward the next step after seeing the ad?": [
+      "A call-to-action button or phrase"
+    ],
+    "Which elements can improve the effectiveness of your first paid Instagram ad design?": [
+      "A clear visual focus on the product or service",
+      "A short message that highlights the main benefit"
+    ],
+    "What is the main purpose of defining a target audience when running an Instagram advertisement?": [
+      "To reach people whose interests match the product"
+    ],
+    "Which factor is commonly used when defining a target audience for an Instagram ad?": [
+      "The age group most likely to purchase the product"
+    ],
+    "How does setting a budget help when running an Instagram advertisement?": [
+      "It decides the amount of money planned for the ad campaign"
+    ],
+    "What is the main purpose of setting a daily budget when running an Instagram advertisement?": [
+      "To control how much money is spent on the advertisement each day"
+    ],
+    "Which elements help define the target audience for an Instagram advertisement?": [
+      "Age group of potential customers",
+      "Interests related to the product category"
+    ],
+    "What does it mean to launch an Instagram advertisement?": [
+      "Publishing the advertisement so it starts running on Instagram"
+    ],
+    "Which step helps ensure an Instagram ad is ready before launching it?": [
+      "Reviewing the ad details such as audience, budget, and content"
+    ],
+    "What happens after an Instagram advertisement is launched?": [
+      "Instagram begins showing the advertisement to the selected audience"
+    ],
+    "Why do advertisers review their advertisement before launching it?": [
+      "To make sure the audience, budget, and ad content are set correctly"
+    ],
+    "Which factors should be checked before launching an Instagram advertisement?": [
+      "The target audience selected for the campaign",
+      "The campaign budget set for the advertisement"
+    ],
+    "What is the main purpose of sending a message to people who respond to your Instagram ad?": [
+      "To start a conversation and understand their interest in the offer"
+    ],
+    "Why should businesses reply to leads from an Instagram ad within 24 hours?": [
+      "Quick replies help maintain the lead\u2019s interest in the product or service"
+    ],
+    "What is an effective way to start a message when responding to a new lead from an ad?": [
+      "Greeting the lead and asking about their interest in the product"
+    ],
+    "What is the purpose of pitching your offer to a lead after they respond to your advertisement?": [
+      "To explain how the product or service can help the lead"
+    ],
+    "Which actions help manage leads effectively after they respond to an Instagram ad?": [
+      "Sending a clear message explaining the offer",
+      "Following up with the lead if they do not respond"
+    ],
+    "What is the main purpose of measuring Instagram ad performance?": [
+      "To understand how the advertisement is performing with the target audience"
+    ],
+    "Which metric helps advertisers understand how many unique people saw their advertisement?": [
+      "Reach"
+    ],
+    "Why do advertisers track engagement on their Instagram ads?": [
+      "To understand how users interact with the advertisement"
+    ],
+    "What does the metric \u201ccost per result\u201d help advertisers evaluate?": [
+      "The amount spent to achieve each campaign result"
+    ],
+    "Which metrics help businesses measure the visibility and interaction of their Instagram advertisement?": [
+      "Reach of the advertisement",
+      "Engagement on the advertisement"
+    ],
+    "What does the term \u201cpsychological trigger\u201d mean in marketing?": [
+      "A factor that influences how people feel and decide to buy a product"
+    ],
+    "Why do businesses use psychological triggers in their marketing messages?": [
+      "To influence customer decisions by appealing to emotions or needs"
+    ],
+    "Which psychological trigger encourages people to act quickly when buying a product?": [
+      "Scarcity or limited availability"
+    ],
+    "How does social proof act as a psychological trigger in marketing?": [
+      "It shows that other customers have trusted or purchased the product"
+    ],
+    "Which strategies commonly use psychological triggers to encourage sales?": [
+      "Showing customer reviews and testimonials",
+      "Highlighting limited-time offers or limited stock"
+    ],
+    "What is the main goal of using FOMO or urgency in marketing?": [
+      "To encourage customers to take action quickly on an offer"
+    ],
+    "Which marketing message best creates a sense of urgency for customers?": [
+      "Offer available for a limited time only"
+    ],
+    "Why do businesses highlight limited stock in their promotions?": [
+      "To encourage quicker purchase decisions from customers"
+    ],
+    "How does urgency marketing influence customer decision-making?": [
+      "It motivates customers to act quickly before the opportunity ends"
+    ],
+    "Which strategies commonly use urgency or FOMO to increase sales?": [
+      "Showing the number of items left in stock",
+      "Highlighting limited-time discounts or offers"
+    ],
+    "What is the main purpose of running a discount or offer campaign?": [
+      "To encourage customers to purchase by offering better value for a limited period"
+    ],
+    "Which type of promotional message clearly communicates a discount offer?": [
+      "Buy two items and get a price reduction on the total"
+    ],
+    "Why do businesses often include a time limit in a discount campaign?": [
+      "To create urgency so customers decide faster"
+    ],
+    "What should a business clearly communicate when promoting a discount offer?": [
+      "The percentage or value of the discount offered"
+    ],
+    "Which actions help make a discount campaign more effective?": [
+      "Highlighting the savings customers receive",
+      "Setting a clear time period for the offer"
+    ],
+    "What is the main goal of analyzing marketing data?": [
+      "To understand which marketing activities generate better results"
+    ],
+    "How does analyzing marketing data support better decision-making?": [
+      "It helps identify which marketing activities produce stronger results"
+    ],
+    "How does marketing data help improve future campaigns?": [
+      "It shows which campaigns generated stronger engagement or conversions"
+    ],
+    "Which data comparison helps marketers identify the stronger campaign performance?": [
+      "Comparing results from different campaigns over the same time period"
+    ],
+    "Which actions help marketers analyze campaign performance effectively?": [
+      "Comparing results across different marketing campaigns",
+      "Reviewing metrics such as reach, clicks, and conversions"
+    ],
+    "Why do marketers re-execute a top performing campaign?": [
+      "To use a strategy that already showed strong results"
+    ],
+    "Which data insight is most useful when deciding to repeat a campaign?": [
+      "Engagement and conversion results from the earlier campaign"
+    ],
+    "What is an effective approach when repeating a successful marketing campaign?": [
+      "Keeping the key message and targeting that produced strong results"
+    ],
+    "How can marketers improve results when re-executing a strong campaign?": [
+      "By adjusting elements such as audience or budget based on earlier insights"
+    ],
+    "Which actions help marketers successfully re-execute a top performing campaign?": [
+      "Applying similar targeting and messaging strategies",
+      "Reviewing campaign metrics to understand the reasons for success"
+    ],
+    "What is the first step when improving a low performing marketing campaign?": [
+      "Reviewing campaign metrics to understand performance patterns"
+    ],
+    "Which campaign element can marketers adjust to improve campaign results?": [
+      "Audience targeting settings used in the campaign"
+    ],
+    "Why do marketers relaunch a campaign after making improvements?": [
+      "To test whether the changes lead to better results"
+    ],
+    "Which adjustment can help improve a campaign with high views but low clicks?": [
+      "Improving the call-to-action message in the advertisement"
+    ],
+    "Which actions help improve and relaunch a low performing campaign effectively?": [
+      "Adjusting elements such as audience targeting or ad messaging",
+      "Reviewing performance data to identify weak areas"
+    ],
+    "Why do businesses review their marketing progress regularly?": [
+      "To understand which marketing activities delivered stronger results"
+    ],
+    "Which information is most useful when reviewing marketing progress?": [
+      "Performance metrics such as reach, engagement, and conversions"
+    ],
+    "How does reviewing progress help businesses plan their next growth phase?": [
+      "It helps identify strategies that can be scaled or improved"
+    ],
+    "Which question helps evaluate marketing progress effectively?": [
+      "Which campaigns generated stronger engagement or conversions"
+    ],
+    "Which actions help review progress before planning the next growth phase?": [
+      "Comparing results across different marketing campaigns",
+      "Reviewing campaign performance data"
+    ],
+    "What is the main purpose of creating a 1 month marketing plan?": [
+      "To organize marketing activities around clear goals for the month"
+    ],
+    "Which step makes a 1 month marketing plan easier to follow?": [
+      "Setting clear marketing goals for the month"
+    ],
+    "How does scheduling marketing activities help in a monthly plan?": [
+      "It helps campaigns run at the planned time during the month"
+    ],
+    "Which factor should help decide which marketing activities to include in the plan?": [
+      "The expected impact of each activity on business growth"
+    ],
+    "Which actions help create a strong 1 month marketing plan?": [
+      "Setting measurable marketing goals for the month",
+      "Planning when each marketing activity will happen"
+    ],
+    "What was the main focus of Semester 1 in this course?": [
+      "Understanding how online business works by doing real tasks"
+    ],
+    "What is the purpose of revising the first 12 milestones at the start of Semester 2?": [
+      "To remember what worked and what did not work in Semester 1"
+    ],
+    "When writing 3 key learnings of Semester 1, what should you mainly focus on?": [
+      "Skills and experiences gained while doing the milestones"
+    ],
+    "Which of these is an example of a valid learning from Semester 1?": [
+      "Customers trust stores with COD and clear photos"
+    ],
+    "Which of the following are good improvement goals for Semester 2? (Select all that apply)": [
+      "Planning weekly targets instead of working randomly",
+      "Improving product quality based on customer feedback"
+    ],
+    "Why is it important to set goals at the start of Semester 2?": [
+      "To have clear direction for marketing efforts"
+    ],
+    "What is the first practical step to start working towards 4X revenue in Semester 2?": [
+      "Setting clear marketing goals for the semester"
+    ],
+    "Why do we study how famous brands use marketing?": [
+      "To learn practical ideas that can be applied to our own goals"
+    ],
+    "Which of the following is a good marketing goal for Semester 2?": [
+      "Increase customer inquiries through social media"
+    ],
+    "Which TWO actions help in setting strong marketing goals for Semester 2?": [
+      "Deciding what revenue growth you want",
+      "Looking at last semester\u2019s performance"
+    ],
+    "While understanding your current operational workflow, what should be reviewed first?": [
+      "The sequence of activities used to complete daily work"
+    ],
+    "Which observation best helps identify opportunities to improve operational productivity?": [
+      "Compare the time and effort required across different activities"
+    ],
+    "While reviewing your operational workflow, which area gives the clearest understanding of execution challenges?": [
+      "Activities that regularly create delays or repeated follow-ups"
+    ],
+    "What is the main purpose of documenting your current operational workflow?": [
+      "To understand how work currently moves and identify improvement areas"
+    ],
+    "Which actions support better understanding of your current operational workflow?": [
+      "Map the major steps involved in completing routine work",
+      "Identify activities where delays or confusion occur frequently"
+    ],
+    "While building your productivity and execution system, which approach helps improve consistency in daily operations?": [
+      "Create a structured workflow with defined activities and timelines"
+    ],
+    "Which action helps build a more productive execution system?": [
+      "Track task progress and review completion regularly"
+    ],
+    "When designing an execution system, which factor should guide task planning?": [
+      "Availability of time, resources, and operational priorities"
+    ],
+    "How does a productivity and execution system support operational performance?": [
+      "By helping work move in a planned and trackable manner"
+    ],
+    "Which actions strengthen a productivity and execution system?": [
+      "Define clear responsibilities and expected outcomes for tasks",
+      "Set checkpoints to monitor progress during execution"
+    ],
+    "While understanding your customer journey, which activity helps identify how customers interact with your business?": [
+      "Review the stages customers move through from first contact to purchase and follow-up"
+    ],
+    "Which observation gives the clearest understanding of customer experience during the journey?": [
+      "Points where customers show interest, ask questions, or delay decisions"
+    ],
+    "While reviewing the customer journey, which question helps improve communication decisions?": [
+      "At which stage do customers need clearer information or support?"
+    ],
+    "Why is mapping the customer journey useful for improving customer experience?": [
+      "It helps identify customer expectations and opportunities to improve interactions"
+    ],
+    "Which actions support better understanding of your customer journey?": [
+      "Observe customer interactions across different stages of engagement",
+      "Collect customer feedback to understand expectations and challenges"
+    ],
+    "While improving communication systems, which approach helps create a better customer experience?": [
+      "Create clear and timely communication across customer touchpoints"
+    ],
+    "Which practice helps improve communication quality with customers?": [
+      "Review customer questions and improve response methods"
+    ],
+    "While building a communication system, which factor should guide message planning?": [
+      "Customer needs and information required at each stage"
+    ],
+    "How does an improved communication system support customer experience?": [
+      "By helping customers receive relevant information at the right time"
+    ],
+    "Which actions help strengthen a customer communication system?": [
+      "Create standard communication steps for common customer situations",
+      "Review customer feedback to improve communication practices"
+    ],
+    "While understanding SOP systems, which activity should be done first to identify processes for documentation?": [
+      "Identify routine business activities and how they are currently completed"
+    ],
+    "Which process is most suitable to document in an SOP?": [
+      "A process that is repeated regularly and follows similar steps"
+    ],
+    "While identifying processes for SOP creation, which question helps define the process clearly?": [
+      "Which sequence of steps is followed to complete the activity?"
+    ],
+    "How do SOP systems support business operations?": [
+      "By creating a consistent method to perform routine activities"
+    ],
+    "Which actions help identify processes for building SOPs?": [
+      "Break processes into clear and repeatable stages",
+      "Observe how recurring tasks are currently completed"
+    ],
+    "While creating your SOP system, which approach helps make procedures easier to follow consistently?": [
+      "Document activities in a clear sequence with responsibilities and expected outcomes"
+    ],
+    "When building an SOP system, what should be included to support smooth execution?": [
+      "Clear process steps, ownership, and checkpoints"
+    ],
+    "While creating an SOP system, which review helps make procedures easier to apply in daily operations?": [
+      "Check whether each step can be understood and followed in the correct order"
+    ],
+    "How does a well-designed SOP system support business operations?": [
+      "By reducing variation and creating more predictable execution"
+    ],
+    "Which actions help maintain an effective SOP system over time?": [
+      "Monitor whether procedures are being followed during execution",
+      "Update SOPs when workflows or business requirements change"
+    ],
+    "While testing SOP usability, which observation gives the clearest indication that the SOP is effective?": [
+      "Team members can complete the process consistently by following the documented steps"
+    ],
+    "When reviewing an SOP after implementation, what should be evaluated first?": [
+      "Whether the documented steps match actual execution"
+    ],
+    "While improving SOP usability, which change is most valuable?": [
+      "Simplify instructions and remove unclear or repeated steps"
+    ],
+    "Which situation suggests that an SOP may require improvement?": [
+      "Users interpret the same steps differently during execution"
+    ],
+    "Which actions help test and improve SOP usability?": [
+      "Collect feedback from users after they apply the SOP",
+      "Observe whether users can follow the process with limited clarification"
+    ],
+    "While setting up a performance tracking system, which approach creates the most useful information for decision-making?": [
+      "Select indicators that connect directly to business goals and progress"
+    ],
+    "When reviewing performance data, which observation provides the strongest insight?": [
+      "Compare current performance with previous results and expected targets"
+    ],
+    "A performance tracking system becomes most valuable when it helps answer which question?": [
+      "Which activities are creating results and where changes may be needed?"
+    ],
+    "While monitoring business performance, which practice improves the quality of decisions?": [
+      "Review patterns and investigate reasons behind changes in results"
+    ],
+    "Which actions strengthen a performance tracking system for better decisions?": [
+      "Review data regularly and identify patterns over time",
+      "Define clear performance measures before collecting data"
+    ],
+    "While building your performance tracking system, which approach helps create useful and actionable tracking?": [
+      "Track indicators that directly reflect business goals and expected outcomes"
+    ],
+    "When setting up a performance tracking system, what should be decided before collecting data?": [
+      "The performance measures and review purpose"
+    ],
+    "While designing a tracking system, which practice makes performance information easier to use?": [
+      "Organize performance data in a consistent and reviewable format"
+    ],
+    "How does a well-built performance tracking system improve business decisions?": [
+      "By helping identify progress, gaps, and areas that need action"
+    ],
+    "Which actions strengthen your performance tracking system over time?": [
+      "Update tracking methods when better insights are needed",
+      "Review whether tracked indicators still support current goals"
+    ],
+    "While understanding your financial management system, which practice gives the clearest picture of business performance?": [
+      "Record income and expenses separately based on their source and purpose"
+    ],
+    "Why is separating personal and business finances important in financial management?": [
+      "It helps create clearer records and improves financial decision-making"
+    ],
+    "While reviewing business finances, which observation helps identify financial management problems?": [
+      "Compare income patterns, expense trends, and cash usage over time"
+    ],
+    "Which activity best supports understanding income and expense sources?": [
+      "Categorize financial entries according to where money comes from and where it is spent"
+    ],
+    "Which actions help strengthen financial management and improve operational profitability?": [
+      "Maintain separate records for personal and business finances",
+      "Review recurring expenses and identify areas for improvement"
+    ],
+    "While building your financial tracking system, which setup creates the most useful financial visibility?": [
+      "Organize income and expenses into categories and update them regularly"
+    ],
+    "When creating an income and expense tracking sheet, which information should be included to improve analysis?": [
+      "Transaction date, category, amount, and purpose"
+    ],
+    "How can AI support a financial tracking system most effectively?": [
+      "Use AI to organize financial records and identify patterns or unusual trends"
+    ],
+    "While reviewing tracked finances, which approach helps estimate approximate profitability?": [
+      "Compare total income with total expenses over a selected period"
+    ],
+    "Which actions strengthen your financial tracking system and improve profitability decisions?": [
+      "Review expense categories to identify where most money is being spent",
+      "Create one focused action plan to improve profitability"
+    ],
+    "While understanding automation and AI systems, which business activity is most suitable to automate first?": [
+      "Activities that follow repeated steps and require limited decision-making"
+    ],
+    "While looking at your current business work, which activity is best to automate first?": [
+      "An activity that takes repeated manual effort and follows similar steps"
+    ],
+    "When choosing an AI or automation tool, what should you focus on most?": [
+      "Select a tool that matches your business need and daily work process"
+    ],
+    "How can automation and AI systems improve business operations?": [
+      "By reducing repetitive effort and improving process efficiency"
+    ],
+    "Which actions help build a practical automation and AI system?": [
+      "Select one tool that solves a specific operational need",
+      "Identify routine activities that take repeated manual effort"
+    ],
+    "While understanding automation and AI systems, which business activity is usually most suitable for automation?": [
+      "An activity that follows repeated steps and requires regular manual effort"
+    ],
+    "When reviewing business operations, which observation best helps identify automation opportunities?": [
+      "Activities that involve repeated actions, follow-ups, or data handling"
+    ],
+    "When selecting one useful AI or automation tool, which factor should guide the decision most?": [
+      "How well the tool solves a specific operational need"
+    ],
+    "How can AI support business operations most effectively?": [
+      "By assisting with routine analysis, organization, or decision support tasks"
+    ],
+    "Which actions support better understanding and use of automation and AI systems?": [
+      "Identify recurring manual activities before selecting tools",
+      "Evaluate whether the selected tool improves execution or saves effort"
+    ],
+    "While planning resources, what should you check first?": [
+      "Current work needs and resources available"
+    ],
+    "While identifying workload bottlenecks, what should you look for?": [
+      "Activities that regularly slow down or delay other work"
+    ],
+    "Before growing business operations, what should you think about?": [
+      "Whether current resources can handle more work"
+    ],
+    "Why is resource planning important during business growth?": [
+      "It helps prepare people, time, and resources for increased work"
+    ],
+    "Which actions help improve resource planning and operational scaling?": [
+      "Identify areas where work delays happen often",
+      "Review whether current resources are enough for future growth"
+    ],
+    "While creating a resource planning structure, what should be reviewed first?": [
+      "Current work requirements and available resources"
+    ],
+    "When creating a workload improvement plan, which sign may show a bottleneck?": [
+      "Activities that regularly slow down completion of other work"
+    ],
+    "While preparing a scaling readiness plan, which question is most useful?": [
+      "Can current operations support more work if demand increases?"
+    ],
+    "A business expects more customer orders next month. What is the best planning step?": [
+      "Review whether people, time, and resources can manage higher demand"
+    ],
+    "Which actions support better resource planning and operational scaling?": [
+      "Identify where workload pressure happens most often",
+      "Estimate future resource needs based on expected growth"
+    ],
+    "Which type of task is usually a good choice for delegation?": [
+      "Tasks that happen regularly and follow similar steps"
+    ],
+    "Why should you list your daily operational tasks?": [
+      "To understand where most time is being spent"
+    ],
+    "Which question helps you choose a task for delegation?": [
+      "Can another person do this task using clear instructions?"
+    ],
+    "Before delegating work, what should you identify first?": [
+      "Tasks that repeat and take time regularly"
+    ],
+    "Which actions help identify tasks for delegation?": [
+      "Find tasks that follow similar steps each time",
+      "List tasks done every day or every week"
+    ],
+    "While creating roles in your team, what should help decide who does each task?": [
+      "Assign work based on each person\u2019s responsibility"
+    ],
+    "When assigning responsibilities, what helps the team work better?": [
+      "Give clear tasks and explain what is expected"
+    ],
+    "Why should task instructions be created?": [
+      "To help team members understand how to do the work"
+    ],
+    "When reviewing your team, what shows that roles are clear?": [
+      "Team members know what work they are responsible for"
+    ],
+    "Which actions help create better team roles?": [
+      "Check whether responsibilities are shared properly",
+      "Create simple instructions for important tasks"
+    ],
+    "After giving a task to a team member, what should you check?": [
+      "Whether the task was completed correctly and on time"
+    ],
+    "When checking task performance, what shows that delegation worked well?": [
+      "Whether the team member completed the task with less support"
+    ],
+    "While checking a completed task, what shows good task performance?": [
+      "The task followed the instructions and was completed properly"
+    ],
+    "While watching daily operations, what shows that delegation is helping?": [
+      "Work is completed smoothly and responsibilities are clear"
+    ],
+    "Which actions help evaluate task performance?": [
+      "Review whether the work meets expectations",
+      "Check whether daily work became easier after delegation"
+    ],
+    "What is the main purpose of a quality management system in a business?": [
+      "Deliver consistent quality and improve customer experience"
+    ],
+    "When defining quality standards for a business, what should be decided first?": [
+      "The expected quality level for products or services"
+    ],
+    "Why should a business track quality issues again and again?": [
+      "To find repeated problems and improve work quality"
+    ],
+    "Which action best supports continuous improvement in a business?": [
+      "Regularly review results and make small process improvements"
+    ],
+    "Which actions help a business manage quality and handle issues effectively?": [
+      "Record recurring issues and track their causes",
+      "Set clear quality standards for business activities"
+    ],
+    "Why do businesses create a quality system?": [
+      "To keep work quality consistent over time"
+    ],
+    "What is the main purpose of creating a quality checklist?": [
+      "To check whether work meets expected standards"
+    ],
+    "What is a good way to collect feedback in a business?": [
+      "Ask customers and record their responses"
+    ],
+    "How can AI help improve a quality system?": [
+      "By identifying patterns and helping track issues"
+    ],
+    "Which actions help build a strong quality and issue-handling system?": [
+      "Create a quality checklist",
+      "Collect feedback regularly"
+    ],
+    "What is the main purpose of a customer retention system?": [
+      "To encourage customers to return and stay connected"
+    ],
+    "Why should a business review recent customer interactions?": [
+      "To understand customer experience and improve engagement"
+    ],
+    "What can help identify opportunities for repeat engagement?": [
+      "Tracking customer responses and buying patterns"
+    ],
+    "What does a customer retention gap show?": [
+      "Areas where customers may stop returning"
+    ],
+    "Which actions can help improve customer retention and engagement?": [
+      "Review customer interactions regularly",
+      "Identify reasons customers stop returning"
+    ],
+    "Why should a business create a recurring engagement routine?": [
+      "To maintain regular communication with customers"
+    ],
+    "What is an example of a customer retention activity?": [
+      "Sending follow-up messages to existing customers"
+    ],
+    "What is the main purpose of a customer engagement calendar?": [
+      "To plan and schedule customer communication activities"
+    ],
+    "What should be included in a retention and engagement system?": [
+      "Planned customer activities and follow-up actions"
+    ],
+    "Which actions help build a strong retention and engagement system?": [
+      "Create a schedule for customer engagement",
+      "Run at least one activity to encourage customers to return"
+    ],
+    "Why do businesses build partnerships for growth?": [
+      "To reach more customers and create new opportunities"
+    ],
+    "What should a business do to identify partnership opportunities?": [
+      "Look for businesses with similar customers or goals"
+    ],
+    "Why should a business analyze current growth limitations?": [
+      "To understand what is slowing business growth"
+    ],
+    "Why should a business choose realistic growth opportunities?": [
+      "To focus on growth ideas the business can actually manage"
+    ],
+    "Which actions support partnership-based business growth?": [
+      "Review current limits affecting business growth",
+      "Identify businesses that can support growth goals"
+    ],
+    "Why do businesses build strategic partnerships?": [
+      "To create growth opportunities and reach more customers"
+    ],
+    "What should be included in a partnership outreach message?": [
+      "A clear introduction and reason for working together"
+    ],
+    "What is the purpose of contacting potential partners or growth channels?": [
+      "To explore business opportunities and build connections"
+    ],
+    "Why should a business create a partnership tracking system?": [
+      "To track communication and partnership progress"
+    ],
+    "Which actions help build a partnership and growth system?": [
+      "Contact suitable partners or growth channels"
+    ],
+    "Why should a business review its current operational position before scaling?": [
+      "To understand current performance and prepare for growth"
+    ],
+    "Why are short-term scaling targets useful for a business?": [
+      "To help the business grow in manageable steps"
+    ],
+    "Why should a business review operational improvements regularly?": [
+      "To check what changes are working and what needs improvement"
+    ],
+    "What is the purpose of identifying remaining operational challenges?": [
+      "To understand areas that still need improvement"
+    ],
+    "Which actions support creating a 90-day operational scaling plan?": [
+      "Review recent operational improvements",
+      "Identify challenges that still affect operations"
+    ],
+    "Why should a business set operational improvement goals in a 90-day scaling plan?": [
+      "To create clear targets for business improvement"
+    ],
+    "What is the purpose of creating a monthly action plan?": [
+      "To track steps and complete goals over time"
+    ],
+    "Why should a business identify required support and resources?": [
+      "To understand what is needed to achieve growth goals"
+    ],
+    "What should be included in a 90-day scaling plan?": [
+      "Operational goals, action steps, and needed resources"
+    ],
+    "Which actions help build an effective 90-day scaling plan?": [
+      "Set operational improvement goals",
+      "Identify support and resources needed"
+    ],
+    "Why should a business create a final 90-day operational roadmap?": [
+      "To organize business actions and growth plans"
+    ],
+    "What should a business do after creating its 90-day operational roadmap?": [
+      "Start tracking progress against planned goals"
+    ],
+    "What should be included in a final 90-day roadmap?": [
+      "Business goals, planned actions, and timelines"
+    ],
+    "Why is it important to track progress during a 90-day plan?": [
+      "To understand if planned actions are working"
+    ],
+    "Which actions help finalize an operational growth roadmap?": [
+      "Create a clear 90-day action roadmap",
+      "Define how success will be measured"
+    ],
+    "While revising Semester 2 marketing activities, which review approach gives the most useful learning for future decisions?": [
+      "Compare business growth with marketing efforts used during the semester"
+    ],
+    "When reviewing customer engagement from Semester 2, what should be given the highest importance?": [
+      "Customer reactions and actions after marketing efforts"
+    ],
+    "While reflecting on your marketing journey, which observation helps improve future targeting?": [
+      "Identify which customer group responded most actively"
+    ],
+    "During Semester 2 revision, which indicator gives the clearest picture of marketing effectiveness?": [
+      "Comparison between objectives set and actual outcomes achieved"
+    ],
+    "While reviewing your marketing journey, which actions help generate meaningful learnings for future planning?": [
+      "Review customer feedback and identify repeating patterns",
+      "Compare performance across different marketing channels"
+    ],
+    "While setting scaling goals after reviewing your marketing journey, which approach helps create practical growth targets?": [
+      "Set goals based on business performance, customer response, and available capacity"
+    ],
+    "When deciding how much to scale your marketing efforts, what should be reviewed first?": [
+      "Previous marketing performance and business ability to manage growth"
+    ],
+    "While setting scaling goals for the next phase, which method helps create achievable growth targets?": [
+      "Use past marketing results to estimate realistic future growth"
+    ],
+    "After reviewing Semester 2 marketing learnings, which factor helps define realistic scaling goals?": [
+      "Customer response trends and performance patterns"
+    ],
+    "Which actions support setting stronger scaling goals for the next phase of business growth?": [
+      "Identify marketing activities that created the best outcomes",
+      "Estimate available resources before increasing growth targets"
+    ],
+    "Do you have an interest in selling products online?": [
+      "Yes, I am interested in selling online"
+    ],
+    "Are you comfortable with managing a website or online store?": [
+      "Yes, I am comfortable managing a website"
+    ],
+    "How do you feel about handling customer service online?": [
+      "I can manage customer service if needed",
+      "I am comfortable with online communication and service"
+    ],
+    "Do you have access to products or ideas that you can sell online?": [
+      "Yes, I have products to sell"
+    ],
+    "Are you willing to handle the logistics and shipping of products to customers?": [
+      "I can handle shipping if it\u2019s simple",
+      "Yes, I am okay with handling logistics and shipping"
+    ],
+    "How do you feel about managing your own finances for your online business?": [
+      "I am okay with managing some of the finances",
+      "I am confident and comfortable with handling finances"
+    ],
+    "Are you comfortable with using social media to market your products?": [
+      "Yes, I am comfortable using social media to promote products"
+    ],
+    "Are you ready to invest time and money in building an e-commerce business?": [
+      "Yes, I\u2019m ready to invest both time and money"
+    ],
+    "How do you handle problems and setbacks in your business?": [
+      "I stay calm, find solutions, and learn from mistakes"
+    ],
+    "Are you comfortable with using technology and online tools to run your business?": [
+      "Yes, I am comfortable with online tools and technology"
+    ]
+  },
+  "all_correct": [
+    "Reviewing metrics such as reach, clicks, and conversions",
+    "Adding a payment method for ad campaigns",
+    "To add your experience, examples, and local language",
+    "To build a group where customers can get updates and value",
+    "Operational goals, action steps, and needed resources",
+    "Creating content people relate to emotionally",
+    "Users interpret the same steps differently during execution",
+    "The expected quality level for products or services",
+    "Applying similar targeting and messaging strategies",
+    "Tasks that repeat and take time regularly",
+    "Create an initial marketing campaign",
+    "Sharing the full partnership plan clearly",
+    "It helps identify customer expectations and opportunities to improve interactions",
+    "Review expense categories to identify where most money is being spent",
+    "Ask local shopkeepers what people often buy",
+    "I am okay with managing some of the finances",
+    "Inviting people with a personal message",
+    "If people are already searching for it online",
+    "Use AI for ideas and edit the blog in your own words",
+    "Reach",
+    "Set operational improvement goals",
+    "Review customer feedback and identify repeating patterns",
+    "Product use, benefits, and trust",
+    "Uploading reels showing new clothing designs",
+    "The age group most likely to purchase the product",
+    "Look for people who face the problem your product solves",
+    "\u201cI like the product. Is there a better price for bulk order?\u201d",
+    "Increase customer inquiries through social media",
+    "Maintaining clear and regular communication with partners",
+    "Business profile with details like address and working hours",
+    "Review recurring expenses and identify areas for improvement",
+    "Use high-quality images to showcase products",
+    "It helps build trust through personal interaction",
+    "Update tracking methods when better insights are needed",
+    "Thank customers who refer others to you",
+    "Schedule delivery according to customer preference",
+    "Replying politely to questions from members",
+    "Number of shares and comments received",
+    "Review customer interactions regularly",
+    "Sharing the campaign in relevant groups and communities",
+    "To reach more customers and create new opportunities",
+    "Buying and selling products using the internet",
+    "Previous marketing performance and business ability to manage growth",
+    "Product name and clear images",
+    "Understanding customer needs and promoting the right product",
+    "Setting clear marketing goals for the semester",
+    "To maintain regular communication with customers",
+    "Listening carefully to the person\u2019s problem",
+    "Clear information with a link makes it easy for people to visit.",
+    "Confirm that your payment gateway has no downtime",
+    "Make small, regular improvements based on feedback",
+    "Posting screenshots of honest customer feedback messages",
+    "They give inspiration to create your own campaign",
+    "Whether the task was completed correctly and on time",
+    "Comparing results across different marketing campaigns",
+    "To explain the product value and encourage action",
+    "Tracking customer responses and buying patterns",
+    "Recording final metrics like leads and sales",
+    "Creating a WhatsApp catalog for products",
+    "Whether the team member completed the task with less support",
+    "Make it simple, clear, and attractive to the audience",
+    "A compelling call-to-action",
+    "Generating sales and qualified leads",
+    "Collect feedback from users after they apply the SOP",
+    "Current work needs and resources available",
+    "Promoting products or services using internet and digital platforms",
+    "Encourage them to share the store with others and follow up",
+    "The amount spent to achieve each campaign result",
+    "Offer available for a limited time only",
+    "Select one tool that solves a specific operational need",
+    "Encouraging people to share content naturally",
+    "Keeping the key message and targeting that produced strong results",
+    "Settings - Warehouse",
+    "It helps create videos quickly without technical skills",
+    "Customer reactions and actions after marketing efforts",
+    "Offer small rewards or discounts for referrals",
+    "Business name and country",
+    "It shows what customers like and how you can serve them better",
+    "Set clear quality standards for business activities",
+    "Break big goals into small steps",
+    "After they\u2019ve had a good experience with your product",
+    "Set new goals based on what you learned",
+    "Write your goals down and set a timeline",
+    "Observe customer interactions across different stages of engagement",
+    "I can handle shipping if it\u2019s simple",
+    "Check whether responsibilities are shared properly",
+    "To use a strategy that already showed strong results",
+    "Identify challenges that still affect operations",
+    "Review customer questions and improve response methods",
+    "Make a list of 3 groups for outreach",
+    "Collect customer feedback to understand expectations and challenges",
+    "Offer-based or problem-solution content",
+    "It decides the amount of money planned for the ad campaign",
+    "Comparing results from different campaigns over the same time period",
+    "Visit their store or warehouse",
+    "Creating captions or voiceovers",
+    "Review customer feedback to improve communication practices",
+    "What the group is about and how it helps",
+    "Asking clear questions that invite responses",
+    "To create content that gets engagement and sales",
+    "Setting clear marketing goals for the month",
+    "Choose a date and time convenient for the customer",
+    "Team members can complete the process consistently by following the documented steps",
+    "To build a group where people can get updates and value",
+    "Writing down reach, engagement, and response numbers",
+    "Product price, delivery terms, return policy",
+    "Share your store on social media",
+    "Clearly explaining the product and commission",
+    "Showing customer reviews and testimonials",
+    "By grouping similar products together for easy browsing",
+    "Share value-based messages before selling",
+    "Choose an E-commerce platform that fits your needs",
+    "To create growth opportunities and reach more customers",
+    "Whether the idea reaches your target customer",
+    "Offering simple help related to their problem",
+    "Customer needs and information required at each stage",
+    "They offer better price for bulk orders",
+    "To identify what went well and what can be improved",
+    "It helps prepare people, time, and resources for increased work",
+    "Make a list of interested people",
+    "It keeps interest high and builds trust",
+    "Lightweight, small items with clear demand",
+    "Content becomes inconsistent and confusing for the audience",
+    "Visit local wholesale markets",
+    "Set checkpoints to monitor progress during execution",
+    "How much partners earn for each successful sale",
+    "List tasks done every day or every week",
+    "To understand customer experience and improve future service",
+    "Sending follow-up messages to existing customers",
+    "Testing the idea with a small group of people",
+    "To encourage customers to purchase by offering better value for a limited period",
+    "An Instagram business account connected to Facebook",
+    "To attract attention and generate excitement for the store launch",
+    "It builds trust and keeps people engaged",
+    "A user-friendly website design",
+    "Setting measurable marketing goals for the month",
+    "Create a clear and simple offer",
+    "Product usage tips and demos",
+    "Topics, type of post, and posting days",
+    "A lifestyle image showing the product in use",
+    "To select the idea that can bring sales with your current resources",
+    "To understand areas that still need improvement",
+    "So you can plan stock and inform customers",
+    "To track steps and complete goals over time",
+    "They show real customer experiences and help people trust the brand",
+    "It gives access to insights and tools to promote your business",
+    "To start a conversation and understand their interest in the offer",
+    "Record recurring issues and track their causes",
+    "Identify potential customers who may be interested in your product",
+    "Test your website functionality and payment systems",
+    "So you can create ads and messages that connect",
+    "Sharing clear guidelines and expectations upfront",
+    "Reflect on the process and plan improvements",
+    "Personally reply and explain the product clearly",
+    "Identify activities where delays or confusion occur frequently",
+    "Sharing educational posts",
+    "To organize and target your outreach effectively",
+    "Map the major steps involved in completing routine work",
+    "Availability of time, resources, and operational priorities",
+    "Apply the suggestions that make sense for your business",
+    "Highlighting limited-time discounts or offers",
+    "Reach out to the people with the offer",
+    "Leads or sales coming from the partner",
+    "Select a tool that matches your business need and daily work process",
+    "Share regular updates and useful information",
+    "Compare total income with total expenses over a selected period",
+    "To build long-term relationships and encourage repeat business.",
+    "By reducing variation and creating more predictable execution",
+    "Sign up and create your Dukaan account",
+    "It helps people feel confident that others have already trusted the product",
+    "It shows that other customers have trusted or purchased the product",
+    "Create a WhatsApp message to share your store",
+    "Sending a clear message explaining the benefit of joining",
+    "Sharing educational or informative content for your audience",
+    "Running ads on Facebook or Instagram",
+    "Add a store logo and select brand colors",
+    "To understand current performance and prepare for growth",
+    "Comparing results with the initial goals set",
+    "Clear event details (date, time, location)",
+    "It increases relevance for the right customers",
+    "Identify where workload pressure happens most often",
+    "Reviewing campaign metrics to understand performance patterns",
+    "Send a polite thank-you or check-in message",
+    "It explains the product clearly to customers",
+    "Meta Business Suite",
+    "Ensure mobile responsiveness and clear navigation",
+    "Identify marketing activities that created the best outcomes",
+    "Customer testimonials",
+    "Work is completed smoothly and responsibilities are clear",
+    "Yes, I am comfortable with online tools and technology",
+    "Use past marketing results to estimate realistic future growth",
+    "Explaining clearly what the group is about",
+    "Offering a small discount on the next order",
+    "Estimate future resource needs based on expected growth",
+    "Helpful tips related to the product",
+    "Define how success will be measured",
+    "Which sequence of steps is followed to complete the activity?",
+    "Product quality and delivery time",
+    "You lose money on shipping and packaging",
+    "Identify areas where work delays happen often",
+    "Greeting and away messages",
+    "To ensure everything works smoothly, from product pages to checkout",
+    "It helps both brands grow through shared trust",
+    "People trust recommendations from friends and family",
+    "Break processes into clear and repeatable stages",
+    "To reach people whose interests match the product",
+    "Posting product photos, videos, or reels",
+    "To plan and schedule customer communication activities",
+    "It helps reach many people at low cost",
+    "Current work requirements and available resources",
+    "Monitor engagement and respond to comments or shares",
+    "To help you think of ideas and write faster",
+    "The target audience selected for the campaign",
+    "The customer pays when the order is delivered",
+    "Showing the number of items left in stock",
+    "By helping identify progress, gaps, and areas that need action",
+    "Understanding how affiliates will promote your product",
+    "Which activities are creating results and where changes may be needed?",
+    "A clear visual focus on the product or service",
+    "Share their experience in comments or messages",
+    "Which campaigns generated stronger engagement or conversions",
+    "Performance metrics such as reach, engagement, and conversions",
+    "It helps build trust before pitching the product",
+    "Keeping commission rules simple and transparent",
+    "Activities that involve repeated actions, follow-ups, or data handling",
+    "To understand what is slowing business growth",
+    "Selecting one clear goal for the campaign",
+    "Publishing the advertisement so it starts running on Instagram",
+    "Engagement and conversion results from the earlier campaign",
+    "It helps campaigns run at the planned time during the month",
+    "What they liked and what could be improved",
+    "To inform people about offers, products, or services",
+    "Attend trade fairs or exhibitions",
+    "It helps understand their content quality and style",
+    "To understand customer experience and improve engagement",
+    "What people use regularly in homes or shops",
+    "Create a quality checklist",
+    "It helps you make smarter plans for the next stage",
+    "It helps both sides learn and improve",
+    "To create urgency so customers decide faster",
+    "Compare income patterns, expense trends, and cash usage over time",
+    "Review your past performance and learn from it",
+    "Posting daily offers and product photos on Instagram or Facebook",
+    "Likes, comments, and type of content they post",
+    "It builds trust and shows the business is reliable",
+    "To organize business actions and growth plans",
+    "To incentivize them to try your product and encourage purchase",
+    "Engagement like comments and messages received",
+    "Review current limits affecting business growth",
+    "Activities that regularly slow down or delay other work",
+    "Points where customers show interest, ask questions, or delay decisions",
+    "Compare the time and effort required across different activities",
+    "Having a clear discussion on roles and goals",
+    "Identifying interested visitors and prioritizing detailed interaction with them",
+    "Review whether tracked indicators still support current goals",
+    "Sharing the campaign in WhatsApp communities",
+    "Review data regularly and identify patterns over time",
+    "They help decide what type of content to post and how often",
+    "Yes, I am comfortable using social media to promote products",
+    "Review whether people, time, and resources can manage higher demand",
+    "\u201cLimited stock left, order today to get free delivery\u201d",
+    "To find repeated problems and improve work quality",
+    "Contact suitable partners or growth channels",
+    "How much money you can afford to spend",
+    "Whether the documented steps match actual execution",
+    "Responds politely and on time",
+    "To allow cross-posting and ad management from one dashboard",
+    "To understand how users interact with the advertisement",
+    "A clear introduction and reason for working together",
+    "Being rude or giving unrealistic demands",
+    "Create clear product listings with all necessary details",
+    "People whose audience matches your product users",
+    "Business goals, planned actions, and timelines",
+    "Areas where customers may stop returning",
+    "It helps people discover and trust the brand",
+    "Digital downloads like e-books or tools",
+    "To understand what type of marketing works in your market",
+    "Review whether the work meets expectations",
+    "Identify reasons customers stop returning",
+    "Before-after product results",
+    "They help people explain their situation in detail",
+    "It increases reach and visibility among different audiences",
+    "It allows you to communicate about your store effectively to your network",
+    "Collect feedback regularly",
+    "Reviewing campaign metrics to understand the reasons for success",
+    "To influence customer decisions by appealing to emotions or needs",
+    "I am comfortable with online communication and service",
+    "Sending a clear message explaining the offer",
+    "Planned customer activities and follow-up actions",
+    "Identify recurring manual activities before selecting tools",
+    "To encourage customers to take action quickly on an offer",
+    "To encourage customers to return and stay connected",
+    "To attract, educate, and convert customers",
+    "Educational or helpful posts",
+    "Organize income and expenses into categories and update them regularly",
+    "It helps choose ideas that are practical to execute",
+    "The performance measures and review purpose",
+    "Estimate available resources before increasing growth targets",
+    "It increases chances of content being noticed",
+    "Studying similar online businesses to learn how they sell and market",
+    "Choose and configure multiple payment methods",
+    "Product details and what you want to show customers",
+    "Sharing website or QR code during offline events",
+    "To create clear targets for business improvement",
+    "Quick replies help maintain the lead\u2019s interest in the product or service",
+    "Planning weekly targets instead of working randomly",
+    "It connects with their emotions or experiences",
+    "To build trust and long-term relationship with customers",
+    "Select indicators that connect directly to business goals and progress",
+    "Engage with your audience through comments and messages.",
+    "Using local, direct methods to reach customers",
+    "An activity that follows repeated steps and requires regular manual effort",
+    "Transaction date, category, amount, and purpose",
+    "Roles, expectations, and promotion plan",
+    "Evaluate whether the selected tool improves execution or saves effort",
+    "Requesting a happy customer to recommend your product to others.",
+    "A call-to-action button or phrase",
+    "Customer problem and solution post",
+    "Regularly review results and make small process improvements",
+    "They make members feel special and valued",
+    "Define clear responsibilities and expected outcomes for tasks",
+    "Writing a simple video script",
+    "To encourage quicker purchase decisions from customers",
+    "Offer a community-only discount",
+    "Content that highlights common problems people face",
+    "Offer discounts or updates on new products",
+    "To understand your progress, learn from mistakes, and plan future improvements.",
+    "It creates a professional and cohesive appearance",
+    "Thank the customer and try to fix the problem",
+    "By adjusting elements such as audience or budget based on earlier insights",
+    "By giving topic ideas and captions quickly",
+    "Ensure that you have a system for tracking and managing payments",
+    "Making content easy to share and understand",
+    "It helps the partner explain value clearly",
+    "Price, delivery time, and return policy",
+    "Skip the GST number and continue.",
+    "What worked well and what didn\u2019t",
+    "Create a schedule for customer engagement",
+    "When the seller takes orders but the supplier ships the product",
+    "Write down what changes you made and review customer reactions",
+    "To give your business direction and help you measure your progress over time.",
+    "Share behind-the-scenes or real product updates",
+    "Explaining online offers to local customers",
+    "Area where the target audience frequently visits",
+    "Reviewing campaign performance data",
+    "Items that people need to buy again and again",
+    "They help you plan your actions and measure success",
+    "Document activities in a clear sequence with responsibilities and expected outcomes",
+    "Whether current resources can handle more work",
+    "Content that is simple and easy to understand",
+    "You can answer customer queries confidently",
+    "By helping work move in a planned and trackable manner",
+    "Confirm the customer received the product",
+    "IndiaMART",
+    "Use AI to organize financial records and identify patterns or unusual trends",
+    "Ask clear and specific questions about their experience",
+    "People who have shown interest in your product or service",
+    "How well the tool solves a specific operational need",
+    "Complete a test purchase to simulate a real transaction",
+    "Improving the call-to-action message in the advertisement",
+    "By creating a consistent method to perform routine activities",
+    "To check what changes are working and what needs improvement",
+    "Share your WhatsApp Business number on your social media",
+    "Test all payment methods with a small transaction",
+    "It motivates customers to act quickly before the opportunity ends",
+    "Their audience matches your target customers",
+    "Notice what people complain about not finding",
+    "It helps understand what worked and what didn\u2019t",
+    "Posting product videos on Instagram or WhatsApp",
+    "Check whether each step can be understood and followed in the correct order",
+    "To understand what is needed to achieve growth goals",
+    "Reach of the advertisement",
+    "To talk with customers and share business updates",
+    "Create a structured workflow with defined activities and timelines",
+    "Preparing captions or key talking points in advance",
+    "It shows which campaigns generated stronger engagement or conversions",
+    "Review patterns and investigate reasons behind changes in results",
+    "Identify people in your circle to promote your store.",
+    "Fixed amount for every successful sale",
+    "\u201cHello, I\u2019m interested in your products. Can you share details and prices?\u201d",
+    "Create one focused action plan to improve profitability",
+    "The task followed the instructions and was completed properly",
+    "I can manage customer service if needed",
+    "Identify businesses that can support growth goals",
+    "By assisting with routine analysis, organization, or decision support tasks",
+    "Place the order with your supplier after confirmation",
+    "After confirming product details and delivery address",
+    "Solving customer problems through content",
+    "Yes, I am okay with handling logistics and shipping",
+    "A process that is repeated regularly and follows similar steps",
+    "Identify support and resources needed",
+    "Find tasks that follow similar steps each time",
+    "Organize performance data in a consistent and reviewable format",
+    "Set goals based on business performance, customer response, and available capacity",
+    "To keep work quality consistent over time",
+    "Write a clear, concise message with your store link and call-to-action",
+    "Review recent operational improvements",
+    "Test different payment methods (credit cards, PayPal, etc.)",
+    "The total items available to sell",
+    "By reducing repetitive effort and improving process efficiency",
+    "It motivates partners to promote consistently",
+    "Clear navigation, branded visuals, and easy-to-read fonts",
+    "Create product catalogues with prices and details",
+    "Create standard communication steps for common customer situations",
+    "By identifying patterns and helping track issues",
+    "To reach new audiences through trusted partners",
+    "It helps Meta understand the type of business you run",
+    "Members sharing their positive experience after using a product",
+    "It reduces daily confusion and saves time",
+    "Use attractive images and videos of your products.",
+    "Educational or how-to content for the audience",
+    "Answer customer queries honestly",
+    "Look at trending products on marketplaces",
+    "Identify relevant local or interest-based groups",
+    "Clear roles, timeline, and audience action",
+    "Sharing real customer testimonials on social media platforms",
+    "To understand where most time is being spent",
+    "Instagram page for a business",
+    "Save products to buy later or checkout",
+    "Identify routine business activities and how they are currently completed",
+    "Age group of potential customers",
+    "Highlighting the savings customers receive",
+    "Track task progress and review completion regularly",
+    "It helps you manage both and run ads easily",
+    "Sharing helpful tips related to your product",
+    "Scarcity or limited availability",
+    "Interests related to the product category",
+    "Identify which customer group responded most actively",
+    "Plan what content to post and when.",
+    "Add product tags to your posts and stories",
+    "To help the business grow in manageable steps",
+    "The expected impact of each activity on business growth",
+    "After giving 24 to 48 hours for response",
+    "Reviewing the ad details such as audience, budget, and content",
+    "Skills and experiences gained while doing the milestones",
+    "It helps reach many customers with less budget",
+    "Confirm product details and delivery address",
+    "Highlighting limited-time offers or limited stock",
+    "Use Instagram Insights to track what works best",
+    "Soon after customers use your product or service",
+    "Number of conversions and total sales value",
+    "To understand how the collaboration performed",
+    "Compare business growth with marketing efforts used during the semester",
+    "The launch date, time, and a call-to-action",
+    "It helps choose the right strategy for your audience",
+    "Can another person do this task using clear instructions?",
+    "To track communication and partnership progress",
+    "Rules about when and how buyers can return items",
+    "Use trusted payment gateways and encryption",
+    "Adjusting elements such as audience targeting or ad messaging",
+    "Create clear and timely communication across customer touchpoints",
+    "To make sure the audience, budget, and ad content are set correctly",
+    "Observe whether users can follow the process with limited clarification",
+    "Inform customers about available payment options",
+    "Explaining product benefits based on customer needs",
+    "To understand the person\u2019s needs and concerns",
+    "Yes, I\u2019m ready to invest both time and money",
+    "Assign work based on each person\u2019s responsibility",
+    "Can you tell me what you are struggling with right now?",
+    "To understand what type of posts customers like",
+    "I am confident and comfortable with handling finances",
+    "An activity that takes repeated manual effort and follows similar steps",
+    "Categorize financial entries according to where money comes from and where it is spent",
+    "To find best value and negotiate with confidence",
+    "It encourages interaction and improves reach through engagement",
+    "Writing a simple and clear partnership plan",
+    "Following up with the lead if they do not respond",
+    "Yes, I am comfortable managing a website",
+    "By helping customers receive relevant information at the right time",
+    "How is this issue affecting your daily work?",
+    "I stay calm, find solutions, and learn from mistakes",
+    "Assign products to relevant categories",
+    "Monitor responses and engagement from group members",
+    "The campaign budget set for the advertisement",
+    "A shopkeeper explains why his product is useful before selling",
+    "The campaign objective",
+    "Audience targeting settings used in the campaign",
+    "To test whether the changes lead to better results",
+    "Creating a basic blog structure or outline",
+    "Simplifying language for easy understanding",
+    "Improving product quality based on customer feedback",
+    "Deciding what revenue growth you want",
+    "Clear process steps, ownership, and checkpoints",
+    "Review the stages customers move through from first contact to purchase and follow-up",
+    "Create a product listing with name, description, and price",
+    "Simplify instructions and remove unclear or repeated steps",
+    "Can current operations support more work if demand increases?",
+    "Engagement on the advertisement",
+    "Look for businesses with similar customers or goals",
+    "To ensure smooth transactions and customer satisfaction",
+    "Replying to customer comments and messages",
+    "It ensures all launch steps are prepared",
+    "Confirming order details and payment",
+    "Yes, I have products to sell",
+    "People in your area who shop often",
+    "Team members know what work they are responsible for",
+    "Presence of target customers in that area",
+    "Identify routine activities that take repeated manual effort",
+    "It is clear, realistic, and measurable",
+    "They are already buying something similar",
+    "Observing which products competitors promote more",
+    "Deliver consistent quality and improve customer experience",
+    "Activities that regularly slow down completion of other work",
+    "Promote your store through various marketing channels",
+    "To understand which marketing activities delivered stronger results",
+    "To focus on growth ideas the business can actually manage",
+    "Behind-the-scenes of work, process, or daily routine",
+    "Decide what products you want to sell",
+    "Asking how the product can help their situation",
+    "People who already know or trust you",
+    "Reviewing audience relevance and engagement",
+    "Checking if the idea fits local customer behavior",
+    "To check whether work meets expected standards",
+    "Understanding who your target customers are",
+    "It reduces doubt by showing that others have already used the product",
+    "Understand where your customers are online",
+    "Your service, target audience, and topic",
+    "Buy two items and get a price reduction on the total",
+    "Ask customers and record their responses",
+    "Understanding how online business works by doing real tasks",
+    "Use encryption protocols and secure payment gateways",
+    "Shares clear pricing and terms",
+    "Collecting contact details of potential buyers for follow-up",
+    "Track indicators that directly reflect business goals and expected outcomes",
+    "A few days or weeks after they used your product or service",
+    "Main content themes that guide what you post regularly",
+    "Record income and expenses separately based on their source and purpose",
+    "It helps reach your existing audience quickly",
+    "Greeting the lead and asking about their interest in the product",
+    "Choose a payment provider that suits your store",
+    "Compare current performance with previous results and expected targets",
+    "Define clear performance measures before collecting data",
+    "At which stage do customers need clearer information or support?",
+    "To ensure the customer receives the correct product at the right location",
+    "The percentage or value of the discount offered",
+    "Creating messages or offers for customers",
+    "After finishing a milestone or every few months",
+    "Planning in advance what content will be posted on each day",
+    "Who will benefit most from this product?",
+    "Create simple instructions for important tasks",
+    "A page showing product details, price, and photos",
+    "Sharing key talking points with the partner",
+    "To provide convenience and increase sales",
+    "Clear idea that people can relate to",
+    "Asking people to share with others",
+    "Store logo and brand colors",
+    "Connecting your Instagram account to a Facebook Page",
+    "Paying people for each sale they help generate",
+    "It motivates customers to take the next step, like visiting your site or attending the launch event",
+    "To control how much money is spent on the advertisement each day",
+    "Improving the idea based on honest feedback",
+    "Politely ask the customer and provide a simple way to respond",
+    "Name, description, price, images, and category",
+    "Can you describe what has been bothering you lately?",
+    "Observe how recurring tasks are currently completed",
+    "To help team members understand how to do the work",
+    "To understand which marketing activities generate better results",
+    "To understand if planned actions are working",
+    "To make it easier for customers to find related products",
+    "Deciding content topics for each day beforehand",
+    "It helps you improve your product or service to better meet customer needs.",
+    "It helps create clearer records and improves financial decision-making",
+    "Customer response trends and performance patterns",
+    "To explain how the product or service can help the lead",
+    "After the campaign has been actively promoted",
+    "They send parcels through delivery partners",
+    "Price and delivery time",
+    "Add your first product",
+    "Use bold colors and simple, readable fonts",
+    "To attract interested people and start conversations",
+    "To understand how the advertisement is performing with the target audience",
+    "Transporting the product to the customer",
+    "A short message that highlights the main benefit",
+    "Choose a theme that matches your brand",
+    "Ask about both good and bad experiences",
+    "Comparison between objectives set and actual outcomes achieved",
+    "Setting a clear time period for the offer",
+    "Understanding what customers want",
+    "Choose a theme and layout that matches your brand",
+    "Useful tips and information related to your product",
+    "Listen to problem \u2192 Offer solution \u2192 Ask for sale",
+    "Comparing a few ideas based on reach and effort",
+    "To learn practical ideas that can be applied to our own goals",
+    "3\u20135 planned posts across the week",
+    "Start tracking progress against planned goals",
+    "Reviewing performance data to identify weak areas",
+    "Reach out directly to the people on your list",
+    "Give clear tasks and explain what is expected",
+    "Using social media apps to promote a business, product, or service",
+    "Test all payment methods before going live",
+    "Setting up a stall at a local event",
+    "Use good pictures and clear descriptions",
+    "Discuss feedback with your mentor or friends",
+    "To remember what worked and what did not work in Semester 1",
+    "To understand how work currently moves and identify improvement areas",
+    "Create a clear 90-day action roadmap",
+    "Build a good relationship and communicate clearly",
+    "Checking competitors\u2019 prices, offers, and discounts",
+    "To attract customers and make them interested",
+    "To organize marketing activities around clear goals for the month",
+    "Send quick replies to common customer questions",
+    "Ask for feedback and listen carefully",
+    "Check whether daily work became easier after delegation",
+    "Planning when each marketing activity will happen",
+    "Customers trust stores with COD and clear photos",
+    "Update SOPs when workflows or business requirements change",
+    "Search engines like Google",
+    "Post your store in at least 2 relevant groups",
+    "Tasks that happen regularly and follow similar steps",
+    "\u201cI\u2019m glad you liked our service! Could you tell your friends about us?\u201d",
+    "Activities that regularly create delays or repeated follow-ups",
+    "Write down your main achievements and lessons",
+    "To understand what they like, dislike, and expect from your product or service.",
+    "Review whether current resources are enough for future growth",
+    "To explore business opportunities and build connections",
+    "An online store selling shoes to similar customers",
+    "To make customers aware and interested in the product",
+    "It helps identify strategies that can be scaled or improved",
+    "Share helpful tips related to your product regularly",
+    "Compare multiple supplier offers before finalizing",
+    "Yes, I am interested in selling online",
+    "Check prices, samples, and terms",
+    "Trendy phone covers and budget gadgets",
+    "Watch videos on promoting your store online",
+    "Post regularly with a clear strategy.",
+    "Explaining how your product solves their problem",
+    "It helps understand how people react to the idea",
+    "Deciding why you are creating the community",
+    "Compare performance across different marketing channels",
+    "Maintain separate records for personal and business finances",
+    "Run at least one activity to encourage customers to return",
+    "Activities that follow repeated steps and require limited decision-making",
+    "To have clear direction for marketing efforts",
+    "Confirm if the customer received the product",
+    "Thank them for their purchase and ask if they are satisfied",
+    "The sequence of activities used to complete daily work",
+    "To quickly grab attention and interest",
+    "A factor that influences how people feel and decide to buy a product",
+    "Looking at last semester\u2019s performance",
+    "Use simple feedback forms or short surveys",
+    "Sharing a simple and clear partnership pitch",
+    "What changes are you hoping to see in your situation?",
+    "Comparing results with the original campaign goal",
+    "Instagram begins showing the advertisement to the selected audience",
+    "You can reach buyers across cities and states",
+    "It helps identify which marketing activities produce stronger results",
+    "Monitor whether procedures are being followed during execution",
+    "Business or Creator account"
+  ]
+}
