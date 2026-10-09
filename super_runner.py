@@ -345,7 +345,7 @@ def main() -> None:
             idle_count = 0
             clicked_coords: set[tuple[int, int]] = set()
 
-            while idle_count < 4:
+            while idle_count < 12:
                 try:
                     page.wait_for_load_state("domcontentloaded", timeout=10000)
                 except PlaywrightTimeoutError:
@@ -357,6 +357,15 @@ def main() -> None:
                     raise RuntimeError("The portal redirected to login during navigation.")
 
                 action_taken = False
+
+                # 0. Check if AI is evaluating
+                evaluating = page.locator('text="evaluating your submission"')
+                if evaluating.count() and evaluating.first.is_visible():
+                    print("[INFO] Portal AI is evaluating submission; waiting...")
+                    page.wait_for_timeout(4000)
+                    action_taken = True
+                    idle_count = 0
+                    continue
 
                 # 1. Retry button (if quiz failed)
                 retry = find_button(page, ["Try again"])
@@ -439,7 +448,8 @@ def main() -> None:
                 if great_job.count() and great_job.is_visible():
                     print("[INFO] Activity/Quiz passed. Returning to task list...")
                     see_all = page.locator('button:has-text("See All Tasks"), text="See All Tasks"').first
-                    if see_all.count() and see_all.is_visible():
+                    if see_all.count():
+                        see_all.scroll_into_view_if_needed()
                         see_all.click()
                         page.wait_for_timeout(2000)
                         action_taken = True
@@ -448,24 +458,25 @@ def main() -> None:
 
                 # 6. Inside a Task: check left sidebar for incomplete activities
                 see_all = page.locator('text="See All Tasks"').first
-                if see_all.count() and see_all.is_visible():
-                    # Look for unstarted activities in current task
+                if see_all.count() > 0:
                     start_act = page.locator('button:has-text("Start Learning"), text="Start Learning"').first
                     if start_act.count() and start_act.is_visible():
                         print("[INFO] Starting next activity in current task...")
+                        start_act.scroll_into_view_if_needed()
                         start_act.click()
                         page.wait_for_timeout(2000)
                         action_taken = True
                         clicked_coords.clear()
                         continue
-                    else:
-                        # All activities done in this task! Go back to task list!
-                        print("[INFO] All activities in this task completed. Going to task list...")
-                        see_all.click()
-                        page.wait_for_timeout(2000)
-                        action_taken = True
-                        clicked_coords.clear()
-                        continue
+
+                    # If all activities complete or no start learning visible, return to tasks
+                    print("[INFO] No unstarted activity in view inside task. Going to task list...")
+                    see_all.scroll_into_view_if_needed()
+                    see_all.click()
+                    page.wait_for_timeout(2000)
+                    action_taken = True
+                    clicked_coords.clear()
+                    continue
 
                 # 7. Milestone page (showing Task 1, Task 2, Task 3)
                 task_items = page.locator('div:has-text("Task ")')
@@ -480,7 +491,6 @@ def main() -> None:
                         clicked_coords.clear()
                         continue
                     else:
-                        # All tasks in this milestone complete! Return to Track!
                         print("[OK] All tasks in this milestone complete! Returning to Track...")
                         page.goto(TRACK_URL, wait_until="domcontentloaded")
                         page.wait_for_timeout(2500)
@@ -532,9 +542,14 @@ def main() -> None:
 
                 if not action_taken:
                     idle_count += 1
-                    print(f"[WARN] No actionable controls found. Idle check {idle_count}/4.")
+                    print(f"[WARN] No actionable controls found. Idle check {idle_count}/12.")
                     debug_page(page, f"idle_check_{idle_count}")
-                    if idle_count == 2:
+                    if idle_count in [3, 7]:
+                        print("[INFO] Scrolling / refreshing page state...")
+                        page.mouse.wheel(0, 1000)
+                        page.wait_for_timeout(1000)
+                        page.mouse.wheel(0, -1000)
+                    elif idle_count == 5:
                         print("[INFO] Reloading track page to reset state...")
                         page.goto(TRACK_URL, wait_until="domcontentloaded")
                     page.wait_for_timeout(2000)
