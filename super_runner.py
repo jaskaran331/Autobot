@@ -353,8 +353,12 @@ def main():
             else:
                 consecutive_idle = 0
                 
-        print("[*] Script finished. Assuming all milestones completed!")
         page.screenshot(path="super_runner_done.png")
+
+raise RuntimeError(
+    "Agent stopped after repeated idle checks. "
+    "Completion has not been verified."
+)
         
 if __name__ == "__main__":
     main()
