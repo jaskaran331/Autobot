@@ -1,364 +1,494 @@
-import time
 import json
 import os
+import time
 from pathlib import Path
-from playwright.sync_api import sync_playwright
-import google.generativeai as genai
+from typing import Any
 
-BASE_DIR = Path(__file__).parent
+from playwright.sync_api import (
+    TimeoutError as PlaywrightTimeoutError,
+    sync_playwright,
+)
+
+try:
+    from google import genai
+except ImportError:
+    genai = None
+
+
+BASE_DIR = Path(__file__).resolve().parent
 SESSION_FILE = BASE_DIR / "session.json"
 CURRICULUM_FILE = BASE_DIR / "curriculum_data.json"
-PHOTO_PATH = BASE_DIR / "photo.jpg"
+QUIZ_MAP_FILE = BASE_DIR / "quiz_answers.json"
 
-# Configure Gemini API if available
-GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "")
-if GEMINI_KEY:
-    genai.configure(api_key=GEMINI_KEY)
-    model = genai.GenerativeModel('gemini-3.1-flash-lite')
-else:
-    model = None
+# Set UPLOAD_IMAGE_PATH to a real, task-appropriate image if an activity requires one.
+_upload_path = Path(os.environ.get("UPLOAD_IMAGE_PATH", "photo.jpg"))
+PHOTO_PATH = _upload_path if _upload_path.is_absolute() else BASE_DIR / _upload_path
 
-def load_quiz_answers():
-    data = json.load(open(CURRICULUM_FILE, encoding="utf-8"))
-    ans = []
-    
-    def extract_answers(d):
-        if isinstance(d, dict):
-            if d.get("isCorrect") == True and "option_heading" in d:
-                ans.append(str(d["option_heading"]))
-            for k, v in d.items():
-                extract_answers(v)
-        elif isinstance(d, list):
-            for item in d:
-                extract_answers(item)
-                
-    extract_answers(data)
-    
-    for term in data.get("terms", []):
-        for course in term.get("courses", []):
-            for mod in course.get("modules", []):
-                for res in mod.get("resources", []):
-                    if "quiz" in res:
-                        if isinstance(res["quiz"], list):
-                            for pair in res["quiz"]:
-                                if len(pair) == 2:
-                                    ans.append(str(pair[1]))
-                        elif isinstance(res["quiz"], dict):
-                            for q_text, ans_text in res["quiz"].items():
-                                ans.append(str(ans_text))
-                                
-    return set(ans)
+TRACK_URL = "https://businessclass.punjab.gov.in/student/track"
+LOGIN_URL = "https://businessclass.punjab.gov.in/login"
+ARTIFACT_DIR = BASE_DIR / "artifacts"
+ARTIFACT_DIR.mkdir(exist_ok=True)
+
+GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+client = genai.Client(api_key=GEMINI_KEY) if GEMINI_KEY and genai else None
 
 
-def login_if_needed(page, ctx):
+def screenshot(page, name: str) -> None:
+    """Save a diagnostic screenshot without allowing screenshot failure to hide the real error."""
+    try:
+        page.screenshot(path=str(ARTIFACT_DIR / name), full_page=True)
+    except Exception as exc:
+        print(f"[WARN] Could not save screenshot {name}: {exc}")
+
+
+def visible_text(page, limit: int = 4000) -> str:
+    try:
+        return page.locator("body").inner_text(timeout=5000)[:limit]
+    except Exception:
+        return ""
+
+
+def debug_page(page, label: str) -> None:
+    print(f"[DEBUG] {label} URL: {page.url}")
+    try:
+        print(f"[DEBUG] {label} title: {page.title()}")
+    except Exception:
+        pass
+    body = visible_text(page, 1800)
+    print(f"[DEBUG] {label} visible text:\n{body}")
+    screenshot(page, f"{label.lower().replace(' ', '_')}.png")
+
+
+def first_visible_locator(page, selectors: list[str]):
+    for selector in selectors:
+        locator = page.locator(selector)
+        try:
+            for i in range(min(locator.count(), 10)):
+                item = locator.nth(i)
+                if item.is_visible():
+                    return item, selector
+        except Exception:
+            continue
+    return None, None
+
+
+def login_if_needed(page, context) -> None:
     email = os.environ.get("BC_EMAIL", "").strip()
     password = os.environ.get("BC_PASSWORD", "")
-
     if not email or not password:
-        raise RuntimeError(
-            "Missing BC_EMAIL or BC_PASSWORD GitHub Actions secrets."
-        )
+        raise RuntimeError("Missing BC_EMAIL or BC_PASSWORD GitHub Actions secrets.")
 
-    track_url = "https://businessclass.punjab.gov.in/student/track"
-    login_url = "https://businessclass.punjab.gov.in/login"
-
-    page.goto(track_url, wait_until="domcontentloaded")
+    page.goto(TRACK_URL, wait_until="domcontentloaded", timeout=60000)
     page.wait_for_timeout(2000)
 
-    if "/login" not in page.url and "/auth" not in page.url:
-        print("[*] Session appears active.")
-        return True
-
-    page.goto(login_url, wait_until="domcontentloaded")
-    page.wait_for_timeout(1500)
-
-    email_selectors = [
-        'input[name="email"]',
-        'input[type="email"]',
-        'input[placeholder*="email" i]',
-    ]
-    password_selectors = [
-        'input[name="password"]',
-        'input[type="password"]',
-    ]
-
-    email_field = next(
-        (s for s in email_selectors
-         if page.locator(s).count() > 0),
-        None,
+    # A successful page is determined by URL and visible login controls, not URL alone.
+    email_box, _ = first_visible_locator(
+        page,
+        [
+            'input[name="email"]',
+            'input[type="email"]',
+            'input[autocomplete="username"]',
+            'input[placeholder*="email" i]',
+            'input[name*="user" i]',
+        ],
     )
-    password_field = next(
-        (s for s in password_selectors
-         if page.locator(s).count() > 0),
-        None,
+    password_box, _ = first_visible_locator(
+        page,
+        [
+            'input[name="password"]',
+            'input[type="password"]',
+            'input[autocomplete="current-password"]',
+        ],
     )
 
-    if not email_field or not password_field:
-        page.screenshot(path="login_debug.png")
+    if not password_box and "/login" not in page.url.lower() and "/auth" not in page.url.lower():
+        print("[OK] Track page opened without a visible login form; session appears active.")
+        return
+
+    if not email_box or not password_box:
+        debug_page(page, "login_form_missing")
         raise RuntimeError(
-            "Login form fields not found. Inspect login_debug.png."
+            "Could not identify visible login fields on the portal. "
+            "See artifacts/login_form_missing.png and the Actions logs."
         )
 
-    page.locator(email_field).first.fill(email)
-    page.locator(password_field).first.fill(password)
+    email_box.fill(email)
+    password_box.fill(password)
 
-    submit = page.locator('button[type="submit"]')
-    if submit.count() == 0:
-        page.screenshot(path="login_debug.png")
-        raise RuntimeError("Login submit button not found.")
+    submit, submit_selector = first_visible_locator(
+        page,
+        [
+            'button[type="submit"]',
+            'input[type="submit"]',
+            'button:has-text("Log in")',
+            'button:has-text("Login")',
+            'button:has-text("Sign in")',
+        ],
+    )
+    if not submit:
+        debug_page(page, "login_submit_missing")
+        raise RuntimeError("Login submit control not found; inspect artifacts/login_submit_missing.png.")
 
-    submit.first.click()
-    page.wait_for_load_state("domcontentloaded")
-    page.wait_for_timeout(3000)
-
-    # Verify by revisiting the protected track page.
-    page.goto(track_url, wait_until="domcontentloaded")
-    page.wait_for_timeout(2000)
-
-    if "/login" in page.url or "/auth" in page.url:
-        page.screenshot(path="login_failed.png")
-        raise RuntimeError(
-            "Login was not confirmed. Inspect login_failed.png."
-        )
-
-    ctx.storage_state(path=str(SESSION_FILE))
-    print("[*] Login appears successful; track page is accessible.")
-    return True
-
-
-def generate_ai_response(page):
-    if not model:
-        return "Welcome to our community! Thank you so much for joining. You can expect exclusive updates, tips, offers, and behind-the-scenes content about our business and products. We are excited to have you here! I have successfully completed this task. I selected my target audience, entered my business name, and set up my warehouse and store by providing all required location details and tax information. I also added multiple product listings with clear descriptions, set up the price lists, configured online payment methods, and customized the design to look highly professional. I have successfully updated my inventory by adding all available stock, specifying quantities, and configuring shipping options, weights, and product variants like size and color. I reached out to 3 potential suppliers, negotiated the best price, and finalized the delivery terms. Furthermore, I established a marketing strategy, created a professional logo, set up social media accounts to attract customers, and planned for future growth. All initial steps are comprehensively completed, the research is documented, the required screenshots are provided, and the platform is now live and fully operational."
-    
+    print(f"[DEBUG] Login submit selector: {submit_selector}")
+    submit.click()
     try:
-        title = page.evaluate("document.querySelector('h1, h2, h3, h4, h5')?.innerText || ''")
-        desc = page.evaluate("document.body.innerText")
-        # Extract a reasonable amount of text to send to Gemini
-        desc = desc[:2000] if desc else ""
-        
-        prompt = f"""You are a student doing an e-commerce business class activity.
-Activity Title: {title}
-Activity Context: {desc}
+        page.wait_for_load_state("domcontentloaded", timeout=15000)
+    except PlaywrightTimeoutError:
+        pass
+    page.wait_for_timeout(2500)
 
-You must respond with a valid JSON object matching exactly this structure:
-{{
-  "response": "Write a 100-200 word insightful response to the activity here. Make it sound like a real student. Do not include introductory text outside the JSON.",
-  "needs_link": true or false (set to true if the activity asks to share a URL, link, or video),
-  "needs_photo": true or false (set to true if the activity asks to upload a photo, image, screenshot, or file)
-}}
-"""
-        print(f"  [>] Asking Gemini API to generate response for: {title}")
-        print(f"  [>] Context (first 200 chars): {desc[:200]}")
-        
-        response = model.generate_content(prompt)
-        text = response.text.strip()
-        if not text: raise ValueError("Empty response")
-        
-        import json
+    # Revisit the protected route to verify that authentication actually persisted.
+    page.goto(TRACK_URL, wait_until="domcontentloaded", timeout=60000)
+    page.wait_for_timeout(2000)
+    email_after, _ = first_visible_locator(
+        page,
+        ['input[type="email"]', 'input[name="email"]', 'input[type="password"]'],
+    )
+    if email_after or "/login" in page.url.lower() or "/auth" in page.url.lower():
+        debug_page(page, "login_failed")
+        raise RuntimeError(
+            "Login could not be verified; the portal redirected to a login/auth page. "
+            "Check credentials, CAPTCHA/OTP requirements, and artifacts/login_failed.png."
+        )
+
+    context.storage_state(path=str(SESSION_FILE))
+    print("[OK] Login verified by reopening the protected track route.")
+
+
+def normalize(value: Any) -> str:
+    return " ".join(str(value).split()).casefold()
+
+
+def load_quiz_answer_map() -> dict[str, str]:
+    """Load explicit question -> answer pairs. Never click a global list of answer words."""
+    if not QUIZ_MAP_FILE.is_file():
+        raise RuntimeError(
+            "A quiz was detected, but quiz_answers.json is missing. "
+            "Create it with exact question text mapped to verified answer text; "
+            "the agent will not guess or click unrelated options."
+        )
+    try:
+        raw = json.loads(QUIZ_MAP_FILE.read_text(encoding="utf-8"))
+    except Exception as exc:
+        raise RuntimeError(f"Could not parse {QUIZ_MAP_FILE.name}: {exc}") from exc
+    if not isinstance(raw, dict) or not raw:
+        raise RuntimeError("quiz_answers.json must be a non-empty JSON object.")
+    result = {
+        normalize(question): str(answer).strip()
+        for question, answer in raw.items()
+        if str(question).strip() and str(answer).strip()
+    }
+    if not result:
+        raise RuntimeError("quiz_answers.json contains no usable question/answer pairs.")
+    return result
+
+
+def answer_quiz_from_map(page, answer_map: dict[str, str]) -> int:
+    """Answer only questions that can be unambiguously matched to an explicit mapping."""
+    groups = page.locator("fieldset, [role='radiogroup'], [data-question]")
+    matched = 0
+    unmatched = []
+    seen = set()
+
+    for i in range(groups.count()):
+        group = groups.nth(i)
         try:
-            if "```json" in text:
-                text = text.split("```json")[1].split("```")[0].strip()
-            elif "```" in text:
-                text = text.split("```")[1].split("```")[0].strip()
-            
-            data = json.loads(text)
-            final_text = data.get("response", "Completed the activity successfully.")
-            
-            if data.get("needs_link"):
-                final_text += "\n\nHere is the requested link: https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-            
-            print(f"  [>] GENERATED (link={data.get('needs_link')}, photo={data.get('needs_photo')}): {final_text[:200]}...")
-            return {
-                "text": final_text,
-                "needs_photo": data.get("needs_photo", False),
-                "needs_link": data.get("needs_link", False)
-            }
-        except Exception as e:
-            print(f"  [!] Failed to parse JSON from Gemini: {e}")
-            text += "\n\nHere is the requested link: https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-            return {"text": text, "needs_photo": True, "needs_link": True}
-    except Exception as e:
-        print("  [!] Gemini generation failed, falling back:", e)
-        return "Welcome to our community! Thank you so much for joining. You can expect exclusive updates, tips, offers, and behind-the-scenes content about our business and products. We are excited to have you here! I have successfully completed this task. I selected my target audience, entered my business name, and set up my warehouse and store by providing all required location details and tax information. I also added multiple product listings with clear descriptions, set up the price lists, configured online payment methods, and customized the design to look highly professional. I have successfully updated my inventory by adding all available stock, specifying quantities, and configuring shipping options, weights, and product variants like size and color. I reached out to 3 potential suppliers, negotiated the best price, and finalized the delivery terms. Furthermore, I established a marketing strategy, created a professional logo, set up social media accounts to attract customers, and planned for future growth. All initial steps are comprehensively completed, the research is documented, the required screenshots are provided, and the platform is now live and fully operational."
-
-
-def main():
-    print("[*] Loading quiz answers...")
-    valid_answers = load_quiz_answers()
-    
-    if not PHOTO_PATH.exists():
-        with open(PHOTO_PATH, "wb") as f:
-            f.write(b"") # Empty file, just needs to exist
-
-    with sync_playwright() as pw:
-        browser = pw.chromium.launch(headless=os.environ.get("GITHUB_ACTIONS") == "true")
-        context = browser.new_context(storage_state=str(SESSION_FILE)) if SESSION_FILE.exists() else browser.new_context()
-        page = context.new_page()
-        
-        login_if_needed(page, context)
-        
-        print("[*] Navigating to Track...")
-        page.goto("https://businessclass.punjab.gov.in/student/track", wait_until="networkidle")
-        
-        consecutive_idle = 0
-        clicked_coords = set()
-        
-        while consecutive_idle < 3:
-            time.sleep(2.5)
-            try:
-                page.wait_for_load_state("networkidle"); print("  [*] URL:", page.url)
-            except:
-                pass
-            
-            if "/track" not in page.url and "/activity" not in page.url:
-                page.goto("https://businessclass.punjab.gov.in/student/track", wait_until="networkidle")
-                clicked_coords.clear()
-            
-            action_taken = False
-            
-            if consecutive_idle >= 2:
-                clicked_coords.clear()
-                
-            # Did we get an AI rejection?
-            try_again = page.query_selector('button >> text="Try again"')
-            if try_again and try_again.is_visible():
-                print("  [>] AI Evaluation failed (Try Again), clicking...")
-                try_again.click()
-                time.sleep(2)
-                action_taken = True
-                clicked_coords.clear()
-                
-            # 1. Are we in a Quiz?
-            sub_quiz = page.query_selector('button >> text="Submit Quiz"')
-            if sub_quiz and sub_quiz.is_visible():
-                print("  [>] Quiz detected, answering...")
-                answered = 0
-                for ans in valid_answers:
-                    try:
-                        ans_elems = page.query_selector_all(f'text="{ans}"')
-                        for ans_elem in ans_elems:
-                            if ans_elem.is_visible():
-                                ans_elem.click()
-                                answered += 1
-                                time.sleep(0.2)
-                    except Exception:
-                        pass
-                
-                sub_quiz.click()
-                print(f"  [OK] Quiz submitted ({answered} answers)")
-                action_taken = True
-                clicked_coords.clear()
-                time.sleep(3)
+            if not group.is_visible():
+                continue
+            group_text = normalize(group.inner_text())
+            if not group_text:
                 continue
 
-            # 2. Are we in a Textarea activity?
-            ta = page.query_selector("textarea")
-            if ta and ta.is_visible():
-                print("  [>] Text activity detected...")
-                
-                ta.fill("")
-                ai_data = generate_ai_response(page)
-                if isinstance(ai_data, dict):
-                    dynamic_response = ai_data["text"]
-                    needs_photo = ai_data["needs_photo"]
-                    needs_link = ai_data["needs_link"]
-                else:
-                    dynamic_response = ai_data
-                    needs_photo = True
-                    needs_link = True
-                    
-                ta.fill(dynamic_response)
-                
-                url_inputs = page.query_selector_all('input[type="url"], input[type="text"]')
-                for u in url_inputs:
-                    if u.is_visible():
-                        val = u.input_value()
-                        if not val and needs_link:
-                            try:
-                                u.fill("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
-                            except: pass
-                
-                if needs_photo:
-                    fi = page.query_selector('input[type="file"]')
-                    if fi:
-                        try:
-                            # Try to make it visible first, as Playwright errors on hidden files without force=True but let's be safe
-                            page.evaluate("(el) => { el.style.display = 'block'; el.style.opacity = '1'; }", fi)
-                            fi.set_input_files(str(PHOTO_PATH))
-                            print("  [OK] Uploaded photo.jpg")
-                        except Exception as e:
-                            print("  [!] File upload failed:", e)
-                    
-                sub = page.query_selector('button >> text="Submit Activity"') or page.query_selector('button >> text="Submit"')
-                if sub and sub.is_visible():
-                    sub.click()
-                    print("  [OK] Text activity submitted with Gemini API response.")
+            question_key = next(
+                (q for q in answer_map if q in group_text),
+                None,
+            )
+            if question_key is None:
+                # It may be a wrapper/duplicate. Only count a group that appears to contain options.
+                option_count = group.locator(
+                    'input[type="radio"], [role="radio"], label'
+                ).count()
+                if option_count:
+                    unmatched.append(group.inner_text()[:180])
+                continue
+            if question_key in seen:
+                continue
+
+            answer = answer_map[question_key]
+            option = group.get_by_text(answer, exact=True)
+            if option.count() != 1 or not option.first.is_visible():
+                unmatched.append(group.inner_text()[:180])
+                continue
+
+            option.first.click()
+            seen.add(question_key)
+            matched += 1
+        except Exception:
+            unmatched.append(f"Question group {i}: unable to inspect")
+
+    if matched == 0 or unmatched:
+        screenshot(page, "quiz_match_failed.png")
+        preview = "; ".join(x.replace("\n", " ") for x in unmatched[:4])
+        raise RuntimeError(
+            f"Quiz answer matching was incomplete ({matched} matched). "
+            f"Unmatched groups: {preview or 'no mapped question matched'}. "
+            "No quiz was submitted. Inspect artifacts/quiz_match_failed.png and update "
+            "quiz_answers.json/selectors."
+        )
+    return matched
+
+
+def generate_ai_response(page) -> dict[str, Any]:
+    if client is None:
+        raise RuntimeError(
+            "GEMINI_API_KEY is missing or the google-genai package is unavailable. "
+            "Activity was not submitted."
+        )
+
+    title = ""
+    try:
+        title = page.locator("h1, h2, h3, h4, h5").first.inner_text(timeout=2000)
+    except Exception:
+        pass
+    context_text = visible_text(page, 5000)
+
+    prompt = f"""
+You are helping a student prepare a draft for an e-commerce business class activity.
+Use only the activity details below. Do not claim that the student completed steps,
+uploaded files, contacted suppliers, created accounts, or performed actions unless
+the activity text explicitly confirms them. Do not invent URLs.
+Return ONLY a valid JSON object with exactly these keys:
+{{
+  "response": "A relevant draft answer in 100-180 words",
+  "needs_link": false,
+  "needs_photo": false
+}}
+Set needs_link true only when the activity explicitly requires a URL/link/video.
+Set needs_photo true only when the activity explicitly requires an image/photo/file.
+Activity title: {title}
+Visible page text:
+{context_text}
+"""
+    try:
+        response = client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=prompt,
+        )
+        raw = (response.text or "").strip()
+        if raw.startswith("```"):
+            raw = raw.split("\n", 1)[1]
+            raw = raw.rsplit("```", 1)[0].strip()
+        data = json.loads(raw)
+        answer = str(data.get("response", "")).strip()
+        if not answer:
+            raise ValueError("Gemini returned an empty response field.")
+        return {
+            "text": answer,
+            "needs_link": bool(data.get("needs_link", False)),
+            "needs_photo": bool(data.get("needs_photo", False)),
+        }
+    except Exception as exc:
+        raise RuntimeError(
+            f"Could not generate/parse an activity draft ({type(exc).__name__}). "
+            "The activity was not submitted."
+        ) from exc
+
+
+def validate_image(path: Path) -> str:
+    if not path.is_file() or path.stat().st_size == 0:
+        raise RuntimeError(
+            f"Activity requires an image, but a real non-empty file was not found at {path}."
+        )
+    try:
+        from PIL import Image, UnidentifiedImageError
+        with Image.open(path) as image:
+            image.verify()
+    except ImportError as exc:
+        raise RuntimeError("Pillow is required to validate uploaded images; add pillow to requirements.txt.") from exc
+    except Exception as exc:
+        raise RuntimeError(f"Image is invalid or unreadable: {path}") from exc
+    return str(path)
+
+
+def find_button(page, names: list[str]):
+    for name in names:
+        locator = page.get_by_role("button", name=name, exact=True)
+        try:
+            for i in range(min(locator.count(), 10)):
+                item = locator.nth(i)
+                if item.is_visible() and item.is_enabled():
+                    return item
+        except Exception:
+            continue
+    return None
+
+
+def main() -> None:
+    headless = os.environ.get("HEADLESS", "true").strip().lower() in {"1", "true", "yes"}
+    with sync_playwright() as pw:
+        browser = pw.chromium.launch(headless=headless)
+        context = (
+            browser.new_context(storage_state=str(SESSION_FILE))
+            if SESSION_FILE.is_file()
+            else browser.new_context()
+        )
+        page = context.new_page()
+        page.set_default_timeout(8000)
+
+        try:
+            login_if_needed(page, context)
+            page.goto(TRACK_URL, wait_until="domcontentloaded", timeout=60000)
+            page.wait_for_timeout(2000)
+
+            idle_count = 0
+            clicked_coords: set[tuple[int, int]] = set()
+
+            while idle_count < 3:
+                try:
+                    page.wait_for_load_state("domcontentloaded", timeout=10000)
+                except PlaywrightTimeoutError:
+                    pass
+                print(f"[DEBUG] Current URL: {page.url}")
+
+                # If the portal redirects to login, stop with a useful diagnostic.
+                if "/login" in page.url.lower() or "/auth" in page.url.lower():
+                    debug_page(page, "unexpected_login_redirect")
+                    raise RuntimeError(
+                        "The portal redirected to login during navigation. "
+                        "Authentication is not active; see artifacts/unexpected_login_redirect.png."
+                    )
+
+                action_taken = False
+
+                retry = find_button(page, ["Try again"])
+                if retry:
+                    retry.click()
+                    page.wait_for_timeout(1500)
                     action_taken = True
                     clicked_coords.clear()
-                    time.sleep(4)
                     continue
 
-            # 3. Are we in a Video/Reading?
-            mark = page.query_selector('button >> text="Mark as Complete"')
-            if mark and mark.is_visible():
-                print("  [>] Video/Reading detected...")
-                mark.click()
-                print("  [OK] Marked as complete.")
-                action_taken = True
-                clicked_coords.clear()
-                time.sleep(3)
-                continue
-                
-            # 4. Are we looking at a Start/Continue button?
-            starts = page.query_selector_all('button >> text="Start Learning"')
-            starts += page.query_selector_all('button >> text="Continue Learning"')
-            starts += page.query_selector_all('button >> text="Attempt"')
-            starts += page.query_selector_all('button >> text="Start Activity"')
-            clicked = False
-            
-            for s in starts:
-                if s.is_visible():
-                    try:
-                        # Skip Semester 1 completely
-                        parent = page.evaluate("(el) => { let p = el.closest('.bg-white'); return p ? p.innerText : ''; }", s)
-                        print(f"  [DEBUG] Found visible button: '{s.inner_text().strip()}', parent text contains Sem1: {'Semester 1' in parent}")
-                        if "Semester 1" in parent:
-                            continue
-                    except Exception as e:
-                        print("  [DEBUG] error evaluating parent:", e)
-                        pass
-                    
-                    box = s.bounding_box()
-                    print(f"  [DEBUG] button box: {box}")
-                    if box:
-                        coord = (int(box['x']), int(box['y']))
-                        print(f"  [DEBUG] coord {coord} in clicked_coords? {coord in clicked_coords}")
-                        if coord not in clicked_coords:
-                            print(f"  [>] Clicking navigation button: {s.inner_text().strip()} at {coord}")
-                            clicked_coords.add(coord)
-                            s.click()
-                            clicked = True
-                            action_taken = True
-                            time.sleep(3)
-                            if "/activity" in page.url or "/quiz" in page.url:
-                                clicked_coords.clear()
-                            break
-            if clicked:
-                continue
-                
-            # If nothing happened
-            if not action_taken:
-                consecutive_idle += 1
-                print(f"  [?] No actionable buttons found. Idle count: {consecutive_idle}")
-            else:
-                consecutive_idle = 0
-                
-        page.screenshot(path="super_runner_done.png")
+                quiz_submit = find_button(page, ["Submit Quiz"])
+                if quiz_submit:
+                    print("[INFO] Quiz detected; using explicit question-to-answer mappings.")
+                    answer_map = load_quiz_answer_map()
+                    answered = answer_quiz_from_map(page, answer_map)
+                    quiz_submit.click()
+                    print(f"[OK] Submitted quiz after matching {answered} question(s).")
+                    page.wait_for_timeout(2500)
+                    clicked_coords.clear()
+                    continue
 
-raise RuntimeError(
-    "Agent stopped after repeated idle checks. "
-    "Completion has not been verified."
-)
-        
+                textarea = page.locator("textarea").first
+                if textarea.count() and textarea.is_visible():
+                    print("[INFO] Text activity detected; generating a draft.")
+                    ai_data = generate_ai_response(page)
+                    textarea.fill(ai_data["text"])
+
+                    if ai_data["needs_link"]:
+                        link_box, _ = first_visible_locator(
+                            page,
+                            ['input[type="url"]', 'input[name*="url" i]', 'input[placeholder*="link" i]'],
+                        )
+                        if not link_box or not link_box.input_value().strip():
+                            screenshot(page, "link_required.png")
+                            raise RuntimeError(
+                                "This activity requires a real link. Set the correct URL manually; "
+                                "the agent will not insert a fake/example link. "
+                                "See artifacts/link_required.png."
+                            )
+
+                    if ai_data["needs_photo"]:
+                        file_input = page.locator('input[type="file"]').first
+                        if not file_input.count():
+                            screenshot(page, "image_upload_failed.png")
+                            raise RuntimeError("Activity requires an image but no file input was found.")
+                        file_input.set_input_files(validate_image(PHOTO_PATH))
+
+                    submit = find_button(page, ["Submit Activity", "Submit"])
+                    if not submit:
+                        screenshot(page, "activity_submit_missing.png")
+                        raise RuntimeError("Text activity has no visible Submit button.")
+                    submit.click()
+                    print("[OK] Submitted text activity draft.")
+                    page.wait_for_timeout(2500)
+                    clicked_coords.clear()
+                    continue
+
+                mark = find_button(page, ["Mark as Complete"])
+                if mark:
+                    mark.click()
+                    print("[OK] Marked visible reading/video item complete.")
+                    page.wait_for_timeout(2000)
+                    clicked_coords.clear()
+                    continue
+
+                starts = []
+                for name in ["Start Learning", "Continue Learning", "Attempt", "Start Activity"]:
+                    locator = page.get_by_role("button", name=name, exact=True)
+                    try:
+                        for i in range(min(locator.count(), 20)):
+                            item = locator.nth(i)
+                            if item.is_visible() and item.is_enabled():
+                                starts.append(item)
+                    except Exception:
+                        pass
+
+                clicked = False
+                for button in starts:
+                    try:
+                        label = button.inner_text().strip()
+                        parent_text = button.evaluate(
+                            """el => {
+                                let p = el;
+                                for (let i = 0; i < 5 && p; i++, p = p.parentElement) {
+                                    const t = p.innerText || '';
+                                    if (t.includes('Semester')) return t;
+                                }
+                                return '';
+                            }"""
+                        )
+                        if "Semester 1" in parent_text:
+                            continue
+                        box = button.bounding_box()
+                        if not box:
+                            continue
+                        coord = (round(box["x"]), round(box["y"]))
+                        if coord in clicked_coords:
+                            continue
+                        print(f"[INFO] Clicking navigation button: {label}")
+                        button.click()
+                        clicked_coords.add(coord)
+                        page.wait_for_timeout(2000)
+                        clicked = action_taken = True
+                        clicked_coords.clear()
+                        break
+                    except Exception as exc:
+                        print(f"[WARN] Could not click candidate button: {exc}")
+
+                if clicked:
+                    continue
+
+                if not action_taken:
+                    idle_count += 1
+                    print(f"[WARN] No actionable controls found. Idle check {idle_count}/3.")
+                    debug_page(page, f"idle_check_{idle_count}")
+                    page.wait_for_timeout(1500)
+                else:
+                    idle_count = 0
+
+            screenshot(page, "agent_stopped_idle.png")
+            raise RuntimeError(
+                "Agent stopped after repeated idle checks. Completion has NOT been verified. "
+                "Inspect artifacts/idle_check_*.png and the page text in the Actions logs."
+            )
+        finally:
+            try:
+                context.close()
+            finally:
+                browser.close()
+
+
 if __name__ == "__main__":
     main()
