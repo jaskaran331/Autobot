@@ -469,29 +469,31 @@ def main() -> None:
                         clicked_coords.clear()
                         continue
 
-                    # If all activities complete or no start learning visible, return to tasks
-                    print("[INFO] No unstarted activity in view inside task. Going to task list...")
+                    print("[INFO] Returning to tasks list via 'See All Tasks'...")
                     see_all.scroll_into_view_if_needed()
                     see_all.click()
-                    page.wait_for_timeout(2000)
+                    page.wait_for_timeout(2500)
                     action_taken = True
                     clicked_coords.clear()
                     continue
 
-                # 7. Milestone page (showing Task 1, Task 2, Task 3)
-                task_items = page.locator('div:has-text("Task ")')
-                if task_items.count() > 0 and page.locator('text="Tasks"').count() > 0:
-                    incomplete_task_btn = page.locator('div:has-text("Task ") button:has-text("Start Learning"), div:has-text("Task ") button:has-text("Continue Learning")').first
-                    if incomplete_task_btn.count() and incomplete_task_btn.is_visible():
-                        print("[INFO] Entering incomplete task...")
-                        incomplete_task_btn.scroll_into_view_if_needed()
-                        incomplete_task_btn.click()
-                        page.wait_for_timeout(2500)
+                # 7. Milestone page (showing Tasks list: Task 1, Task 2, Task 3)
+                if (
+                    page.locator('text="See All Milestones"').count() > 0
+                    or (page.locator('text="Tasks"').count() > 0 and page.locator('text="Task 1"').count() > 0)
+                ):
+                    task_start_btns = page.locator('button:has-text("Start Learning"), button:has-text("Continue Learning")')
+                    if task_start_btns.count() > 0:
+                        btn = task_start_btns.first
+                        print(f"[INFO] Entering incomplete task via {btn.inner_text()}...")
+                        btn.scroll_into_view_if_needed()
+                        btn.click()
+                        page.wait_for_timeout(3000)
                         action_taken = True
                         clicked_coords.clear()
                         continue
                     else:
-                        print("[OK] All tasks in this milestone complete! Returning to Track...")
+                        print("[OK] All tasks in this milestone appear complete! Returning to Track...")
                         page.goto(TRACK_URL, wait_until="domcontentloaded")
                         page.wait_for_timeout(2500)
                         action_taken = True
@@ -500,18 +502,18 @@ def main() -> None:
 
                 # 8. Track page: ensure Semester 2 expanded, find next milestone
                 if "/student/track" in page.url.lower():
+                    # Scroll 500px down to ensure Semester 2 is in view
+                    page.mouse.wheel(0, 500)
+                    page.wait_for_timeout(1000)
+
                     m11_visible = page.locator('text="Milestone 11"').count() > 0 and page.locator('text="Milestone 11"').first.is_visible()
                     if not m11_visible:
-                        sem2_btn = page.locator('div:has-text("Semester 2") button:has-text("Continue Learning"), div:has-text("Semester 2") button:has-text("Start Learning")').first
-                        if sem2_btn.count() and sem2_btn.is_visible():
-                            print("[INFO] Expanding Semester 2...")
-                            sem2_btn.click()
-                            page.wait_for_timeout(2000)
-                        else:
-                            sem_btns = page.locator('button:has-text("Start Learning"), button:has-text("Continue Learning")')
-                            if sem_btns.count() >= 2:
-                                sem_btns.nth(1).click()
-                                page.wait_for_timeout(2000)
+                        sem_btns = page.locator('button:has-text("Start Learning"), button:has-text("Continue Learning")')
+                        if sem_btns.count() >= 2:
+                            print("[INFO] Expanding Semester 2 via second button...")
+                            sem_btns.nth(1).scroll_into_view_if_needed()
+                            sem_btns.nth(1).click()
+                            page.wait_for_timeout(2500)
 
                     for _ in range(5):
                         page.mouse.wheel(0, 1500)
