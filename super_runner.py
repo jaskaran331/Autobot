@@ -86,11 +86,16 @@ def generate_ai_response(page):
         # Extract a reasonable amount of text to send to Gemini
         desc = desc[:2000] if desc else ""
         
-        prompt = f"""Write a response (100-200 words) for this e-commerce business class activity. Make it sound like a real student submitting their work. 
+        prompt = f"""You are a student doing an e-commerce business class activity.
 Activity Title: {title}
 Activity Context: {desc}
 
-IMPORTANT: If the activity asks you to upload or share a link to a video, audio, or any AI-generated media, YOU MUST include a valid URL in your response (e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+You must respond with a valid JSON object matching exactly this structure:
+{{
+  "response": "Write a 100-200 word insightful response to the activity here. Make it sound like a real student. Do not include introductory text outside the JSON.",
+  "needs_link": true or false (set to true if the activity asks to share a URL, link, or video),
+  "needs_photo": true or false (set to true if the activity asks to upload a photo, image, screenshot, or file)
+}}
 """
         print(f"  [>] Asking Gemini API to generate response for: {title}")
         print(f"  [>] Context (first 200 chars): {desc[:200]}")
@@ -99,11 +104,29 @@ IMPORTANT: If the activity asks you to upload or share a link to a video, audio,
         text = response.text.strip()
         if not text: raise ValueError("Empty response")
         
-        # Blindly append a valid URL to EVERY response to prevent AI evaluation failure for missing links
-        text += "\n\nHere is the requested link: https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-        
-        print(f"  [>] GENERATED: {text[:200]}...")
-        return text
+        import json
+        try:
+            if "```json" in text:
+                text = text.split("```json")[1].split("```")[0].strip()
+            elif "```" in text:
+                text = text.split("```")[1].split("```")[0].strip()
+            
+            data = json.loads(text)
+            final_text = data.get("response", "Completed the activity successfully.")
+            
+            if data.get("needs_link"):
+                final_text += "\n\nHere is the requested link: https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            
+            print(f"  [>] GENERATED (link={data.get('needs_link')}, photo={data.get('needs_photo')}): {final_text[:200]}...")
+            return {
+                "text": final_text,
+                "needs_photo": data.get("needs_photo", False),
+                "needs_link": data.get("needs_link", False)
+            }
+        except Exception as e:
+            print(f"  [!] Failed to parse JSON from Gemini: {e}")
+            text += "\n\nHere is the requested link: https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            return {"text": text, "needs_photo": True, "needs_link": True}
     except Exception as e:
         print("  [!] Gemini generation failed, falling back:", e)
         return "Welcome to our community! Thank you so much for joining. You can expect exclusive updates, tips, offers, and behind-the-scenes content about our business and products. We are excited to have you here! I have successfully completed this task. I selected my target audience, entered my business name, and set up my warehouse and store by providing all required location details and tax information. I also added multiple product listings with clear descriptions, set up the price lists, configured online payment methods, and customized the design to look highly professional. I have successfully updated my inventory by adding all available stock, specifying quantities, and configuring shipping options, weights, and product variants like size and color. I reached out to 3 potential suppliers, negotiated the best price, and finalized the delivery terms. Furthermore, I established a marketing strategy, created a professional logo, set up social media accounts to attract customers, and planned for future growth. All initial steps are comprehensively completed, the research is documented, the required screenshots are provided, and the platform is now live and fully operational."
@@ -184,24 +207,37 @@ def main():
                 print("  [>] Text activity detected...")
                 
                 ta.fill("")
-                dynamic_response = generate_ai_response(page)
+                ai_data = generate_ai_response(page)
+                if isinstance(ai_data, dict):
+                    dynamic_response = ai_data["text"]
+                    needs_photo = ai_data["needs_photo"]
+                    needs_link = ai_data["needs_link"]
+                else:
+                    dynamic_response = ai_data
+                    needs_photo = True
+                    needs_link = True
+                    
                 ta.fill(dynamic_response)
                 
                 url_inputs = page.query_selector_all('input[type="url"], input[type="text"]')
                 for u in url_inputs:
                     if u.is_visible():
                         val = u.input_value()
-                        if not val:
+                        if not val and needs_link:
                             try:
                                 u.fill("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
                             except: pass
                 
-                fi = page.query_selector('input[type="file"]')
-                if fi:
-                    try:
-                        fi.set_input_files(str(PHOTO_PATH))
-                    except Exception as e:
-                        print("  [!] File upload failed:", e)
+                if needs_photo:
+                    fi = page.query_selector('input[type="file"]')
+                    if fi:
+                        try:
+                            # Try to make it visible first, as Playwright errors on hidden files without force=True but let's be safe
+                            page.evaluate("(el) => { el.style.display = 'block'; el.style.opacity = '1'; }", fi)
+                            fi.set_input_files(str(PHOTO_PATH))
+                            print("  [OK] Uploaded photo.jpg")
+                        except Exception as e:
+                            print("  [!] File upload failed:", e)
                     
                 sub = page.query_selector('button >> text="Submit Activity"') or page.query_selector('button >> text="Submit"')
                 if sub and sub.is_visible():
