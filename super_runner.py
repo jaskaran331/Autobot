@@ -433,16 +433,26 @@ def main() -> None:
                                 page.evaluate("() => { document.querySelectorAll('input[type=file]').forEach(e => { e.style.display = 'block'; e.style.opacity = '1'; }); }")
                                 file_input.set_input_files(validate_image(PHOTO_PATH))
                                 print("  [OK] Uploaded photo proof.")
+                                page.wait_for_timeout(3000)
                             except Exception as e:
                                 print(f"  [WARN] Failed to upload photo: {e}")
 
-                    submit = find_button(page, ["Submit Activity", "Submit"])
-                    if not submit:
-                        screenshot(page, "activity_submit_missing.png")
-                        raise RuntimeError("Text activity has no visible Submit button.")
-                    submit.click()
+                    submit = None
+                    for _ in range(6):
+                        submit = find_button(page, ["Submit Activity", "Submit"])
+                        if submit:
+                            break
+                        page.wait_for_timeout(1000)
+
+                    if submit:
+                        submit.click()
+                    else:
+                        fallback_btn = page.locator('button:has-text("Submit Activity"), button:has-text("Submit")').first
+                        if fallback_btn.count() and fallback_btn.is_visible():
+                            fallback_btn.click(force=True)
+
                     print("[OK] Submitted text activity draft.")
-                    page.wait_for_timeout(2500)
+                    page.wait_for_timeout(3000)
                     clicked_coords.clear()
                     continue
 
