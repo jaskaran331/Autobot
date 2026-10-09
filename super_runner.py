@@ -432,11 +432,27 @@ def main() -> None:
                     clicked_coords.clear()
                     continue
 
+                # Ensure Semester 2 is expanded and milestones are loaded
+                if "/student/track" in page.url.lower():
+                    has_continue = page.locator('button:has-text("Continue Learning")').count() > 0
+                    if not has_continue:
+                        sem_btns = page.locator('button:has-text("Start Learning")')
+                        if sem_btns.count() >= 2:
+                            print("[INFO] Expanding Semester 2...")
+                            sem_btns.nth(1).scroll_into_view_if_needed()
+                            sem_btns.nth(1).click()
+                            page.wait_for_timeout(2000)
+                    
+                    # Scroll down to reveal subsequent milestones (11, 12, 13)
+                    for _ in range(5):
+                        page.mouse.wheel(0, 1500)
+                        page.wait_for_timeout(200)
+
                 starts = []
-                for name in ["Start Learning", "Continue Learning", "Attempt", "Start Activity"]:
+                for name in ["Continue Learning", "Attempt", "Start Activity", "Start Learning"]:
                     locator = page.get_by_role("button", name=name, exact=True)
                     try:
-                        for i in range(min(locator.count(), 20)):
+                        for i in range(min(locator.count(), 25)):
                             item = locator.nth(i)
                             if item.is_visible() and item.is_enabled():
                                 starts.append(item)
@@ -450,7 +466,7 @@ def main() -> None:
                         parent_text = button.evaluate(
                             """el => {
                                 let p = el;
-                                for (let i = 0; i < 5 && p; i++, p = p.parentElement) {
+                                for (let i = 0; i < 6 && p; i++, p = p.parentElement) {
                                     const t = p.innerText || '';
                                     if (t.includes('Semester')) return t;
                                 }
@@ -459,16 +475,18 @@ def main() -> None:
                         )
                         if "Semester 1" in parent_text:
                             continue
+                        
+                        button.scroll_into_view_if_needed()
                         box = button.bounding_box()
                         if not box:
                             continue
                         coord = (round(box["x"]), round(box["y"]))
                         if coord in clicked_coords:
                             continue
-                        print(f"[INFO] Clicking navigation button: {label}")
+                        print(f"[INFO] Clicking navigation button: {label} at {coord}")
                         button.click()
                         clicked_coords.add(coord)
-                        page.wait_for_timeout(2000)
+                        page.wait_for_timeout(2500)
                         clicked = action_taken = True
                         clicked_coords.clear()
                         break
