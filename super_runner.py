@@ -185,7 +185,7 @@ def handle_quiz(page) -> bool:
             for ans in answers:
                 loc = page.get_by_text(ans, exact=True)
                 if not loc.count():
-                    loc = page.locator(f'text="{ans}"')
+                    loc = page.get_by_text(ans, exact=False)
                 if loc.count() and loc.first.is_visible():
                     try:
                         loc.first.scroll_into_view_if_needed()
@@ -359,7 +359,7 @@ def main() -> None:
                 action_taken = False
 
                 # 0. Check if AI is evaluating
-                evaluating = page.locator('text="evaluating your submission"')
+                evaluating = page.locator(':has-text("evaluating your submission")')
                 if evaluating.count() and evaluating.first.is_visible():
                     print("[INFO] Portal AI is evaluating submission; waiting...")
                     page.wait_for_timeout(4000)
@@ -444,10 +444,10 @@ def main() -> None:
                     continue
 
                 # 5. Quiz completion / "Great Job!" -> return to task list
-                great_job = page.locator('text="Great Job!", text="You passed", text="You Scored"').first
+                great_job = page.locator(':has-text("Great Job!"), :has-text("You passed"), :has-text("You Scored")').first
                 if great_job.count() and great_job.is_visible():
                     print("[INFO] Activity/Quiz passed. Returning to task list...")
-                    see_all = page.locator('button:has-text("See All Tasks"), text="See All Tasks"').first
+                    see_all = page.locator('button:has-text("See All Tasks")').first
                     if see_all.count():
                         see_all.scroll_into_view_if_needed()
                         see_all.click()
@@ -457,9 +457,9 @@ def main() -> None:
                         continue
 
                 # 6. Inside a Task: check left sidebar for incomplete activities
-                see_all = page.locator('text="See All Tasks"').first
+                see_all = page.locator('button:has-text("See All Tasks")').first
                 if see_all.count() > 0:
-                    start_act = page.locator('button:has-text("Start Learning"), text="Start Learning"').first
+                    start_act = page.locator('button:has-text("Start Learning")').first
                     if start_act.count() and start_act.is_visible():
                         print("[INFO] Starting next activity in current task...")
                         start_act.scroll_into_view_if_needed()
@@ -479,8 +479,8 @@ def main() -> None:
 
                 # 7. Milestone page (showing Tasks list: Task 1, Task 2, Task 3)
                 if (
-                    page.locator('text="See All Milestones"').count() > 0
-                    or (page.locator('text="Tasks"').count() > 0 and page.locator('text="Task 1"').count() > 0)
+                    page.locator(':has-text("See All Milestones")').count() > 0
+                    or (page.locator(':has-text("Tasks")').count() > 0 and page.locator(':has-text("Task 1")').count() > 0)
                 ):
                     task_start_btns = page.locator('button:has-text("Start Learning"), button:has-text("Continue Learning")')
                     if task_start_btns.count() > 0:
@@ -506,7 +506,7 @@ def main() -> None:
                     page.mouse.wheel(0, 500)
                     page.wait_for_timeout(1000)
 
-                    m11_visible = page.locator('text="Milestone 11"').count() > 0 and page.locator('text="Milestone 11"').first.is_visible()
+                    m11_visible = page.locator(':has-text("Milestone 11")').count() > 0 and page.locator(':has-text("Milestone 11")').first.is_visible()
                     if not m11_visible:
                         sem_btns = page.locator('button:has-text("Start Learning"), button:has-text("Continue Learning")')
                         if sem_btns.count() >= 2:
