@@ -49,32 +49,82 @@ def load_quiz_answers():
                                 
     return set(ans)
 
+
 def login_if_needed(page, ctx):
-    email = os.environ.get("BC_EMAIL", "")
+    email = os.environ.get("BC_EMAIL", "").strip()
     password = os.environ.get("BC_PASSWORD", "")
-    
-    page.goto("https://businessclass.punjab.gov.in/student/track", wait_until="networkidle")
-    time.sleep(2)
+
+    if not email or not password:
+        raise RuntimeError(
+            "Missing BC_EMAIL or BC_PASSWORD GitHub Actions secrets."
+        )
+
+    track_url = "https://businessclass.punjab.gov.in/student/track"
+    login_url = "https://businessclass.punjab.gov.in/login"
+
+    page.goto(track_url, wait_until="domcontentloaded")
+    page.wait_for_timeout(2000)
+
     if "/login" not in page.url and "/auth" not in page.url:
-        print("[*] Session is active.")
+        print("[*] Session appears active.")
         return True
-    
-    print(f"[*] Logging in as {email}...")
-    page.goto("https://businessclass.punjab.gov.in/login", wait_until="networkidle")
-    time.sleep(2)
-    
-    try:
-        page.fill('input[name="email"]', email)
-        page.fill('input[name="password"]', password)
-        page.click('button[type="submit"]')
-        page.wait_for_load_state("networkidle"); print("  [*] URL:", page.url)
-        time.sleep(3)
-    except Exception as e:
-        print("Login err:", e)
-        
+
+    page.goto(login_url, wait_until="domcontentloaded")
+    page.wait_for_timeout(1500)
+
+    email_selectors = [
+        'input[name="email"]',
+        'input[type="email"]',
+        'input[placeholder*="email" i]',
+    ]
+    password_selectors = [
+        'input[name="password"]',
+        'input[type="password"]',
+    ]
+
+    email_field = next(
+        (s for s in email_selectors
+         if page.locator(s).count() > 0),
+        None,
+    )
+    password_field = next(
+        (s for s in password_selectors
+         if page.locator(s).count() > 0),
+        None,
+    )
+
+    if not email_field or not password_field:
+        page.screenshot(path="login_debug.png")
+        raise RuntimeError(
+            "Login form fields not found. Inspect login_debug.png."
+        )
+
+    page.locator(email_field).first.fill(email)
+    page.locator(password_field).first.fill(password)
+
+    submit = page.locator('button[type="submit"]')
+    if submit.count() == 0:
+        page.screenshot(path="login_debug.png")
+        raise RuntimeError("Login submit button not found.")
+
+    submit.first.click()
+    page.wait_for_load_state("domcontentloaded")
+    page.wait_for_timeout(3000)
+
+    # Verify by revisiting the protected track page.
+    page.goto(track_url, wait_until="domcontentloaded")
+    page.wait_for_timeout(2000)
+
+    if "/login" in page.url or "/auth" in page.url:
+        page.screenshot(path="login_failed.png")
+        raise RuntimeError(
+            "Login was not confirmed. Inspect login_failed.png."
+        )
+
     ctx.storage_state(path=str(SESSION_FILE))
-    print("[*] Login successful.")
+    print("[*] Login appears successful; track page is accessible.")
     return True
+
 
 def generate_ai_response(page):
     if not model:
