@@ -76,14 +76,24 @@ def login_if_needed(page, context) -> None:
     password = os.environ.get("BC_PASSWORD", "")
     
     if not email:
-        email = input("Enter your email (BC_EMAIL): ").strip()
+        try:
+            email = input("Enter your email (BC_EMAIL): ").strip()
+        except EOFError:
+            raise RuntimeError("BC_EMAIL environment variable is missing. (If using GitHub Actions, ensure your Secrets are mapped in the workflow YAML).")
+            
     if not password:
-        import getpass
-        password = getpass.getpass("Enter your password (BC_PASSWORD): ")
-        
+        try:
+            import getpass
+            password = getpass.getpass("Enter your password (BC_PASSWORD): ")
+        except EOFError:
+            raise RuntimeError("BC_PASSWORD environment variable is missing.")
+            
     gemini_key = os.environ.get("GEMINI_API_KEY", "").strip()
     if not gemini_key:
-        gemini_key = input("Enter your Gemini API key (GEMINI_API_KEY): ").strip()
+        try:
+            gemini_key = input("Enter your Gemini API key (GEMINI_API_KEY): ").strip()
+        except EOFError:
+            raise RuntimeError("GEMINI_API_KEY environment variable is missing.")
         os.environ["GEMINI_API_KEY"] = gemini_key
         
         # Initialize client here since the key was just provided

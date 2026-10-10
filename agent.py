@@ -96,7 +96,10 @@ def gemini():
         return _gemini_client
     api_key = os.environ.get("GEMINI_API_KEY", "").strip()
     if not api_key:
-        api_key = input("Enter your Gemini API key (GEMINI_API_KEY): ").strip()
+        try:
+            api_key = input("Enter your Gemini API key (GEMINI_API_KEY): ").strip()
+        except EOFError:
+            raise RuntimeError("GEMINI_API_KEY environment variable is missing.")
         os.environ["GEMINI_API_KEY"] = api_key
     from google import genai
     _gemini_client = genai.Client(api_key=api_key)
@@ -190,11 +193,18 @@ def do_login(page, ctx):
     
     # Prompt for credentials if not provided
     if not EMAIL:
-        EMAIL = input("Enter your email (or set BC_EMAIL): ").strip()
+        try:
+            EMAIL = input("Enter your email (or set BC_EMAIL): ").strip()
+        except EOFError:
+            raise RuntimeError("BC_EMAIL environment variable is missing.")
+            
     if not PASSWORD:
         import getpass
         print("If you do not enter a password now, you will need to type it in the browser.")
-        PASSWORD = getpass.getpass("Enter your password (or set BC_PASSWORD, leave empty to type in browser): ")
+        try:
+            PASSWORD = getpass.getpass("Enter your password (or set BC_PASSWORD, leave empty to type in browser): ")
+        except EOFError:
+            raise RuntimeError("BC_PASSWORD environment variable is missing.")
 
     print(f"\n[...] Checking session on {SITE_URL}")
     page.goto(SITE_URL, wait_until="networkidle", timeout=30000)
