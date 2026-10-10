@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import time
 from pathlib import Path
 from typing import Any
@@ -71,13 +72,31 @@ def first_visible_locator(page, selectors: list[str]):
 
 
 def login_if_needed(page, context) -> None:
-    email = os.environ.get("BC_EMAIL", "jasmeendeol331@gmail.com").strip()
-    password = os.environ.get("BC_PASSWORD", "Jasmeen@331")
+    email = os.environ.get("BC_EMAIL", "").strip()
+    password = os.environ.get("BC_PASSWORD", "")
+    
+    if not email:
+        email = input("Enter your email (BC_EMAIL): ").strip()
+    if not password:
+        import getpass
+        password = getpass.getpass("Enter your password (BC_PASSWORD): ")
+        
+    gemini_key = os.environ.get("GEMINI_API_KEY", "").strip()
+    if not gemini_key:
+        gemini_key = input("Enter your Gemini API key (GEMINI_API_KEY): ").strip()
+        os.environ["GEMINI_API_KEY"] = gemini_key
+        
+        # Initialize client here since the key was just provided
+        global client, GEMINI_KEY
+        GEMINI_KEY = gemini_key
+        if genai:
+            client = genai.Client(api_key=GEMINI_KEY)
+        
     if not email or not password:
-        raise RuntimeError("Missing BC_EMAIL or BC_PASSWORD credentials.")
+        raise RuntimeError("Missing email or password credentials.")
 
     page.goto(TRACK_URL, wait_until="domcontentloaded", timeout=60000)
-    page.wait_for_timeout(2000)
+    page.wait_for_timeout(1000)
 
     email_box, _ = first_visible_locator(
         page,
@@ -124,11 +143,24 @@ def login_if_needed(page, context) -> None:
         raise RuntimeError("Login submit control not found.")
 
     submit.click()
-    page.wait_for_timeout(2500)
+    page.wait_for_timeout(1000)
     page.goto(TRACK_URL, wait_until="domcontentloaded", timeout=60000)
-    page.wait_for_timeout(2000)
+    page.wait_for_timeout(1000)
     context.storage_state(path=str(SESSION_FILE))
     print("[OK] Login verified and session saved.")
+
+    # Send dashboard photo to Telegram if configured
+    tg_token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    tg_chat = os.environ.get("TELEGRAM_CHAT_ID")
+    if tg_token and tg_chat:
+        try:
+            page.screenshot(path="dashboard.png")
+            import telebot
+            bot = telebot.TeleBot(tg_token)
+            with open("dashboard.png", "rb") as photo:
+                bot.send_photo(tg_chat, photo, caption="✅ Successfully logged in! Here is your dashboard:")
+        except Exception as e:
+            print(f"Failed to send dashboard picture: {e}")
 
 
 def load_all_quiz_data() -> tuple[dict[str, list[str]], list[str]]:
@@ -194,8 +226,14 @@ def handle_quiz(page) -> bool:
                     except Exception:
                         pass
 
+    def is_submit_ready():
+        try:
+            return submit_btn.count() > 0 and submit_btn.is_enabled(timeout=200)
+        except Exception:
+            return False
+
     # 2. If Submit Quiz not enabled yet, search all known correct answers
-    if not submit_btn.is_enabled():
+    if not is_submit_ready():
         print("  [>] Checking all curriculum correct answers...")
         for ans in all_corr:
             loc = page.get_by_text(ans, exact=True)
@@ -208,29 +246,55 @@ def handle_quiz(page) -> bool:
                     pass
 
     # 3. Fallback: ensure every question has a selection
-    if not submit_btn.is_enabled():
-        print("  [>] Fallback: clicking available options...")
-        options = page.locator('div[role="radio"], label, input[type="radio"]')
-        for i in range(options.count()):
-            opt = options.nth(i)
-            try:
-                if opt.is_visible():
+    if not is_submit_ready():
+        print("  [>] Fallback: selecting one option per question...")
+        try:
+            page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+            page.wait_for_timeout(500)
+        except Exception:
+            pass
+            
+        options = page.locator('input[type="radio"]')
+        count = options.count()
+        if count > 0:
+            for i in range(count):
+                opt = options.nth(i)
+                try:
                     opt.scroll_into_view_if_needed()
                     opt.click(force=True)
-                    time.sleep(0.15)
-            except Exception:
-                pass
-
+                    time.sleep(0.1)
+                except Exception:
+                    pass
+        else:
+            labels = page.locator('div[role="radio"], label')
+            count = labels.count()
+            if count > 0:
+                for i in range(count):
+                    opt = labels.nth(i)
+                    try:
+                        opt.scroll_into_view_if_needed()
+                        opt.click(force=True)
+                        time.sleep(0.1)
+                    except Exception:
+                        pass
+                        
     page.wait_for_timeout(1000)
-    if submit_btn.is_enabled():
+    if is_submit_ready():
+        completed_count = page.get_by_text("COMPLETED", exact=True).count()
+        page.evaluate(f"window.__completed_count_before = {completed_count}")
         submit_btn.scroll_into_view_if_needed()
         submit_btn.click(force=True)
         print("[OK] Submitted quiz successfully!")
     else:
-        submit_btn.click(force=True)
-        print("[WARN] Submit Quiz clicked (force).")
+        completed_count = page.get_by_text("COMPLETED", exact=True).count()
+        page.evaluate(f"window.__completed_count_before = {completed_count}")
+        try:
+            submit_btn.click(force=True, timeout=500)
+            print("[WARN] Submit Quiz clicked (force).")
+        except Exception:
+            print("[WARN] Could not click Submit Quiz (maybe it disappeared).")
 
-    page.wait_for_timeout(3000)
+    page.wait_for_timeout(1000)
     return True
 
 
@@ -340,7 +404,7 @@ def main() -> None:
         try:
             login_if_needed(page, context)
             page.goto(TRACK_URL, wait_until="domcontentloaded", timeout=60000)
-            page.wait_for_timeout(2000)
+            page.wait_for_timeout(1000)
 
             idle_count = 0
             clicked_coords: set[tuple[int, int]] = set()
@@ -362,18 +426,9 @@ def main() -> None:
                 evaluating = page.locator(':has-text("evaluating your submission")')
                 if evaluating.count() and evaluating.first.is_visible():
                     print("[INFO] Portal AI is evaluating submission; waiting...")
-                    page.wait_for_timeout(4000)
-                    action_taken = True
-                    idle_count = 0
-                    continue
-
-                # 1. Retry button (if quiz failed)
-                retry = find_button(page, ["Try again"])
-                if retry:
-                    retry.click()
                     page.wait_for_timeout(1500)
                     action_taken = True
-                    clicked_coords.clear()
+                    idle_count = 0
                     continue
 
                 # 2. Quiz detection and solving
@@ -381,6 +436,41 @@ def main() -> None:
                     action_taken = True
                     clicked_coords.clear()
                     continue
+
+                # 1. Retry button (if quiz failed or AI evaluation glitch)
+                retry = find_button(page, ["Try again", "Answer again"])
+                if retry:
+                    import re
+                    page_text = visible_text(page, 5000)
+                    score_match = re.search(r'Score\s*(\d+)\s*/\s*100', page_text, re.IGNORECASE)
+                    
+                    if score_match and int(score_match.group(1)) >= 70:
+                        print(f"[INFO] Score is {score_match.group(1)} >= 70. Skipping 'Answer again' to move on.")
+                        success_loops = page.evaluate("window.__success_loop_count || 0")
+                        if success_loops >= 2:
+                            print("[INFO] Completed 3 tasks without refresh. Reloading to sync sidebar state and prevent looping...")
+                            page.evaluate("window.__success_loop_count = 0")
+                            page.reload(wait_until="domcontentloaded")
+                            page.wait_for_timeout(1000)
+                        else:
+                            page.evaluate(f"window.__success_loop_count = {success_loops + 1}")
+                        # Fall through to Step 6 (Next Activity)
+                    else:
+                        retry_count = page.evaluate("window.__retry_count || 0")
+                        if retry_count >= 2:
+                            print("[INFO] Stuck in retry loop. Reloading to clear AI evaluation glitches...")
+                            page.evaluate("window.__retry_count = 0")
+                            page.reload(wait_until="domcontentloaded")
+                            page.wait_for_timeout(1000)
+                        else:
+                            print(f"[INFO] Clicking 'Try again' / 'Answer again' (Attempt {retry_count + 1}).")
+                            page.evaluate(f"window.__retry_count = {retry_count + 1}")
+                            retry.click()
+                            page.wait_for_timeout(1500)
+                        
+                        action_taken = True
+                        clicked_coords.clear()
+                        continue
 
                 # 3. Text activity submission
                 textarea = page.locator("textarea").first
@@ -409,7 +499,7 @@ def main() -> None:
                             page.evaluate("() => { document.querySelectorAll('input[type=file]').forEach(e => { e.style.display = 'block'; e.style.opacity = '1'; }); }")
                             file_input.set_input_files(validate_image(PHOTO_PATH))
                             print("  [OK] Uploaded photo proof.")
-                            page.wait_for_timeout(2500)
+                            page.wait_for_timeout(1000)
                         except Exception as e:
                             print(f"  [WARN] Failed to upload photo: {e}")
 
@@ -421,24 +511,31 @@ def main() -> None:
                         page.wait_for_timeout(1000)
 
                     if submit:
+                        completed_count = page.get_by_text("COMPLETED", exact=True).count()
+                        page.evaluate(f"window.__completed_count_before = {completed_count}")
                         submit.click()
                     else:
                         fallback_btn = page.locator('button:has-text("Submit Activity"), button:has-text("Submit")').first
                         if fallback_btn.count() and fallback_btn.is_visible():
+                            completed_count = page.get_by_text("COMPLETED", exact=True).count()
+                            page.evaluate(f"window.__completed_count_before = {completed_count}")
                             fallback_btn.click(force=True)
 
                     print("[OK] Submitted text activity draft.")
-                    page.wait_for_timeout(3000)
+                    page.wait_for_timeout(1000)
                     action_taken = True
                     clicked_coords.clear()
                     continue
+
+
+                
 
                 # 4. Mark as Complete (video / reading items)
                 mark = find_button(page, ["Mark as Complete"])
                 if mark:
                     mark.click()
                     print("[OK] Marked visible reading/video item complete.")
-                    page.wait_for_timeout(2000)
+                    page.wait_for_timeout(1000)
                     action_taken = True
                     clicked_coords.clear()
                     continue
@@ -450,8 +547,22 @@ def main() -> None:
                     see_all = page.locator('button:has-text("See All Tasks")').first
                     if see_all.count():
                         see_all.scroll_into_view_if_needed()
+                        
+                        success_loops = page.evaluate("window.__success_loop_count || 0")
+                        should_reload = (success_loops >= 2)
+                        if should_reload:
+                            print("[INFO] Completed 3 tasks. Reloading to sync milestone state...")
+                            page.evaluate("window.__success_loop_count = 0")
+                        else:
+                            page.evaluate(f"window.__success_loop_count = {success_loops + 1}")
+                            
                         see_all.click()
-                        page.wait_for_timeout(2000)
+                        page.wait_for_timeout(1000)
+                        
+                        if should_reload:
+                            page.reload(wait_until="domcontentloaded")
+                            page.wait_for_timeout(1000)
+                            
                         action_taken = True
                         clicked_coords.clear()
                         continue
@@ -459,20 +570,24 @@ def main() -> None:
                 # 6. Inside a Task: check left sidebar for incomplete activities
                 see_all = page.locator('button:has-text("See All Tasks")').first
                 if see_all.count() > 0:
-                    start_act = page.locator('button:has-text("Start Learning")').first
-                    if start_act.count() and start_act.is_visible():
-                        print("[INFO] Starting next activity in current task...")
-                        start_act.scroll_into_view_if_needed()
-                        start_act.click()
-                        page.wait_for_timeout(2000)
-                        action_taken = True
-                        clicked_coords.clear()
-                        continue
-
                     print("[INFO] Returning to tasks list via 'See All Tasks'...")
                     see_all.scroll_into_view_if_needed()
+                    
+                    success_loops = page.evaluate("window.__success_loop_count || 0")
+                    should_reload = (success_loops >= 2)
+                    if should_reload:
+                        print("[INFO] Reloading milestone list to sync completion state...")
+                        page.evaluate("window.__success_loop_count = 0")
+                    else:
+                        page.evaluate(f"window.__success_loop_count = {success_loops + 1}")
+                        
                     see_all.click()
-                    page.wait_for_timeout(2500)
+                    page.wait_for_timeout(1000)
+                    
+                    if should_reload:
+                        page.reload(wait_until="domcontentloaded")
+                        page.wait_for_timeout(1000)
+                        
                     action_taken = True
                     clicked_coords.clear()
                     continue
@@ -488,47 +603,91 @@ def main() -> None:
                         print(f"[INFO] Entering incomplete task via {btn.inner_text()}...")
                         btn.scroll_into_view_if_needed()
                         btn.click()
-                        page.wait_for_timeout(3000)
+                        page.wait_for_timeout(1000)
                         action_taken = True
                         clicked_coords.clear()
                         continue
                     else:
                         print("[OK] All tasks in this milestone appear complete! Returning to Track...")
                         page.goto(TRACK_URL, wait_until="domcontentloaded")
-                        page.wait_for_timeout(2500)
+                        page.wait_for_timeout(1000)
                         action_taken = True
                         clicked_coords.clear()
                         continue
 
-                # 8. Track page: ensure Semester 2 expanded, find next milestone
+                # 8. Track page: scan all milestones and expand semesters if needed
                 if "/student/track" in page.url.lower():
-                    # Scroll 500px down to ensure Semester 2 is in view
-                    page.mouse.wheel(0, 500)
+                    # Wait for either a Semester block or a Milestone block to appear
+                    print("[INFO] Waiting for Track page content to load...")
+                    try:
+                        page.locator('text=/Semester|Milestone/i').first.wait_for(timeout=20000)
+                    except Exception:
+                        pass
                     page.wait_for_timeout(1000)
 
-                    m11_visible = page.locator(':has-text("Milestone 11")').count() > 0 and page.locator(':has-text("Milestone 11")').first.is_visible()
-                    if not m11_visible:
-                        sem_btns = page.locator('button:has-text("Start Learning"), button:has-text("Continue Learning")')
-                        if sem_btns.count() >= 2:
-                            print("[INFO] Expanding Semester 2 via second button...")
-                            sem_btns.nth(1).scroll_into_view_if_needed()
-                            sem_btns.nth(1).click()
-                            page.wait_for_timeout(2500)
+                    # Scroll down by finding the last block and scrolling to it (triggers lazy loading)
+                    for _ in range(4):
+                        blocks = page.locator('div.rounded-2xl.bg-white')
+                        if blocks.count() > 0:
+                            try:
+                                blocks.last.scroll_into_view_if_needed()
+                            except Exception:
+                                pass
+                        page.wait_for_timeout(400)
+                        
+                    # Scroll back to the top to ensure we process them in order
+                    try:
+                        blocks = page.locator('div.rounded-2xl.bg-white')
+                        if blocks.count() > 0:
+                            blocks.first.scroll_into_view_if_needed()
+                    except Exception:
+                        pass
+                    page.wait_for_timeout(500)
 
-                    for _ in range(5):
-                        page.mouse.wheel(0, 1500)
-                        page.wait_for_timeout(200)
-
-                    for m_num in ["11", "12", "13"]:
+                    found = False
+                    for m_num in [str(i) for i in range(1, 100)]:
                         m_btn = page.locator(f'div:has-text("Milestone {m_num}") button:has-text("Continue Learning"), div:has-text("Milestone {m_num}") button:has-text("Start Learning")').first
                         if m_btn.count() and m_btn.is_visible():
                             print(f"[INFO] Entering Milestone {m_num}...")
                             m_btn.scroll_into_view_if_needed()
                             m_btn.click()
-                            page.wait_for_timeout(3000)
+                            page.wait_for_timeout(1000)
                             action_taken = True
                             clicked_coords.clear()
+                            found = True
                             break
+
+                    if not found:
+                        print("[INFO] No active milestones found. Looking for incomplete semesters...")
+                        
+                        js_code = """
+                        () => {
+                            const blocks = document.querySelectorAll('div.rounded-2xl.bg-white');
+                            for (let block of blocks) {
+                                let text = block.innerText;
+                                if (/Semester\\s+\\d+/i.test(text) && !text.includes("100%")) {
+                                    const btn = block.querySelector('button');
+                                    if (btn && (btn.innerText.includes("Start") || btn.innerText.includes("Continue"))) {
+                                        btn.scrollIntoView({behavior: "smooth", block: "center"});
+                                        btn.click();
+                                        return true;
+                                    }
+                                }
+                            }
+                            return false;
+                        }
+                        """
+                        clicked_sem = page.evaluate(js_code)
+                        
+                        if clicked_sem:
+                            print("[INFO] Entering incomplete semester...")
+                            page.wait_for_timeout(1000)
+                            action_taken = True
+                        else:
+                            print("[INFO] Inside a completed semester or all semesters complete. Reloading to return to root Track page...")
+                            page.reload(wait_until="domcontentloaded")
+                            page.wait_for_timeout(1000)
+                            action_taken = True
 
                     if action_taken:
                         continue
@@ -537,7 +696,7 @@ def main() -> None:
                 next_btn = find_button(page, ["Next Activity", "Next", "Continue"])
                 if next_btn:
                     next_btn.click()
-                    page.wait_for_timeout(2000)
+                    page.wait_for_timeout(1000)
                     action_taken = True
                     clicked_coords.clear()
                     continue
@@ -554,7 +713,7 @@ def main() -> None:
                     elif idle_count == 5:
                         print("[INFO] Reloading track page to reset state...")
                         page.goto(TRACK_URL, wait_until="domcontentloaded")
-                    page.wait_for_timeout(2000)
+                    page.wait_for_timeout(1000)
                 else:
                     idle_count = 0
 
