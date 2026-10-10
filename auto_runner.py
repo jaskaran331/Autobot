@@ -11,7 +11,7 @@ Usage:
     python auto_runner.py --milestone 4   # start from milestone 4
 
 Env vars (for GitHub Actions):
-    BC_EMAIL, BC_PASSWORD, GEMINI_API_KEY
+    BC_EMAIL, BC_PASSWORD
 """
 
 import json
@@ -278,10 +278,17 @@ def login_if_needed(page, ctx):
         print("[*] Session is active, already logged in.")
         return True
 
-    email = os.environ.get("BC_EMAIL", "jaskaran4raju@gmail.com")
+    email = os.environ.get("BC_EMAIL", "")
     password = os.environ.get("BC_PASSWORD", "")
+
+    if not email:
+        email = input("Enter your email (BC_EMAIL): ").strip()
     if not password:
-        print("[!] Not logged in and no BC_PASSWORD env var. Cannot continue.")
+        import getpass
+        password = getpass.getpass("Enter your password (BC_PASSWORD): ")
+
+    if not email or not password:
+        print("[!] Not logged in and credentials missing. Cannot continue.")
         return False
 
     print(f"[*] Logging in as {email}...")

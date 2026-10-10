@@ -13,8 +13,14 @@ SITE_URL = "https://businessclass.punjab.gov.in"
 BASE_DIR = Path(__file__).parent
 SESSION_FILE = BASE_DIR / "session.json"
 STATUS_FILE = BASE_DIR / "login_completed.txt"
-EMAIL = os.environ.get("BC_EMAIL", "jaskaran4raju@gmail.com")
-PASSWORD = os.environ.get("BC_PASSWORD")
+EMAIL = os.environ.get("BC_EMAIL", "")
+PASSWORD = os.environ.get("BC_PASSWORD", "")
+
+if not EMAIL:
+    EMAIL = input("Enter your email (BC_EMAIL): ").strip()
+if not PASSWORD:
+    import getpass
+    PASSWORD = getpass.getpass("Enter your password (BC_PASSWORD): ")
 
 for i, arg in enumerate(sys.argv):
     if arg == "--password" and i + 1 < len(sys.argv):

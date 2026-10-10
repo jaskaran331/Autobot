@@ -18,8 +18,15 @@ OUT_DIR = Path(__file__).parent / "generated"
 OUT_DIR.mkdir(exist_ok=True)
 SESSION_FILE = Path(__file__).parent / "session.json"
 
-EMAIL = os.environ.get("BC_EMAIL", "jaskaran4raju@gmail.com")
-PASSWORD = os.environ.get("BC_PASSWORD")
+EMAIL = os.environ.get("BC_EMAIL", "")
+PASSWORD = os.environ.get("BC_PASSWORD", "")
+
+if not EMAIL:
+    EMAIL = input("Enter your email (BC_EMAIL): ").strip()
+if not PASSWORD:
+    import getpass
+    PASSWORD = getpass.getpass("Enter your password (BC_PASSWORD): ")
+
 HEADLESS = "--headless" in sys.argv or (bool(PASSWORD) and "--headed" not in sys.argv)
 
 for i, arg in enumerate(sys.argv):

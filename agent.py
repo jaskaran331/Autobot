@@ -37,9 +37,8 @@ SESSION_FILE = Path(__file__).parent / "session.json"
 GENERATED_DIR = Path(__file__).parent / "generated"
 GENERATED_DIR.mkdir(exist_ok=True)
 
-EMAIL = os.environ.get("BC_EMAIL", "jaskaran4raju@gmail.com")
-PASSWORD = os.environ.get("BC_PASSWORD")
-HEADLESS = "--headless" in sys.argv or (bool(PASSWORD) and "--headed" not in sys.argv)
+EMAIL = os.environ.get("BC_EMAIL", "")
+PASSWORD = os.environ.get("BC_PASSWORD", "")
 
 # Check for --password in CLI args
 for i, arg in enumerate(sys.argv):
@@ -47,6 +46,8 @@ for i, arg in enumerate(sys.argv):
         PASSWORD = sys.argv[i + 1]
     elif arg.startswith("--password="):
         PASSWORD = arg.split("=", 1)[1]
+
+HEADLESS = "--headless" in sys.argv or (bool(PASSWORD) and "--headed" not in sys.argv)
 
 # Exact selectors derived from the actual site HTML (Next.js app)
 SEL = {
@@ -93,7 +94,10 @@ def gemini():
     global _gemini_client
     if _gemini_client:
         return _gemini_client
-    api_key = os.environ.get("GEMINI_API_KEY")
+    api_key = os.environ.get("GEMINI_API_KEY", "").strip()
+    if not api_key:
+        api_key = input("Enter your Gemini API key (GEMINI_API_KEY): ").strip()
+        os.environ["GEMINI_API_KEY"] = api_key
     from google import genai
     _gemini_client = genai.Client(api_key=api_key)
     return _gemini_client
@@ -182,6 +186,16 @@ def wait_for_login(page, timeout_sec=300):
 # Login
 # ---------------------------------------------------------------------------
 def do_login(page, ctx):
+    global EMAIL, PASSWORD
+    
+    # Prompt for credentials if not provided
+    if not EMAIL:
+        EMAIL = input("Enter your email (or set BC_EMAIL): ").strip()
+    if not PASSWORD:
+        import getpass
+        print("If you do not enter a password now, you will need to type it in the browser.")
+        PASSWORD = getpass.getpass("Enter your password (or set BC_PASSWORD, leave empty to type in browser): ")
+
     print(f"\n[...] Checking session on {SITE_URL}")
     page.goto(SITE_URL, wait_until="networkidle", timeout=30000)
     time.sleep(2)
