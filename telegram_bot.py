@@ -49,7 +49,7 @@ def process_api_key(message):
     except:
         pass
     
-    bot.send_message(chat_id, "✅ All credentials saved securely in memory!\n\nHere are your commands:\n/run - Start the automation\n/status - Check milestone progress\n/stop - Stop the agent\n/refresh - Restart the agent")
+    bot.send_message(chat_id, "✅ All credentials saved securely in memory!\n\nHere are your commands:\n/run - Start the automation\n/status - Check milestone progress\n/logs - See exactly what the bot is doing right now\n/reset - Clear your credentials and start over\n/stop - Stop the agent\n/refresh - Restart the agent")
 
 @bot.message_handler(commands=['run'])
 def run_agent(message):

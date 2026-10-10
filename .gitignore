@@ -13,3 +13,6 @@ venv/
 
 # Playwright
 test-results/
+state.json
+session.json
+runner.log
