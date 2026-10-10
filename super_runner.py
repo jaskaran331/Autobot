@@ -106,7 +106,11 @@ def login_if_needed(page, context) -> None:
         raise RuntimeError("Missing email or password credentials.")
 
     page.goto(TRACK_URL, wait_until="domcontentloaded", timeout=60000)
-    page.wait_for_timeout(1000)
+    try:
+        page.wait_for_load_state("networkidle", timeout=10000)
+    except:
+        pass
+    page.wait_for_timeout(3000) # Wait 3 extra seconds for any JS redirects on slow servers
 
     email_box, _ = first_visible_locator(
         page,
